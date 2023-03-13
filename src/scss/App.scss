@@ -1,0 +1,269 @@
+$font-size-base: 1rem; // Assumes the browser default, typically `16px`
+$h1-font-size: $font-size-base * 3.5;
+$h2-font-size: $font-size-base * 3;
+$h3-font-size: $font-size-base * 2.5;
+$h4-font-size: $font-size-base * 2;
+$h5-font-size: $font-size-base * 1.5;
+$h6-font-size: $font-size-base * 1.25;
+
+$rfs-base-value: 0.875rem;
+$rfs-breakpoint: 1400px;
+$rfs-factor: 15;
+
+$body-bg: #e2e2e2;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+
+
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+    scroll-behavior: smooth;
+    max-width: 100vw;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+}
+
+html,
+body {
+    height: 0px;
+    margin: 0px;
+}
+
+#root {
+
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    color: #282F33;
+
+    font-family: "Barlow";
+    font-weight: 400;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#app-wrapper {
+
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    width: 100%;
+
+    background-color: white;
+}
+
+section {
+    padding: 2rem 0rem;
+
+    &.alternate {
+        background-color: #f2f2f2;
+    }
+}
+
+h1 {
+    font-weight: 800 !important;
+}
+
+h2 {
+    font-weight: 700;
+}
+
+h3 {
+    font-weight: 600;
+}
+
+h4 {
+    font-weight: 600;
+}
+
+h5 {
+    font-weight: 600;
+}
+
+h6 {
+    font-weight: 600;
+}
+
+p {
+    @include font-size(1.5rem);
+    margin: 0px;
+}
+
+li {
+    @include font-size(1.5rem);
+
+    font-family: "Barlow";
+}
+
+ul {
+    margin: 0px;
+}
+
+.button {
+    @include padding(0.75rem 1.25rem);
+    @include font-size(1.5rem);
+    border: 0px;
+    transition: background-color 0.15s ease-in-out, box-shadow 0.25s ease-in-out, transform 0.25s ease-in-out;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 0.125rem;
+
+    color: white;
+    background-color: var(--button-bg-color);
+
+    // active state is while you have left mouse held down on the button
+    &:active {
+        background-color: var(--bg-pressed-color);
+    }
+
+    // only works for <button> elements because they can be focused
+    &.focus-expand {
+
+        &:focus,
+        &:focus-visible {
+            box-shadow: 0px 0px 0px 2px var(--button-bg-color);
+            outline: 0px !important;
+        }
+    }
+
+    &.hover-expand {
+        &:hover {
+            box-shadow: 0px 0px 0px 2px var(--button-bg-color);
+        }
+
+        &:active {
+            box-shadow: 0px 0px 0px 2px var(--bg-pressed-color);
+
+        }
+    }
+
+    &.hover-expand.hover-dim {
+        &:hover {
+            box-shadow: 0px 0px 0px 2px var(--bg-pressed-color);
+        }
+    }
+
+    &.hover-jump {
+        &:hover {
+            // background-color: #b4b4b4 !important;
+            box-shadow: 0px 0.25rem 0px 1px rgb(218, 218, 218);
+            transform: translateY(-0.25rem);
+        }
+    }
+
+    &.hover-dim {
+        &:hover {
+            background-color: var(--bg-pressed-color);
+        }
+    }
+
+    &.hover-textup {
+
+        &>span {
+            display: inline-block;
+            transition: transform 0.3s;
+            transform: translateY(0px)
+        }
+
+        &:hover>span {
+            transform: translateY(-0.25rem);
+        }
+    }
+
+    &.footer-button {
+        padding: 0.75rem 1.25rem;
+        font-size: 1.25rem;
+        border-radius: 0.25rem;
+        width: 100%;
+    }
+
+    &.red {
+        --button-bg-color: #ce4f4f;
+        --bg-pressed-color: #b94343;
+    }
+
+
+    &.blue {
+        --button-bg-color: #3278d4;
+        --bg-pressed-color: rgb(43, 92, 156);
+        color: #FFFFFF
+    }
+
+    &.aqua {
+        --button-bg-color: #32a6d4;
+        --bg-pressed-color: #2b90b8;
+        color: #FFFFFF
+    }
+
+    &.turquoise {
+        --button-bg-color: #2fc5a4;
+        --bg-pressed-color: #29a88d;
+        color: #FFFFFF
+    }
+
+    &.indigo {
+        --button-bg-color: #502eca;
+        --bg-pressed-color: #4226a5;
+        color: #FFFFFF
+    }
+
+    &.purple {
+        --button-bg-color: #842eca;
+        --bg-pressed-color: #6924a1;
+        color: #FFFFFF
+    }
+}
+
+@include media-breakpoint-up(sm) {
+    section {
+        padding: 3rem 0rem;
+    }
+}
+
+@include media-breakpoint-up(md) {
+    section {
+        padding: 3rem 0rem;
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    section {
+        padding: 4rem 0rem;
+    }
+
+    .heading-with-underline {
+        --underline-height: 0.625rem;
+        --y-offset: 0.5rem;
+    }
+}
+
+@include media-breakpoint-up(xl) {
+    section {
+        padding: 5rem 0rem;
+    }
+}
+
+@include media-breakpoint-up(xxl) {}
