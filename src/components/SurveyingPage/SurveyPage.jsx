@@ -3,7 +3,7 @@ import '../../scss/SurveyingPage.scss';
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { letsSeeAnimation, submitSurveyAnimate, submitSurveyExit, submitSurveyInitial, surveysSubPageAnimate, surveysSubPageInitial, zeroHeightInvisible } from '../../animations/SurveyPageAnimations'
+import { individualSurveyAnimate, individualSurveyInitial, letsSeeAnimation, selectSurveysError, selectSurveysPageAnimate, selectSurveysPageExit, selectSurveysPageInitial, submitSurveyAnimate, submitSurveyExit, submitSurveyInitial, surveysPageAnimate, surveysPageInitial, zeroHeightInvisible } from '../../animations/SurveyPageAnimations'
 import { useEffect } from 'react';
 
 // Made this a function to return the object so we dont make the mistake of shallow cloning and having our states be mysteriously connected
@@ -165,11 +165,7 @@ function SelectSurveys({
 
     return (
         <div className="select-surveys-subpage-container">
-            <motion.div className="select-surveys-subpage"
-                exit={{ opacity: 0, y: "-200px", transition: { duration: 1 } }}
-                initial={{ opacity: 0, y: "200px" }}
-                animate={{ opacity: 1, y: "0px", transition: { duration: 1, delay: 0.75 } }}
-                viewport={{ once: true, amount: 0, }}>
+            <motion.div className="select-surveys-subpage" exit={selectSurveysPageExit} initial={selectSurveysPageInitial} animate={selectSurveysPageAnimate}>
                 <div className="surveys-selection-container">
                     <h3 className="select-surveys-heading">Please Select Any Social Media Platforms That You use</h3>
                     <div className="select-surveys-checkbox-container">
@@ -182,7 +178,7 @@ function SelectSurveys({
                         <SelectSurveyCheckbox name="Youtube" state={youtube} setState={setYoutube} />
                         <SelectSurveyCheckbox name="Pinterest" state={pinterest} setState={setPinterest} />
                     </div>
-                    {validationError && <motion.div initial={zeroHeightInvisible} animate={{ opacity: 1, height: "auto" }} className="select-surveys-error">{validationError}</motion.div>}
+                    {validationError && <motion.div initial={zeroHeightInvisible} animate={selectSurveysError} className="select-surveys-error">{validationError}</motion.div>}
                     <button className="select-surveys-button button blue hover-dim" onClick={onPressContinue}>
                         <span>Continue</span>
                     </button>
@@ -215,7 +211,7 @@ function Surveys({ scrollToTop, surveys, submitted, setSubmitted }) {
 
     return (
         <div className="surveys-subpage-container">
-            <motion.div className="surveys-subpage" initial={surveysSubPageInitial} animate={surveysSubPageAnimate}>
+            <motion.div className="surveys-subpage" initial={surveysPageInitial} animate={surveysPageAnimate}>
                 {submitted && <motion.div className="lets-see text-center mb-3" initial={zeroHeightInvisible} animate={letsSeeAnimation}>
                     <h2 className="lets-see-heading">Let's See How You Did</h2>
                     <h4>Underlined statements are ones that you got wrong. Green means the statement is true and red means it is false</h4>
@@ -247,8 +243,9 @@ function GenericSurvey({ flipped, index, name, questions, answers, guesses, setG
     const accuracyPerc = +(accuracyDec * 100.0).toFixed(2);
     const additionalText = accuracyPerc < 100 ? " (click on invalid answers for more info)" : "";
 
+    const individualSurveyClasses = `individual-survey-perspective-container ${flipClass}` + (flipped ? " flipped" : "");
     return (
-        <motion.div className={`individual-survey-perspective-container ${flipClass}` + (flipped ? " flipped" : "")} initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 1, delay: 0.5 * index } }}>
+        <motion.div className={individualSurveyClasses} initial={individualSurveyInitial} animate={individualSurveyAnimate(index)}>
             <div style={style} className={"flip-card"}>
                 <div className="flip-card-front flip-card-size-controller">
                     <h4 className="survey-heading">{name}</h4>
