@@ -164,28 +164,31 @@ function SelectSurveys({
     }
 
     return (
-        <motion.div className="select-surveys-subpage"
-            exit={{ opacity: 0, y: "-200px", transition: { duration: 1 } }}
-            initial={{ opacity: 0, y: "200px" }}
-            animate={{ opacity: 1, y: "0px", transition: { duration: 1, delay: 0.75 } }}
-            viewport={{ once: true, amount: 0, }}>
-            <h4 className="select-surveys-heading">Please Select Socials/Tech That You use</h4>
-            <div className="select-surveys-checkbox-container">
-                <SelectSurveyCheckbox name="Facebook" state={facebook} setState={setFacebook} />
-                <SelectSurveyCheckbox name="Amazon" state={amazon} setState={setAmazon} />
-                <SelectSurveyCheckbox name="TikTok" state={tikTok} setState={setTikTok} />
-                <SelectSurveyCheckbox name="LinkedIn" state={linkedIn} setState={setLinkedIn} />
-                <SelectSurveyCheckbox name="Snapchat" state={snapchat} setState={setSnapchat} />
-                <SelectSurveyCheckbox name="Twitter" state={twitter} setState={setTwitter} />
-                <SelectSurveyCheckbox name="Youtube" state={youtube} setState={setYoutube} />
-                <SelectSurveyCheckbox name="Pinterest" state={pinterest} setState={setPinterest} />
-            </div>
-            {validationError && <motion.div initial={zeroHeightInvisible} animate={{ opacity: 1, height: "auto" }} className="select-surveys-error">{validationError}</motion.div>}
-            <button className="select-surveys-button button blue hover-dim" onClick={onPressContinue}>
-                <span>Continue</span>
-            </button>
-        </motion.div>
-
+        <div className="select-surveys-subpage-container">
+            <motion.div className="select-surveys-subpage"
+                exit={{ opacity: 0, y: "-200px", transition: { duration: 1 } }}
+                initial={{ opacity: 0, y: "200px" }}
+                animate={{ opacity: 1, y: "0px", transition: { duration: 1, delay: 0.75 } }}
+                viewport={{ once: true, amount: 0, }}>
+                <div className="surveys-selection-container">
+                    <h3 className="select-surveys-heading">Please Select Any Social Media Platforms That You use</h3>
+                    <div className="select-surveys-checkbox-container">
+                        <SelectSurveyCheckbox name="Facebook" state={facebook} setState={setFacebook} />
+                        <SelectSurveyCheckbox name="Amazon" state={amazon} setState={setAmazon} />
+                        <SelectSurveyCheckbox name="TikTok" state={tikTok} setState={setTikTok} />
+                        <SelectSurveyCheckbox name="LinkedIn" state={linkedIn} setState={setLinkedIn} />
+                        <SelectSurveyCheckbox name="Snapchat" state={snapchat} setState={setSnapchat} />
+                        <SelectSurveyCheckbox name="Twitter" state={twitter} setState={setTwitter} />
+                        <SelectSurveyCheckbox name="Youtube" state={youtube} setState={setYoutube} />
+                        <SelectSurveyCheckbox name="Pinterest" state={pinterest} setState={setPinterest} />
+                    </div>
+                    {validationError && <motion.div initial={zeroHeightInvisible} animate={{ opacity: 1, height: "auto" }} className="select-surveys-error">{validationError}</motion.div>}
+                    <button className="select-surveys-button button blue hover-dim" onClick={onPressContinue}>
+                        <span>Continue</span>
+                    </button>
+                </div>
+            </motion.div>
+        </div>
     )
 }
 
@@ -211,24 +214,26 @@ function Surveys({ scrollToTop, surveys, submitted, setSubmitted }) {
     }
 
     return (
-        <motion.div className="surveys-subpage" initial={surveysSubPageInitial} animate={surveysSubPageAnimate}>
-            {submitted && <motion.div className="lets-see text-center mb-3" initial={zeroHeightInvisible} animate={letsSeeAnimation}>
-                <h2>Let's See How You Did</h2>
-                <h4>Underlined statements are ones that you got wrong. Green means the statement is true and red means it is false</h4>
-            </motion.div>}
-            <div className="individual-surveys-container">
-                {surveys.map((pair, index) => (
-                    <pair.Element.type key={pair.key} index={index} {...pair.Element.props} />
-                ))}
-                <AnimatePresence>
-                    {!submitted && <motion.div className="w-100" initial={submitSurveyInitial} animate={submitSurveyAnimate(surveys.length)} exit={submitSurveyExit}>
-                        <button className="submit-surveys-button button blue hover-dim w-100" onClick={onClickSubmit}>
-                            <span>SUBMIT SURVEY{(surveys.length > 1 ? "S" : "")}</span>
-                        </button>
-                    </motion.div>}
-                </AnimatePresence>
-            </div>
-        </motion.div>
+        <div className="surveys-subpage-container">
+            <motion.div className="surveys-subpage" initial={surveysSubPageInitial} animate={surveysSubPageAnimate}>
+                {submitted && <motion.div className="lets-see text-center mb-3" initial={zeroHeightInvisible} animate={letsSeeAnimation}>
+                    <h2 className="lets-see-heading">Let's See How You Did</h2>
+                    <h4>Underlined statements are ones that you got wrong. Green means the statement is true and red means it is false</h4>
+                </motion.div>}
+                <div className="individual-surveys-container">
+                    {surveys.map((pair, index) => (
+                        <pair.Element.type key={pair.key} index={index} {...pair.Element.props} />
+                    ))}
+                    <AnimatePresence>
+                        {!submitted && <motion.div className="w-100" initial={submitSurveyInitial} animate={submitSurveyAnimate(surveys.length)} exit={submitSurveyExit}>
+                            <button className="submit-surveys-button button blue hover-dim w-100" onClick={onClickSubmit}>
+                                <span>SUBMIT SURVEY{(surveys.length > 1 ? "S" : "")}</span>
+                            </button>
+                        </motion.div>}
+                    </AnimatePresence>
+                </div>
+            </motion.div>
+        </div>
     )
 }
 

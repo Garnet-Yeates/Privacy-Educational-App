@@ -4,213 +4,238 @@
     min-height: 100vh;
 }
 
-.select-surveys-subpage {
+.select-surveys-subpage-container {
 
-    user-select: none;
-    //  padding: var(--procedure-card-padding);
-    box-shadow: 0 0 0.5rem 0 rgb(0 0 0 / 30%);
-    border-radius: 1rem;
-    @include rfs(1.5rem 2rem, padding);
+    width: 100%;
 
-    .select-surveys-heading {
-        font-weight: 800;
-        @include rfs(0.75rem, margin-bottom);
-    }
+    .select-surveys-subpage {
 
-    .select-surveys-button {
-        z-index: 200;
-        @include rfs(0.5rem, margin-top);
-        border-radius: 0.5rem;
-        @include rfs(1.25rem, font-size);
-
-    }
-
-    .select-surveys-error {
-        @include rfs(0.25rem, margin-top);
-        overflow: hidden;
-        color: rgb(184, 38, 38);
-        @include rfs(1.25rem, font-size);
-        z-index: -200;
-    }
-
-    .selectsurvey-checkbox-with-righttext {
-
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        font-weight: 400;
-        @include rfs(0.25rem, margin-top);
-        @include rfs(1.375rem, font-size);
-
-        .select-survey-checkbox {
-            @include rfs(0.5rem, margin-right);
-            @include rfs(1.375rem, height);
-            @include rfs(1.375rem, width);
-        }
-    }
-}
-
-.surveys-subpage {
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .lets-see {
-        max-width: 60%;
-        overflow: hidden;
-        font-weight: 800;
         display: flex;
         flex-direction: column;
         align-items: center;
+    
+        .surveys-selection-container {
+
+            user-select: none;
+            max-width: 700px;
+            box-shadow: 0 0 0.5rem 0 rgb(0 0 0 / 30%);
+            border-radius: 1rem;
+            @include rfs(1.5rem 2rem, padding);
+        
+            .select-surveys-heading {
+                text-align: center;
+                font-weight: 800;
+                @include rfs(0.75rem, margin-bottom);
+            }
+        
+            .select-surveys-button {
+                z-index: 200;
+                @include rfs(0.5rem, margin-top);
+                border-radius: 0.5rem;
+                @include rfs(1.25rem, font-size);
+        
+            }
+        
+            .select-surveys-error {
+                @include rfs(0.25rem, margin-top);
+                overflow: hidden;
+                color: rgb(184, 38, 38);
+                @include rfs(1.25rem, font-size);
+                z-index: -200;
+            }
+        
+            .selectsurvey-checkbox-with-righttext {
+        
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                font-weight: 400;
+                @include rfs(0.25rem, margin-top);
+                @include rfs(1.375rem, font-size);
+        
+                .select-survey-checkbox {
+                    @include rfs(0.5rem, margin-right);
+                    @include rfs(1.375rem, height);
+                    @include rfs(1.375rem, width);
+                }
+            }
+        }
+       
     }
 
-    .individual-surveys-container {
+}
 
-        .individual-survey-perspective-container {
+.surveys-subpage-container {
 
-            @include rfs(2rem, margin-bottom);
-            // This is the flipper
-            background-color: transparent;
-            perspective: 5000px;
-            padding: 0px;
+    width: 100%;
+
+    .surveys-subpage {
+
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     
-            .flip-card {
+        .lets-see {
+            max-width: 60%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .lets-see-heading {
+                font-weight: 800;
+            }
+        }
     
-                --flip-delay: 1.5s;
+        .individual-surveys-container {
     
-                background-color: white;
-                position: relative;
-                width: 100%;
-                height: 100%;
-                transition: transform 1.25s;
-                transition-delay: var(--flip-delay);
-                transform-style: preserve-3d;
+            .individual-survey-perspective-container {
     
-                border-radius: 0.5rem;
-    
-                box-shadow: 0 1px 15px -2px rgba(0, 0, 0, 0.3);
+                @include rfs(2rem, margin-bottom);
+                // This is the flipper
+                background-color: transparent;
+                perspective: 5000px;
+                padding: 0px;
         
-                .survey-heading {
-                    user-select: none;
-                    font-weight: 800;
-                    @include rfs(0.75rem, margin-bottom);
-                }
-            
-                .survey-subheading {
-                    user-select: none;
-                    font-weight: 700;
-                    @include rfs(0.75rem, margin-bottom);
-                }
-    
-                .survey-checkbox-with-righttext {
-    
-                    user-select: none;
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    font-weight: 400;
-                    @include rfs(0.25rem, margin-top);
-                    @include rfs(1.25rem, font-size);
-            
-                    .survey-checkbox {
-                        @include rfs(0.5rem, margin-right);
-                        @include rfs(1.25rem, height);
-                        @include rfs(1.25rem, width);
-                    }
-                }
-    
-                .flip-card-front,
-                .flip-card-back {
-                    @include rfs(1.5rem 2rem, padding);
-                    position: absolute;
-                    top: 0px;
-                    left: 0px;
-                    bottom: 0px;
-                    right: 0px;
-                    -webkit-backface-visibility: hidden;
-                    /* Safari */
-                    backface-visibility: hidden;
-                }
-    
-                .flip-card-size-controller {
+                .flip-card {
+        
+                    --flip-delay: 1.5s;
+        
+                    background-color: white;
                     position: relative;
-                    width: auto;
-               //     padding: 0px;
-                    height: auto;
-                }
-    
-                .flip-card-front {
-                    background-color: rgb(255, 255, 255);
-                }
-    
-                .flip-card-back {
-                    background-color: rgb(255, 255, 255);
-                    transform: rotateX(180deg);
-    
-                    .link-underline {
-                        display: inline-block;
+                    width: 100%;
+                    height: 100%;
+                    transition: transform 1.25s;
+                    transition-delay: var(--flip-delay);
+                    transform-style: preserve-3d;
+        
+                    border-radius: 0.5rem;
+        
+                    box-shadow: 0 1px 15px -2px rgba(0, 0, 0, 0.3);
+            
+                    .survey-heading {
+                        user-select: none;
+                        font-weight: 700;
+                        @include rfs(0.75rem, margin-bottom);
+                    }
+                
+                    .survey-subheading {
+                        user-select: none;
+                        font-weight: 700;
+                        @include rfs(0.75rem, margin-bottom);
+                    }
+        
+                    .survey-checkbox-with-righttext {
+        
+                        user-select: none;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        font-weight: 400;
+                        @include rfs(0.25rem, margin-top);
+                        @include rfs(1.25rem, font-size);
+                
+                        .survey-checkbox {
+                            @include rfs(0.5rem, margin-right);
+                            @include rfs(1.25rem, height);
+                            @include rfs(1.25rem, width);
+                        }
+                    }
+        
+                    .flip-card-front,
+                    .flip-card-back {
+                        @include rfs(1.5rem 2rem, padding);
+                        position: absolute;
+                        top: 0px;
+                        left: 0px;
+                        bottom: 0px;
+                        right: 0px;
+                        -webkit-backface-visibility: hidden;
+                        /* Safari */
+                        backface-visibility: hidden;
+                    }
+        
+                    .flip-card-size-controller {
                         position: relative;
-                        text-decoration: none;
-                        cursor: pointer;
-                    
-                        &::after {
-                            bottom: 2px;
-                            content: "";
-                            display: block;
-                            height: 0.625rem;
-                            left: 0;
-                            position: absolute;
-                            transition: .3s;
-                            width: 100%;
-                            z-index: -1;
-                    
-                        }
-
-                        &.red-underline {
-
+                        width: auto;
+                   //     padding: 0px;
+                        height: auto;
+                    }
+        
+                    .flip-card-front {
+                        background-color: rgb(255, 255, 255);
+                    }
+        
+                    .flip-card-back {
+                        background-color: rgb(255, 255, 255);
+                        transform: rotateX(180deg);
+        
+                        .link-underline {
+                            display: inline-block;
+                            position: relative;
+                            text-decoration: none;
+                            cursor: pointer;
+                        
                             &::after {
-                                background: rgba(226, 58, 58, 0.5);
+                                bottom: 2px;
+                                content: "";
+                                display: block;
+                                height: 0.625rem;
+                                left: 0;
+                                position: absolute;
+                                transition: .3s;
+                                width: 100%;
+                                z-index: -1;
+                        
                             }
-
-                            &:hover::after {
-                                background: rgba(230, 85, 85, 0.85);
-
+    
+                            &.red-underline {
+    
+                                &::after {
+                                    background: rgba(226, 58, 58, 0.5);
+                                }
+    
+                                &:hover::after {
+                                    background: rgba(230, 85, 85, 0.85);
+    
+                                }
                             }
-                        }
-
-
-                        &.green-underline {
-                            
-                            &::after {
-                                background: rgba(58, 226, 94, 0.5);
-                            }
-
-                            &:hover::after {
-                                background: rgba(58, 226, 94, 0.85);
-
+    
+    
+                            &.green-underline {
+                                
+                                &::after {
+                                    background: rgba(58, 226, 94, 0.5);
+                                }
+    
+                                &:hover::after {
+                                    background: rgba(58, 226, 94, 0.85);
+    
+                                }
                             }
                         }
                     }
-                }
-    
-            }
-    
-            &.flipped {
-                &.normal-flip .flip-card {
-                    transform: rotateX(180deg);
-                }
-    
-                &.opposite-flip .flip-card {
-                    transform: rotateX(-180deg);
-    
-                }
-            }
-        }
-
-        .submit-surveys-button {
-            width: 100%;
-        }
         
+                }
+        
+                &.flipped {
+                    &.normal-flip .flip-card {
+                        transform: rotateX(180deg);
+                    }
+        
+                    &.opposite-flip .flip-card {
+                        transform: rotateX(-180deg);
+        
+                    }
+                }
+            }
+    
+            .submit-surveys-button {
+                width: 100%;
+            }       
+        }
     }
 }
+
+
