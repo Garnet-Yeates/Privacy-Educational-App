@@ -4,7 +4,7 @@ function NotFound() {
     return (
         <>
             <div>
-                NOT FOUND FUCKER
+                NOT FOUND
             </div>
         </>
     )
