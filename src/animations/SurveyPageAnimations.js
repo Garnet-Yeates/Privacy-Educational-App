@@ -9,14 +9,6 @@ export const selectSurveysPageInitial = {
     y: "200px",
 }
 
-export const selectSurveysPageExit = {
-    opacity: 0,
-    y: "-200px",
-    transition: {
-        duration: 0.75,
-    },
-}
-
 export const selectSurveysPageAnimate = {
     opacity: 1,
     y: "0px",
@@ -25,6 +17,16 @@ export const selectSurveysPageAnimate = {
         delay: 0.75,
     },
 }
+
+export const selectSurveysPageExit = {
+    opacity: 0,
+    y: "-200px",
+    transition: {
+        duration: 0.75,
+    },
+}
+
+
 
 export const selectSurveysError = {
     opacity: 1,
@@ -59,7 +61,7 @@ export const letsSeeAnimation = {
             duration: 1,
         },
         height: {
-            duration: 0.5,
+            duration: 1,
         },
     }
 }
@@ -68,11 +70,13 @@ export const individualSurveyInitial = {
     opacity: 0,
 }
 
+const individulSurveyStagger = 0.4;
+
 export const individualSurveyAnimate = (index) => ({
     opacity: 1,
     transition: {
         duration: 1,
-        delay: 0.5 * index,
+        delay: individulSurveyStagger * index,
     },
 })
 
@@ -86,7 +90,7 @@ export const submitSurveyAnimate = (index) => ({
     opacity: 1,
     transition: {
         duration: 1,
-        delay: 0.5 * index,
+        delay: individulSurveyStagger * index,
     }
 })
 
@@ -94,6 +98,42 @@ export const submitSurveyExit = {
     opacity: 0,
     height: 0,
     transition: {
-        duration: 0.5,
+        opacity: {
+            duration: 1,
+        },
+        height: {
+            duration: 0.75,
+        },
     }
+}
+
+export const infoOverlayInitial = {
+    opacity: 0,
+}
+
+export const infoOverlayAnimate = {
+    opacity: 1,
+    transition: {
+        duration: 0.25,
+    },
+}
+
+
+export const questionDetailsInitial = {
+    opacity: 0,
+    y: "200px",
+}
+
+export const questionDetailsAnimate = {
+    opacity: 1,
+    y: "0px",
+    transition: {
+        type: "spring",
+        damping: 10,
+        mass: 0.75,
+        stiffness: 200,
+        
+        delay: 0.3,
+        duration: 0.5,
+    },
 }
