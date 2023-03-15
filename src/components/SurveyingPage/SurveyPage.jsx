@@ -263,104 +263,84 @@ function SurveyingPage({ scrollToTop }) {
     const [youtubeGuesses, setYoutubeGuesses] = useState(defaultGuessesState(4));
     const [pinterestGuesses, setPinterestGuesses] = useState(defaultGuessesState(5));
 
-    // Will change as they change facebook/amazon/tikTok/.../pinterest flags. Technically part of 'survey selecting' but needs to be defined last. Also used in submission to see which ones they took
-    const [surveys, setSurveys] = useState([]);
-    // Detect changes to facebook/amazon/tikTok.../etc and when they change, update the 'surveys' array state
-
     // Can be set to the surveyInfo of any survey with a supplied questionIndex and it will show detailed information about that
     // question from the Q&A. This will disable page scrolling and add a gray overlay
     // { surveyInfo: ..., questionIndex: ...}, or null 
     const [showingDetailedInfoFor, setShowingDetailedInfoFor] = useState(null);
 
-    // Update 'surveys' state whenever they change one of the flags above (facebook, amazon, ..., etc)
-    useEffect(() => {
+    const surveys = [];
 
-        const newSurveys = [];
+    facebook && surveys.push({
+        name: "Facebook",
+        quotes: facebookQuotes,
+        questions: facebookQuestions,
+        answers: facebookAnswers,
+        guesses: facebookGuesses,
+        setGuesses: setFacebookGuesses
+    });
 
-        facebook && newSurveys.push({
-            name: "Facebook",
-            quotes: facebookQuotes,
-            questions: facebookQuestions,
-            answers: facebookAnswers,
-            guesses: facebookGuesses,
-            setGuesses: setFacebookGuesses
-        });
+    amazon && surveys.push({
+        name: "Amazon",
+        quotes: amazonQuotes,
+        questions: amazonQuestions,
+        answers: amazonAnswers,
+        guesses: amazonGuesses,
+        setGuesses: setAmazonGuesses
+    });
 
-        amazon && newSurveys.push({
-            name: "Amazon",
-            quotes: amazonQuotes,
-            questions: amazonQuestions,
-            answers: amazonAnswers,
-            guesses: amazonGuesses,
-            setGuesses: setAmazonGuesses
-        });
+    tikTok && surveys.push({
+        name: "TikTok",
+        quotes: tikTokQuotes,
+        questions: tikTokQuestions,
+        answers: tikTokAnswers,
+        guesses: tikTokGuesses,
+        setGuesses: setTikTokGuesses
+    });
 
-        tikTok && newSurveys.push({
-            name: "TikTok",
-            quotes: tikTokQuotes,
-            questions: tikTokQuestions,
-            answers: tikTokAnswers,
-            guesses: tikTokGuesses,
-            setGuesses: setTikTokGuesses
-        });
+    linkedIn && surveys.push({
+        name: "LinkedIn",
+        quotes: linkedInQuotes,
+        questions: linkedInQuestions,
+        answers: linkedInAnswers,
+        guesses: linkedInGuesses,
+        setGuesses: setLinkedInGuesses
+    });
 
-        linkedIn && newSurveys.push({
-            name: "LinkedIn",
-            quotes: linkedInQuotes,
-            questions: linkedInQuestions,
-            answers: linkedInAnswers,
-            guesses: linkedInGuesses,
-            setGuesses: setLinkedInGuesses
-        });
+    snapchat && surveys.push({
+        name: "Snapchat",
+        quotes: snapchatQuotes,
+        questions: snapchatQuestions,
+        answers: snapchatAnswers,
+        guesses: snapchatGuesses,
+        setGuesses: setSnapchatGuesses
+    });
 
-        snapchat && newSurveys.push({
-            name: "Snapchat",
-            quotes: snapchatQuotes,
-            questions: snapchatQuestions,
-            answers: snapchatAnswers,
-            guesses: snapchatGuesses,
-            setGuesses: setSnapchatGuesses
-        });
+    twitter && surveys.push({
+        name: "Twitter",
+        quotes: twitterQuotes,
+        questions: twitterQuestions,
+        answers: twitterAnswers,
+        guesses: twitterGuesses,
+        setGuesses: setTwitterGuesses
+    });
 
-        twitter && newSurveys.push({
-            name: "Twitter",
-            quotes: twitterQuotes,
-            questions: twitterQuestions,
-            answers: twitterAnswers,
-            guesses: twitterGuesses,
-            setGuesses: setTwitterGuesses
-        });
+    youtube && surveys.push({
+        name: "Youtube",
+        quotes: youtubeQuotes,
+        questions: youtubeQuestions,
+        answers: youtubeAnswers,
+        guesses: youtubeGuesses,
+        setGuesses: setYoutubeGuesses
+    });
 
-        youtube && newSurveys.push({
-            name: "Youtube",
-            quotes: youtubeQuotes,
-            questions: youtubeQuestions,
-            answers: youtubeAnswers,
-            guesses: youtubeGuesses,
-            setGuesses: setYoutubeGuesses
-        });
-
-        pinterest && newSurveys.push({
-            name: "Pinterest",
-            quotes: pinterestQuotes,
-            questions: pinterestQuestions,
-            answers: pinterestAnswers,
-            guesses: pinterestGuesses,
-            setGuesses: setPinterestGuesses
-        });
-
-        setSurveys(newSurveys);
-
-    }, [facebook, facebookGuesses,
-        amazon, amazonGuesses,
-        tikTok, tikTokGuesses,
-        linkedIn, linkedInGuesses,
-        snapchat, snapchatGuesses,
-        twitter, twitterGuesses,
-        youtube, youtubeGuesses,
-        pinterest, pinterestGuesses,
-        submitted
-    ])
+    pinterest && surveys.push({
+        name: "Pinterest",
+        quotes: pinterestQuotes,
+        questions: pinterestQuestions,
+        answers: pinterestAnswers,
+        guesses: pinterestGuesses,
+        setGuesses: setPinterestGuesses
+    });
 
     const onSubmit = () => {
         // Do some REST stuff, based on the keys present in the 'surveys' array (keys present in surveys array is how we know they took said survey)
@@ -368,11 +348,13 @@ function SurveyingPage({ scrollToTop }) {
     }
 
     // Best way to stop scrolling is to modify the body itself. Cannot access body from JSX so we use an effect
-    useEffect(() => { document.body.style.overflow = showingDetailedInfoFor ? "hidden" : "unset" }, [showingDetailedInfoFor]);
+    useEffect(() => {
+        document.body.style.overflow = showingDetailedInfoFor ? "hidden" : "unset"
+    }, [showingDetailedInfoFor]);
 
     // ------------------------------------------------------------------------------------------------
     return (
-        <div className={"surveying-page" + (showingDetailedInfoFor ? " noscroll-padding-offset" : "")}>
+        <div className="surveying-page">
             {showingDetailedInfoFor && <SpecificQuestionDetails setShowingDetailedInfoFor={setShowingDetailedInfoFor} {...showingDetailedInfoFor} />}
             <AnimatePresence mode="wait">
                 {selectingSurveys && <SelectSurveys
@@ -512,8 +494,6 @@ function SpecificQuestionDetails({ setShowingDetailedInfoFor, surveyInfo, questi
 
     const { name, questions, answers, guesses, quotes } = surveyInfo;
 
-
-    console.log("fuck", guesses[questionIndex])
     const yourGuessClasses = guesses[questionIndex] ? "green-text" : "red-text";
     const yourGuessElement = <span className={yourGuessClasses}>{String(guesses[questionIndex])}</span>
 
