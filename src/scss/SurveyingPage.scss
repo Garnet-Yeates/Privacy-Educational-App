@@ -12,12 +12,6 @@
     align-items: center;
 
     @include rfs(2rem 0rem, padding);
-
-    // When we show the fixed-info-overlay we use a useEffect (in SurveyingPage.jsx) to stop overflow on the <body>
-    // This offset adds padding where the scrollbar was so that the page doesn't jut to the right
-    &.noscroll-padding-offset {
-        padding-right: 16px;
-    }
 }
 
 .fixed-info-overlay {
@@ -71,7 +65,7 @@
         }
 
         .question-details-quote {
-            
+
             font-size: 1.125rem;
             margin-bottom: 1.125rem;
             text-align: center;
