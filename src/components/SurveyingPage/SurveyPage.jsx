@@ -82,7 +82,7 @@ const tikTokQuestions = [
 
 const tikTokQuotes = [
     `Messages: We collect and process, which includes scanning and analyzing, information you provide when you compose, send, or receive 
-    messages through the Platform’s messaging functionality. That information includes the content of the message and information about 
+    messages through the Platform's messaging functionality. That information includes the content of the message and information about 
     when the message has been sent, received and/or read, as well as the participants of the communication.`,
 
     `We reserve the right, at any time and without prior notice, to remove or disable access to content at our discretion for any reason 
@@ -144,12 +144,12 @@ const snapchatQuotes = [
     and promotion thereof, in all formats, on or through any means or media now known or hereafter developed, and with any technology or 
     devices now known or hereafter developed.`,
 
-    `After a Snap is deleted, we’ll mainly be able to see the basic details — like when it was sent and who it was sent to.`,
+    `After a Snap is deleted, we'll mainly be able to see the basic details — like when it was sent and who it was sent to.`,
 
     `We may share information about you with business partners that provide services and functionality on our services.`,
 
     `[...] to provide and improve our advertising services, ad targeting, and ad measurement, including through the use of your precise location 
-    information (again, if you’ve given us permission to collect that information).`,
+    information (again, if you've given us permission to collect that information).`,
 
     `We may let other companies use cookies on our services. These companies may collect information about how you use our services over time and 
     combine it with similar information from other services and companies.`,
@@ -166,7 +166,7 @@ const twitterQuestions = [
 ]
 
 const twitterQuotes = [
-    `You retain your rights to any Content you submit, post or display on or through the Services. What’s yours is yours — you own your Content 
+    `You retain your rights to any Content you submit, post or display on or through the Services. What's yours is yours — you own your Content 
     (and your incorporated audio, photos and videos are considered part of the Content).`,
 
     `By submitting, posting or displaying Content on or through the Services, you grant us a worldwide, non-exclusive, royalty-free license 
@@ -174,7 +174,7 @@ const twitterQuotes = [
     any and all media or distribution methods now known or later developed.`,
 
     `Information about your connection, such as your IP address and browser type. Information about your device and its settings, such as device 
-    and advertising ID, operating system, carrier, language, memory, apps installed, and battery level. Your device address book, if you’ve chosen 
+    and advertising ID, operating system, carrier, language, memory, apps installed, and battery level. Your device address book, if you've chosen 
     to share it with us.`,
 
     `We may receive information when you view content on or otherwise interact with our products and services, even if you have not created an 
@@ -192,7 +192,7 @@ const youtubeAnswers = [true, true, true, true]
 const youtubeQuestions = [
     "Youtube may retain your content after you remove it.",
     "Youtube is able to use and modify your content to their discretion. ",
-    "Google services may obtain and store location information from the device you’re using.",
+    "Google services may obtain and store location information from the device you're using.",
     "The service can relocate your data to outside of your country."
 ]
 
@@ -203,7 +203,7 @@ const youtubeQuotes = [
 
     `By providing Content to the Service, you grant to YouTube a worldwide, non-exclusive, royalty-free, sublicensable and transferable license to 
     use that Content (including to reproduce, distribute, prepare derivative works, display and perform it) in connection with the Service and 
-    YouTube’s (and its successors' and Affiliates') business, including for the purpose of promoting and redistributing part or all of the Service.`,
+    YouTube's (and its successors' and Affiliates') business, including for the purpose of promoting and redistributing part or all of the Service.`,
 
     `Your location can be determined with varying degrees of accuracy by: GPS and other sensor data from your device, IP address, and activity on 
     Google services, such as your searches and places you label like home or work. As well as information about things near your device, such as 
