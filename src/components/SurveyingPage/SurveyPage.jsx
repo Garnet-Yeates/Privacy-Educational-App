@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { individualSurveyAnimate, individualSurveyInitial, infoOverlayAnimate, infoOverlayInitial, letsSeeAnimation, questionDetailsAnimate, questionDetailsInitial, selectSurveysError, selectSurveysPageAnimate, selectSurveysPageExit, selectSurveysPageInitial, submitSurveyAnimate, submitSurveyExit, submitSurveyInitial, surveysPageAnimate, surveysPageInitial, zeroHeightInvisible } from '../../animations/SurveyPageAnimations'
 import { useEffect } from 'react';
+import useScrollLock from '../../hooks/useScrollLock';
+import usePrevious from '../../hooks/usePrevious';
 
 // Made this a function to return the object so we dont make the mistake of shallow cloning and having our states be mysteriously connected
 const defaultGuessesState = (length) => Array(length).fill(false);
@@ -241,6 +243,8 @@ const pinterestQuotes = [
 
 function SurveyingPage({ scrollToTop }) {
 
+    const { lockScroll, unlockScroll } = useScrollLock()
+
     const [submitted, setSubmitted] = useState(false);
 
     const [selectingSurveys, setSelectingSurveys] = useState(true);
@@ -349,7 +353,7 @@ function SurveyingPage({ scrollToTop }) {
 
     // Best way to stop scrolling is to modify the body itself. Cannot access body from JSX so we use an effect
     useEffect(() => {
-        document.body.style.overflow = showingDetailedInfoFor ? "hidden" : "unset"
+        showingDetailedInfoFor ? lockScroll() : unlockScroll();
     }, [showingDetailedInfoFor]);
 
     // ------------------------------------------------------------------------------------------------
