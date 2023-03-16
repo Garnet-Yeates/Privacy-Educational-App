@@ -477,7 +477,7 @@ function Surveys({ scrollToTop, surveys, submitted, setSubmitted, showingDetaile
             <motion.div className="surveys-subpage" initial={surveysPageInitial} animate={surveysPageAnimate}>
                 {submitted && <motion.div className="lets-see text-center mb-3" initial={zeroHeightInvisible} animate={letsSeeAnimation}>
                     <h2 className="lets-see-heading">Let's See How You Did</h2>
-                    <h4>Underlined statements are ones that you got wrong. Green means the statement is true and red means it is false</h4>
+                    <h4>Underlined statements are ones that you got wrong. Click on incorrect statements to get a detailed explanation</h4>
                 </motion.div>}
                 <div className="individual-surveys-container">
                     {surveys.map((surveyInfo, surveyIndex) => <IndividualSurvey key={surveyInfo.name} flipped={submitted} surveyIndex={surveyIndex} surveyInfo={surveyInfo} surveys={surveys} setShowingDetailedInfoFor={setShowingDetailedInfoFor} />)}
@@ -598,13 +598,7 @@ function SurveyAnswerDisplay({ surveyInfo, questionIndex, setShowingDetailedInfo
     let additionalClasses = "";
     const wrongGuess = guesses[questionIndex] !== answers[questionIndex];
     if (wrongGuess) {
-        additionalClasses = " link-underline"
-        if (answers[questionIndex]) {
-            additionalClasses += " green-underline";
-        }
-        else {
-            additionalClasses += " red-underline";
-        }
+        additionalClasses = " link-underline red-underline"
     }
 
     const onClick = () => {
