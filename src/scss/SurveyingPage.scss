@@ -1,6 +1,5 @@
 @import "./App.scss";
 
-
 .surveying-page {
 
     min-height: 100vh;
@@ -15,6 +14,7 @@
 }
 
 .fixed-info-overlay {
+
     top: 0;
     left: 0;
     z-index: 100;
@@ -86,10 +86,7 @@
                 font-size: 1.25rem,
             }
         }
-
-
     }
-
 }
 
 .select-surveys-subpage-container {
@@ -147,9 +144,7 @@
                 }
             }
         }
-
     }
-
 }
 
 .surveys-subpage-container {
@@ -202,7 +197,6 @@
                             transform: rotateX(-180deg);
                         }
                     }
-
 
                     background-color: white;
                     position: relative;
@@ -300,7 +294,6 @@
 
                     }
                 }
-
 
                 &.green-underline {
 
