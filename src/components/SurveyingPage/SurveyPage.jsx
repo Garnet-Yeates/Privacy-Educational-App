@@ -496,13 +496,14 @@ function Surveys({ scrollToTop, surveys, submitted, setSubmitted, showingDetaile
 
 function SpecificQuestionDetails({ setShowingDetailedInfoFor, surveyInfo, questionIndex }) {
 
-    const { name, questions, answers, guesses, quotes } = surveyInfo;
+    const { name, questions, answers, guesses, quotes } = surveyInfo
 
-    const yourGuessClasses = guesses[questionIndex] ? "green-text" : "red-text";
-    const yourGuessElement = <span className={yourGuessClasses}>{String(guesses[questionIndex])}</span>
+    const answer = answers[questionIndex]
+    const userGuess = guesses[questionIndex]
 
-    const answerClasses = answers[questionIndex] ? "green-text" : "red-text";
-    const answerElement = <span className={answerClasses}>{String(answers[questionIndex])}</span>
+    const answerElement = <span className={answer ? "green-text" : "red-text"}>{String(answer)}</span>
+    const guessElement = <span className={userGuess ? "green-text" : "red-text"}>{String(userGuess)}</span>
+
     return (
         <motion.div className="fixed-info-overlay" initial={infoOverlayInitial} animate={infoOverlayAnimate}>
             <motion.div className="specific-question-details-container" initial={questionDetailsInitial} animate={questionDetailsAnimate}>
@@ -511,7 +512,7 @@ function SpecificQuestionDetails({ setShowingDetailedInfoFor, surveyInfo, questi
                     "{questions[questionIndex].substring(0, questions[questionIndex].length - 1)}"
                 </h6>
                 <div className="question-details-comparison">
-                    This statement is {answerElement}. You guessed that it was {yourGuessElement}
+                    This statement is {answerElement}. You guessed that it was {guessElement}
                 </div>
                 <div className="question-details-quote">
                     "{quotes[questionIndex].substring(0, quotes[questionIndex].length - 1)}"
@@ -530,17 +531,18 @@ function IndividualSurvey({ flipped, surveyIndex, surveyInfo, surveys, setShowin
 
     const { name, questions, answers, guesses, setGuesses, quotes } = surveyInfo;
 
-    const flipStagger = 0.5; // The delay between each survey flipping 
-    const flipClass = surveyIndex % 2 === 0 ? "opposite-flip" : "normal-flip"
-    const style = { "--flip-delay": `${1.5 + surveyIndex * flipStagger}s` }
+
     const accuracyDec = calculateAccuracy(guesses, answers);
     const accuracyPerc = +(accuracyDec * 100.0).toFixed(2);
     const additionalText = accuracyPerc < 100 ? " (click on invalid answers for more info)" : "";
 
-    const individualSurveyClasses = `individual-survey-perspective-container ${flipClass}` + (flipped ? " flipped" : "");
+    const flipStagger = 0.5; // The delay between each survey flipping 
+    const flipStyle = { "--flip-delay": `${1.5 + surveyIndex * flipStagger}s` }
+    const flipClass = "survey-flip-card " + (surveyIndex % 2 === 0 ? "opposite-flip" : "normal-flip") + (flipped ? " flipped" : "")
+
     return (
-        <motion.div className={individualSurveyClasses} initial={individualSurveyInitial} animate={individualSurveyAnimate(surveyIndex)}>
-            <div style={style} className={"flip-card"}>
+        <motion.div className="individual-survey-perspective-container" initial={individualSurveyInitial} animate={individualSurveyAnimate(surveyIndex)}>
+            <div style={flipStyle} className={flipClass}>
                 <div className="flip-card-front flip-card-size-controller">
                     <h4 className="survey-heading">{name}</h4>
                     <h5 className="survey-subheading">Please check all that you believe apply</h5>
@@ -595,13 +597,10 @@ function SurveyAnswerDisplay({ surveyInfo, questionIndex, setShowingDetailedInfo
 
     const { questions, answers, guesses } = surveyInfo;
 
-    let additionalClasses = "";
     const wrongGuess = guesses[questionIndex] !== answers[questionIndex];
-    if (wrongGuess) {
-        additionalClasses = " link-underline red-underline"
-    }
+    const underlineClasses = wrongGuess ? "link-underline red-underline" : ""
 
-    const onClick = () => {
+    const onUnderlineClick = () => {
         if (wrongGuess) {
             setShowingDetailedInfoFor({ surveyInfo, questionIndex });
         }
@@ -610,7 +609,7 @@ function SurveyAnswerDisplay({ surveyInfo, questionIndex, setShowingDetailedInfo
     return (
         <div className="survey-checkbox-with-righttext">
             <input className="survey-checkbox" type="checkbox" checked={guesses[questionIndex]} readOnly />
-            <span className={`someclass${additionalClasses}`} onClick={onClick}>
+            <span className={underlineClasses} onClick={onUnderlineClick}>
                 {questions[questionIndex]}
             </span>
         </div>

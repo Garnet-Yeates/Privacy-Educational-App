@@ -11,7 +11,7 @@
     justify-content: center;
     align-items: center;
 
-    @include rfs(2rem 0rem, padding);
+    padding: 2rem 0rem;
 }
 
 .fixed-info-overlay {
@@ -83,7 +83,7 @@
             .exit-details-button {
                 width: 75%;
                 border-radius: 0.375rem;
-                @include rfs(1.25rem, font-size);
+                font-size: 1.25rem,
             }
         }
 
@@ -108,27 +108,26 @@
             max-width: 700px;
             box-shadow: 0 0 0.5rem 0 rgb(0 0 0 / 30%);
             border-radius: 1rem;
-            @include rfs(1.5rem 2rem, padding);
+            padding: 1.5rem 2rem;
 
             .select-surveys-heading {
                 text-align: center;
                 font-weight: 800;
-                @include rfs(0.75rem, margin-bottom);
+                margin-bottom: 0.75rem;
             }
 
             .select-surveys-button {
                 z-index: 200;
-                @include rfs(0.5rem, margin-top);
+                margin-top: 0.5rem;
                 border-radius: 0.5rem;
-                @include rfs(1.25rem, font-size);
-
+                font-size: 1.25rem;
             }
 
             .select-surveys-error {
-                @include rfs(0.25rem, margin-top);
+                margin-top: 0.25rem;
                 overflow: hidden;
                 color: rgb(184, 38, 38);
-                @include rfs(1.25rem, font-size);
+                font-size: 1.25rem;
                 z-index: -200;
             }
 
@@ -138,13 +137,13 @@
                 flex-direction: row;
                 align-items: center;
                 font-weight: 400;
-                @include rfs(0.25rem, margin-top);
-                @include rfs(1.375rem, font-size);
+                margin-top: 0.25rem;
+                font-size: 1.375rem;
 
                 .select-survey-checkbox {
-                    @include rfs(0.5rem, margin-right);
-                    @include rfs(1.375rem, height);
-                    @include rfs(1.375rem, width);
+                    margin-right: 0.5rem;
+                    height: 1.375rem;
+                    width: 1.375rem;
                 }
             }
         }
@@ -178,62 +177,45 @@
 
         .individual-surveys-container {
 
+            // Perspective container for flip cards
             .individual-survey-perspective-container {
 
-                @include rfs(2rem, margin-bottom);
-                // This is the flipper
+                margin-bottom: 2rem;
                 background-color: transparent;
                 perspective: 5000px;
                 padding: 0px;
 
-                .flip-card {
+                .survey-flip-card {
 
                     --flip-delay: 1.5s;
+                    transition-delay: var(--flip-delay);
+                    transition: transform 1.25s;
+                    transform-style: preserve-3d;
+
+                    &.flipped {
+
+                        &.normal-flip {
+                            transform: rotateX(180deg);
+                        }
+
+                        &.opposite-flip {
+                            transform: rotateX(-180deg);
+                        }
+                    }
+
 
                     background-color: white;
                     position: relative;
                     width: 100%;
                     height: 100%;
-                    transition: transform 1.25s;
-                    transition-delay: var(--flip-delay);
-                    transform-style: preserve-3d;
-
                     border-radius: 0.5rem;
-
                     box-shadow: 0 1px 15px -2px rgba(0, 0, 0, 0.3);
 
-                    .survey-heading {
-                        user-select: none;
-                        font-weight: 700;
-                        @include rfs(0.75rem, margin-bottom);
-                    }
-
-                    .survey-subheading {
-                        user-select: none;
-                        font-weight: 700;
-                        @include rfs(0.75rem, margin-bottom);
-                    }
-
-                    .survey-checkbox-with-righttext {
-
-                        user-select: none;
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        font-weight: 400;
-                        @include rfs(0.25rem, margin-top);
-                        @include rfs(1.25rem, font-size);
-
-                        .survey-checkbox {
-                            @include rfs(0.5rem, margin-right);
-                            @include rfs(1.25rem, height);
-                            @include rfs(1.25rem, width);
-                        }
-                    }
 
                     .flip-card-front,
                     .flip-card-back {
-                        @include rfs(1.5rem 2rem, padding);
+                        background-color: rgb(255, 255, 255);
+                        padding: 1.5rem 2rem;
                         position: absolute;
                         top: 0px;
                         left: 0px;
@@ -251,69 +233,83 @@
                         height: auto;
                     }
 
-                    .flip-card-front {
-                        background-color: rgb(255, 255, 255);
-                    }
-
                     .flip-card-back {
                         background-color: rgb(255, 255, 255);
                         transform: rotateX(180deg);
-
-                        .link-underline {
-                            display: inline-block;
-                            position: relative;
-                            text-decoration: none;
-                            cursor: pointer;
-
-                            &::after {
-                                bottom: 2px;
-                                content: "";
-                                display: block;
-                                height: 0.625rem;
-                                left: 0;
-                                position: absolute;
-                                transition: .3s;
-                                width: 100%;
-                                z-index: -1;
-
-                            }
-
-                            &.red-underline {
-
-                                &::after {
-                                    background: rgba(226, 58, 58, 0.5);
-                                }
-
-                                &:hover::after {
-                                    background: rgba(230, 85, 85, 0.85);
-
-                                }
-                            }
-
-
-                            &.green-underline {
-
-                                &::after {
-                                    background: rgba(58, 226, 94, 0.5);
-                                }
-
-                                &:hover::after {
-                                    background: rgba(58, 226, 94, 0.85);
-
-                                }
-                            }
-                        }
                     }
 
                 }
+            }
 
-                &.flipped {
-                    &.normal-flip .flip-card {
-                        transform: rotateX(180deg);
+            .survey-heading {
+                user-select: none;
+                font-weight: 700;
+                margin-bottom: 0.75rem;
+            }
+
+            .survey-subheading {
+                user-select: none;
+                font-weight: 700;
+                margin-bottom: 0.75rem;
+            }
+
+            .survey-checkbox-with-righttext {
+
+                user-select: none;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                font-weight: 400;
+                margin-top: 0.25rem;
+                font-size: 1.25rem;
+
+                .survey-checkbox {
+                    margin-right: 0.5rem;
+                    height: 1.25rem;
+                    width: 1.25rem;
+                }
+            }
+
+            .link-underline {
+                display: inline-block;
+                position: relative;
+                text-decoration: none;
+                cursor: pointer;
+
+                &::after {
+                    bottom: 2px;
+                    content: "";
+                    display: block;
+                    height: 0.625rem;
+                    left: 0;
+                    position: absolute;
+                    transition: .3s;
+                    width: 100%;
+                    z-index: -1;
+
+                }
+
+                &.red-underline {
+
+                    &::after {
+                        background: rgba(226, 58, 58, 0.5);
                     }
 
-                    &.opposite-flip .flip-card {
-                        transform: rotateX(-180deg);
+                    &:hover::after {
+                        background: rgba(230, 85, 85, 0.85);
+
+                    }
+                }
+
+
+                &.green-underline {
+
+                    &::after {
+                        background: rgba(58, 226, 94, 0.5);
+                    }
+
+                    &:hover::after {
+                        background: rgba(58, 226, 94, 0.85);
 
                     }
                 }
