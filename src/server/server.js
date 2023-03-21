@@ -9,8 +9,6 @@ import './api/models/SurveySubmissionModel.js'
 // Load routes
 import surveyingRoute from './api/routes/surveyingRoute.js'
 
-
-
 dotenv.config();
 
 const app = express()
@@ -26,14 +24,14 @@ app.use(urlencoded({ extended: false }))
 surveyingRoute(app)
 
 // Connect database
-const port = process.env.PORT || 4000;
 mongoose.connect(process.env.DATABASE_ACCESS, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
 
 // Start
-app.listen(4000, () => {
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
     console.log("Server is up and running")
 });
 
