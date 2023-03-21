@@ -383,8 +383,6 @@ function SurveyingPage({ scrollToTop }) {
                     setShowingDetailedInfoFor={setShowingDetailedInfoFor} />}
             </AnimatePresence>
         </div>
-
-
     )
 }
 
@@ -530,7 +528,6 @@ function SpecificQuestionDetails({ setShowingDetailedInfoFor, surveyInfo, questi
 function IndividualSurvey({ flipped, surveyIndex, surveyInfo, surveys, setShowingDetailedInfoFor }) {
 
     const { name, questions, answers, guesses, setGuesses, quotes } = surveyInfo;
-
 
     const accuracyDec = calculateAccuracy(guesses, answers);
     const accuracyPerc = +(accuracyDec * 100.0).toFixed(2);
