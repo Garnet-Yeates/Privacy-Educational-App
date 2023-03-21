@@ -246,8 +246,6 @@ function SurveyingPage({ scrollToTop }) {
 
     const [submitted, setSubmitted] = useState(false);
 
-    const [selectingSurveys, setSelectingSurveys] = useState(true);
-
     const [facebook, setFacebook] = useState(false);
     const [amazon, setAmazon] = useState(false);
     const [tikTok, setTikTok] = useState(false);
@@ -256,6 +254,8 @@ function SurveyingPage({ scrollToTop }) {
     const [twitter, setTwitter] = useState(false);
     const [youtube, setYoutube] = useState(false);
     const [pinterest, setPinterest] = useState(false);
+
+    const [participantName, setParticipantName] = useState("");
 
     const [facebookGuesses, setFacebookGuesses] = useState(defaultGuessesState(5));
     const [amazonGuesses, setAmazonGuesses] = useState(defaultGuessesState(5));
@@ -361,9 +361,9 @@ function SurveyingPage({ scrollToTop }) {
         <div className="surveying-page">
             {showingDetailedInfoFor && <SpecificQuestionDetails setShowingDetailedInfoFor={setShowingDetailedInfoFor} {...showingDetailedInfoFor} />}
             <AnimatePresence mode="wait">
-                {selectingSurveys && <SelectSurveys
+                {phase === "SelectSurveys" && <SelectSurveysSubPage
                     key="selectSurveys"
-                    setSelectingSurveys={setSelectingSurveys}
+                    setPhase={setPhase}
                     facebook={facebook} setFacebook={setFacebook}
                     amazon={amazon} setAmazon={setAmazon}
                     tikTok={tikTok} setTikTok={setTikTok}
@@ -373,8 +373,15 @@ function SurveyingPage({ scrollToTop }) {
                     youtube={youtube} setYoutube={setYoutube}
                     pinterest={pinterest} setPinterest={setPinterest}
                 />}
-                {!selectingSurveys && <Surveys
+                {phase === "EnterInfo" && <EnterInfoSubPage
+                    key="enterInfo"
+                    setPhase={setPhase}
+                    participantName={participantName}
+                    setParticipantName={setParticipantName}
+                />}
+                {phase === "TakeSurveys" && <SurveysSubpage
                     key="surveys"
+                    setPhase={setPhase}
                     scrollToTop={scrollToTop}
                     surveys={surveys}
                     submitted={submitted}
@@ -393,23 +400,9 @@ const anySelected = (options) => {
     return false;
 }
 
+function SelectSurveysSubPage({ setPhase, facebook, setFacebook, amazon, setAmazon, tikTok, setTikTok, linkedIn, setLinkedIn,
+    snapchat, setSnapchat, twitter, setTwitter, youtube, setYoutube, pinterest, setPinterest }) {
 
-// -------------------------------------SURVEY SELECTION----------------------------------------------------------------
-
-// Contains 8 checkboxes, each one controlling the 'enabled' state of its respective technology/social
-// Contains a "Continue" button that begins the survey, with validation to make sure they chose at least one
-// Contains an error message to display if validation failed
-function SelectSurveys({
-    setSelectingSurveys,
-    facebook, setFacebook,
-    amazon, setAmazon,
-    tikTok, setTikTok,
-    linkedIn, setLinkedIn,
-    snapchat, setSnapchat,
-    twitter, setTwitter,
-    youtube, setYoutube,
-    pinterest, setPinterest
-}) {
     const [validationError, setValidationError] = useState("");
 
     const onPressContinue = () => {
@@ -418,10 +411,9 @@ function SelectSurveys({
             setValidationError("Please select at least 1 technology/social to take a survey on")
             return;
         }
-        // Validate that they chose at least 1 technology/social and if they did
-        // set selectingSurveys to false, which will switch the Survey comp view
-        // and SelectSurveys() out of view
-        setSelectingSurveys(false);
+
+        // Move to the next phase, which will take this SubPage out of view and put the EnterInfoSubPage into view
+        setPhase("EnterInfo");
     }
 
     return (
@@ -456,10 +448,41 @@ function SelectSurveyCheckbox({ name, state, setState }) {
     )
 }
 
-// ----------------- SURVEY(S) ----------------------------------------------------------------------------------------------------
+function EnterInfoSubPage({ setPhase, setParticipantName, participantName }) {
+
+    const [validationError, setValidationError] = useState("");
+
+    const onPressContinue = () => {
+
+        if (participantName.length() < 2) {
+            setValidationError("Please enter your name")
+            return;
+        }
+
+        // Move to the next phase, which will take this SubPage out of view and put the SurveysSubPage into view
+        setPhase("TakeSurveys");
+    }
+
+    return (
+        <motion.div className="enter-info-subpage" exit={selectSurveysPageExit} initial={selectSurveysPageInitial} animate={selectSurveysPageAnimate}>
+            <div className="enter-info-container">
+                <h3 className="enter-info-heading">Enter Participant Information</h3>
+                <div>ddd</div>
+                <div>ddd</div>
+                <div>ddd</div>
+                <div>ddd</div>
+                <div>ddd</div>
+                {validationError && <motion.div initial={zeroHeightInvisible} animate={selectSurveysError} className="enter-info-error">{validationError}</motion.div>}
+                <button className="enter-info-button button blue hover-dim" onClick={onPressContinue}>
+                    <span>Continue</span>
+                </button>
+            </div>
+        </motion.div>
+    )
+}
 
 // Will contain a bunch of sub components, based on which socials are set to true in props
-function Surveys({ scrollToTop, participantName, setParticipantName, surveys, submitted, setSubmitted, setShowingDetailedInfoFor }) {
+function SurveysSubpage({ scrollToTop, participantName, setParticipantName, surveys, submitted, setSubmitted, setShowingDetailedInfoFor }) {
 
     const onClickSubmit = async () => {
 
