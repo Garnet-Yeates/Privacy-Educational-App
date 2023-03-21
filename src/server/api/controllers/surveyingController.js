@@ -25,7 +25,6 @@ export async function submitSurvey(req, res) {
         if (survey in req.body && (typeof req.body[survey] !== "number" || req.body[survey] < 0 || req.body[survey] > 100))
             return res.status(400).json({ userError: 'Invalid input. Survey properties must be a number between 0 and 100, representing the accuracy' })
 
-    console.log(req.body)
     let surveySubmission = new SurveySubmission({ ...req.body });
 
     try {

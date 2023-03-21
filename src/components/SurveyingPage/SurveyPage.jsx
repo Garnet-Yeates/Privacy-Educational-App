@@ -458,35 +458,19 @@ function SelectSurveyCheckbox({ name, state, setState }) {
 // ----------------- SURVEY(S) ----------------------------------------------------------------------------------------------------
 
 // Will contain a bunch of sub components, based on which socials are set to true in props
-function Surveys({ scrollToTop, surveys, submitted, setSubmitted, showingDetailedInfoFor, setShowingDetailedInfoFor }) {
+function Surveys({ scrollToTop, participantName, setParticipantName, surveys, submitted, setSubmitted, setShowingDetailedInfoFor }) {
 
     const onClickSubmit = async () => {
-        setTimeout(() => {
-            setSubmitted(true)
-            scrollToTop(50);
-        }, 150)
 
-        try {
-            const res = await axios.post(`${SERVER_URL}/surveying/submitsurvey`, { participantName: "Garnet", facebook: 97});
-            console.log("RES", res);
-        } 
-        catch (error) {
-
-            const { response: { data: { userError, serverError }, status, statusText } } = error;
-
-            if (userError) { // This joke is basically saying there should never be user error
-                console.log("You need to learn how to code:", userError)
-            }
-
-            if (serverError) {
-                console.log("INTER", serverError)
-            }
-
-
+        if (submitted) {
+            //   return;
         }
 
-        // Do some REST stuff, based on the keys present in the 'surveys' array (keys present in surveys array is how we know they took said survey)
-        // Could also use the flags to check, idk which will be easier and tbh idek how im gonna set up the database yet
+        // No server-side validation for determining survey accuracy (i.e the accuracy is determined on the client as the client has all the needed info)
+        setSubmitted(true)
+        scrollToTop(50)
+
+        submitReportToServer(participantName, surveys)
     }
 
     return (
@@ -548,8 +532,8 @@ function IndividualSurvey({ flipped, surveyIndex, surveyInfo, surveys, setShowin
 
     const { name, questions, answers, guesses, setGuesses, quotes } = surveyInfo;
 
-    const accuracyDec = calculateAccuracy(guesses, answers);
-    const accuracyPerc = +(accuracyDec * 100.0).toFixed(2);
+    const accuracyPerc = calculateAccuracy(guesses, answers);
+
     const additionalText = accuracyPerc < 100 ? " (click on invalid answers for more info)" : "";
     const flipStagger = 0.4; // The delay between each survey flipping 
     const flipStyle = { "--flip-delay": `${1.5 + surveyIndex * flipStagger}s` }
@@ -600,15 +584,6 @@ function SurveyQACheckbox({ questionIndex, surveyInfo }) {
     )
 }
 
-const calculateAccuracy = (guesses, answers) => {
-    let total = answers.length;
-    let correct = 0;
-    for (let i = 0; i < total; i++)
-        if (guesses[i] === answers[i])
-            correct++;
-    return correct / total;
-}
-
 function SurveyAnswerDisplay({ surveyInfo, questionIndex, setShowingDetailedInfoFor }) {
 
     const { questions, answers, guesses } = surveyInfo;
@@ -630,6 +605,59 @@ function SurveyAnswerDisplay({ surveyInfo, questionIndex, setShowingDetailedInfo
             </span>
         </div>
     )
+}
+
+const calculateAccuracy = (guesses, answers) => {
+    let total = answers.length;
+    let correct = 0;
+    for (let i = 0; i < total; i++)
+        if (guesses[i] === answers[i])
+            correct++;
+    const accuracyDec = correct / total;
+    const accuracyPerc = +(accuracyDec * 100.0).toFixed(2)
+
+    return accuracyPerc;
+}
+
+const submitReportToServer = async (participantName, surveys) => {
+    // Send report to server
+    try {
+        const request = {};
+
+        for (let survey of surveys) {
+            let { name, guesses, answers } = survey;
+
+            // Lowercase the first letter of name because in the HTTP request they need to be lowercase camel-cased
+            name = name.toLowerCase().substring(0, 1) + name.substring(1, name.length);
+            const accuracyPerc = calculateAccuracy(guesses, answers);
+
+            request[name] = accuracyPerc;
+        }
+
+        request.participantName = "Garnet"; // TODO this needs to be a react state that is set at the beginning of the survey
+
+        console.log("Sending the following request to the REST API: ", request)
+
+        const res = await axios.post(`${SERVER_URL}/surveying/submitsurvey`, request);
+        console.log("Got the following request from server: ", res)
+    }
+    catch (error) {
+        console.log("Received error from server", error)
+
+        if (error.code === "ERR_NETWORK") {
+            console.log("Error communicating/connecting to the server")
+        }
+
+        const { response: { data: { userError, serverError } = {}, status, statusText } = {} } = error;
+
+        if (userError) { // This joke is basically saying there should never be user error
+            console.log("You need to learn how to code: ", userError)
+        }
+
+        if (serverError) { // Possible DB pushing exception
+            console.log("Internal error querying the database: ", serverError)
+        }
+    }
 }
 
 export default SurveyingPage
