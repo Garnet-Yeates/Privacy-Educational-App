@@ -100,94 +100,130 @@
     justify-content: center;
     align-items: center;
 
-    .surveys-selection-container {
+    .select-surveys-container {
 
+        --border-radius: 0.375rem;
         user-select: none;
         max-width: 700px;
         box-shadow: 0 0 0.5rem 0 rgb(0 0 0 / 30%);
-        border-radius: 1rem;
-        padding: 1.5rem 2rem;
 
-        .select-surveys-heading {
-            text-align: center;
-            font-weight: 800;
-            margin-bottom: 0.75rem;
-        }
+        border-radius: var(--border-radius);
 
-        .select-surveys-button {
-            z-index: 200;
-            margin-top: 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 1.25rem;
-        }
-
-        .select-surveys-error {
-            margin-top: 0.25rem;
-            overflow: hidden;
-            color: rgb(184, 38, 38);
-            font-size: 1.25rem;
-            z-index: -200;
-        }
-
-        .selectsurvey-checkbox-with-righttext {
-
+        .select-surveys-header {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            font-weight: 400;
-            margin-top: 0.25rem;
-            font-size: 1.375rem;
+            min-height: 10rem;
+            padding: 0rem 1.5rem;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
 
-            .select-survey-checkbox {
-                margin-right: 0.5rem;
-                height: 1.375rem;
-                width: 1.375rem;
+            background-image: linear-gradient(240deg,
+                    hsl(240deg 100% 58%) 0%,
+                    hsl(230deg 100% 55%) 17%,
+                    hsl(221deg 99% 53%) 33%,
+                    hsl(212deg 98% 51%) 50%,
+                    hsl(203deg 98% 49%) 67%,
+                    hsl(193deg 97% 47%) 83%,
+                    hsl(184deg 97% 45%) 100%);
+
+            .select-surveys-heading {
+                @include rfs(2.125rem, font-size);
+                text-align: center;
+                color: white;
+                font-weight: 600;
+                margin-bottom: 0.75rem;
             }
         }
-    }
-}
 
-.enter-info-subpage {
+        .select-surveys-form {
+            padding: 1.75rem 1rem;
 
-    flex-grow: 1;
+            .input-text {
+                text-align: center;
+                font-size: 1.25rem;
+                width: 100%;
+                padding: 0.25rem 0.125rem;
+                outline: 0px transparent;
+                border: 0px transparent;
+                border-bottom: 1px solid rgb(144, 143, 143);
+                border-radius: 0px;
+            }
 
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+            .select-socials-heading {
+                @include rfs(1.625rem, font-size);
+            }
 
-    .enter-info-container {
+            .select-survey-checkbox-with-righttext {
 
-        user-select: none;
-        max-width: 700px;
-        box-shadow: 0 0 0.5rem 0 rgb(0 0 0 / 30%);
-        border-radius: 1rem;
-        padding: 1.5rem 2rem;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                font-weight: 400;
+                margin-top: 0.25rem;
+                font-size: 1.375rem;
 
-        .enter-info-heading {
-            text-align: center;
-            font-weight: 800;
-            margin-bottom: 0.75rem;
-        }
+                .select-survey-checkbox {
+                    margin-right: 0.5rem;
+                    height: 1.375rem;
+                    width: 1.375rem;
+                }
+            }
 
-        .enter-info-button {
-            z-index: 200;
-            margin-top: 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 1.25rem;
-        }
+            .select-surveys-button {
+                z-index: 200;
+                margin-top: 0.5rem;
+                font-size: 1.25rem;
+                padding: 0.75rem 1.25rem;
+                @include rfs(1.5rem, font-size);
+                width: 75%;
 
-        .enter-info-textbox {
-            
-        }
+                border: 0px;
+                transition: background-color 0.15s ease-in-out, box-shadow 0.25s ease-in-out, transform 0.25s ease-in-out, background-image 0.15s linear;
+                cursor: pointer;
+                display: inline-block;
+                text-decoration: none;
+                font-weight: 600;
+                border-radius: 0.125rem;
 
-        .enter-info-error {
-            margin-top: 0.25rem;
-            overflow: hidden;
-            color: rgb(184, 38, 38);
-            font-size: 1.25rem;
-            z-index: -200;
+                color: white;
+
+                background-image: linear-gradient(230deg,
+                        hsl(210deg 100% 58%) 0%,
+                        hsl(219deg 99% 58%) 17%,
+                        hsl(227deg 97% 57%) 33%,
+                        hsl(235deg 96% 57%) 50%,
+                        hsl(244deg 95% 57%) 67%,
+                        hsl(253deg 94% 57%) 83%,
+                        hsl(261deg 93% 57%) 100%);
+
+                // active state is while you have left mouse held down on the button
+                &:active {
+                    // Maybe so some ::after stuff
+                }
+
+                &>span {
+                    display: inline-block;
+                    transition: transform 0.3s;
+                    transform: translateY(0px)
+                }
+
+                &:hover>span {
+                    transform: translateY(-0.25rem);
+                }
+
+
+            }
+
+            .select-surveys-error {
+                text-align: center;
+                margin-top: 0.25rem;
+                overflow: hidden;
+                color: rgb(184, 38, 38);
+                font-size: 1.25rem;
+                z-index: -200;
+            }
         }
     }
 }

@@ -255,7 +255,8 @@ function SurveyingPage({ scrollToTop }) {
     const [youtube, setYoutube] = useState(false);
     const [pinterest, setPinterest] = useState(false);
 
-    const [participantName, setParticipantName] = useState("");
+    const [participantFirstName, setParticipantFirstName] = useState("");
+    const [participantLastName, setParticipantLastName] = useState("");
 
     const [facebookGuesses, setFacebookGuesses] = useState(defaultGuessesState(5));
     const [amazonGuesses, setAmazonGuesses] = useState(defaultGuessesState(5));
@@ -351,9 +352,7 @@ function SurveyingPage({ scrollToTop }) {
     }, [showingDetailedInfoFor]);
 
 
-    const [phase, setPhase] = useState("SelectSurveys")
-    // Pass setPhase down to child components. Up here, conditionally render these child components based on 'phase' state
-    // It is up to the child components to change this state and initiate the next phase :)
+    const [subPage, setSubPage] = useState("SelectSurveys")
 
     // ------------------------------------------------------------------------------------------------
     return (
@@ -361,9 +360,11 @@ function SurveyingPage({ scrollToTop }) {
         <div className="surveying-page">
             {showingDetailedInfoFor && <SpecificQuestionDetails setShowingDetailedInfoFor={setShowingDetailedInfoFor} {...showingDetailedInfoFor} />}
             <AnimatePresence mode="wait">
-                {phase === "SelectSurveys" && <SelectSurveysSubPage
+                {subPage === "SelectSurveys" && <SelectSurveysSubPage
                     key="selectSurveys"
-                    setPhase={setPhase}
+                    setSubPage={setSubPage}
+                    participantFirstName={participantFirstName} setParticipantFirstName={setParticipantFirstName}
+                    participantLastName={participantLastName} setParticipantLastName={setParticipantLastName}
                     facebook={facebook} setFacebook={setFacebook}
                     amazon={amazon} setAmazon={setAmazon}
                     tikTok={tikTok} setTikTok={setTikTok}
@@ -373,15 +374,11 @@ function SurveyingPage({ scrollToTop }) {
                     youtube={youtube} setYoutube={setYoutube}
                     pinterest={pinterest} setPinterest={setPinterest}
                 />}
-                {phase === "EnterInfo" && <EnterInfoSubPage
-                    key="enterInfo"
-                    setPhase={setPhase}
-                    participantName={participantName}
-                    setParticipantName={setParticipantName}
-                />}
-                {phase === "TakeSurveys" && <SurveysSubpage
+                {subPage === "TakeSurveys" && <SurveysSubpage
                     key="surveys"
-                    setPhase={setPhase}
+                    participantFirstName={participantFirstName}
+                    participantLastName={participantLastName}
+                    setSubPage={setSubPage}
                     scrollToTop={scrollToTop}
                     surveys={surveys}
                     submitted={submitted}
@@ -400,40 +397,77 @@ const anySelected = (options) => {
     return false;
 }
 
-function SelectSurveysSubPage({ setPhase, facebook, setFacebook, amazon, setAmazon, tikTok, setTikTok, linkedIn, setLinkedIn,
-    snapchat, setSnapchat, twitter, setTwitter, youtube, setYoutube, pinterest, setPinterest }) {
+function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipantFirstName, participantLastName, setParticipantLastName,
+    facebook, setFacebook, amazon, setAmazon, tikTok, setTikTok, linkedIn, setLinkedIn, snapchat, setSnapchat, twitter, setTwitter, youtube,
+    setYoutube, pinterest, setPinterest }) {
 
-    const [validationError, setValidationError] = useState("");
+    const [surveySelectionError, setSurveySelectionError] = useState("");
 
     const onPressContinue = () => {
 
+        if (participantFirstName.length < 2) {
+            setSurveySelectionError("Please enter your first name")
+            return;
+        }
+
+        if (participantLastName.length < 2) {
+            setSurveySelectionError("Please enter your last name")
+            return;
+        }
+        
         if (!anySelected([facebook, amazon, tikTok, linkedIn, snapchat, twitter, youtube, pinterest])) {
-            setValidationError("Please select at least 1 technology/social to take a survey on")
+            setSurveySelectionError("Please select at least 1 technology to take a survey on")
             return;
         }
 
         // Move to the next phase, which will take this SubPage out of view and put the EnterInfoSubPage into view
-        setPhase("EnterInfo");
+        setSubPage("TakeSurveys");
     }
 
     return (
         <motion.div className="select-surveys-subpage" exit={selectSurveysPageExit} initial={selectSurveysPageInitial} animate={selectSurveysPageAnimate}>
-            <div className="surveys-selection-container">
-                <h3 className="select-surveys-heading">Please Select Any Social Media Platforms That You use</h3>
-                <div className="select-surveys-checkbox-container">
-                    <SelectSurveyCheckbox name="Facebook" state={facebook} setState={setFacebook} />
-                    <SelectSurveyCheckbox name="Amazon" state={amazon} setState={setAmazon} />
-                    <SelectSurveyCheckbox name="TikTok" state={tikTok} setState={setTikTok} />
-                    <SelectSurveyCheckbox name="LinkedIn" state={linkedIn} setState={setLinkedIn} />
-                    <SelectSurveyCheckbox name="Snapchat" state={snapchat} setState={setSnapchat} />
-                    <SelectSurveyCheckbox name="Twitter" state={twitter} setState={setTwitter} />
-                    <SelectSurveyCheckbox name="Youtube" state={youtube} setState={setYoutube} />
-                    <SelectSurveyCheckbox name="Pinterest" state={pinterest} setState={setPinterest} />
+            <div className="select-surveys-container">
+                <div className="select-surveys-header">
+                    <h3 className="select-surveys-heading">Enter Participant Information</h3>
                 </div>
-                {validationError && <motion.div initial={zeroHeightInvisible} animate={selectSurveysError} className="select-surveys-error">{validationError}</motion.div>}
-                <button className="select-surveys-button button blue hover-dim" onClick={onPressContinue}>
-                    <span>Continue</span>
-                </button>
+                <div className="select-surveys-form">
+                    <div className="row gy-4 mb-4">
+                        <div className="col-lg-6">
+                            <input className="input-text" placeholder="First Name" type="text" value={participantFirstName} onChange={({target: {value}}) => setParticipantFirstName(value)}/>
+                        </div>
+                        <div className="col-lg-6">
+                            <input className="input-text" placeholder="Last Name" type="text" value={participantLastName} onChange={({target: {value}}) => setParticipantLastName(value)}/>
+                        </div>
+                    </div>
+                    <h4 className="select-socials-heading text-center mb-3">Select Technologies That You Use</h4>
+                    <div className="row mb-3">
+                        <div className="col-lg-6 d-flex justify-content-center justify-content-lg-end">
+                            <div>
+                                <SelectSurveyCheckbox name="Facebook" state={facebook} setState={setFacebook} />
+                                <SelectSurveyCheckbox name="Amazon" state={amazon} setState={setAmazon} />
+                                <SelectSurveyCheckbox name="TikTok" state={tikTok} setState={setTikTok} />
+                                <SelectSurveyCheckbox name="LinkedIn" state={linkedIn} setState={setLinkedIn} />
+                            </div>
+                        </div>
+                        <div className="col-lg-6 d-flex justify-content-center justify-content-lg-start">
+                            <div>
+                                <SelectSurveyCheckbox name="Snapchat" state={snapchat} setState={setSnapchat} />
+                                <SelectSurveyCheckbox name="Twitter" state={twitter} setState={setTwitter} />
+                                <SelectSurveyCheckbox name="Youtube" state={youtube} setState={setYoutube} />
+                                <SelectSurveyCheckbox name="Pinterest" state={pinterest} setState={setPinterest} />
+                            </div>
+                        </div>
+                    </div>
+                    {surveySelectionError && <motion.div initial={zeroHeightInvisible} animate={selectSurveysError} className="select-surveys-error">{surveySelectionError}</motion.div>}
+                    <div className="d-flex justify-content-center">
+                        <button className="select-surveys-button" onClick={onPressContinue}>
+                            <span>Continue</span>
+                        </button>
+                    </div>
+
+                </div>
+
+
             </div>
         </motion.div>
     )
@@ -441,48 +475,15 @@ function SelectSurveysSubPage({ setPhase, facebook, setFacebook, amazon, setAmaz
 
 function SelectSurveyCheckbox({ name, state, setState }) {
     return (
-        <div className="selectsurvey-checkbox-with-righttext">
+        <div className="select-survey-checkbox-with-righttext">
             <input className="select-survey-checkbox" type="checkbox" checked={state} onChange={() => setState(!state)} />
             <div className="select-survey-checkbox-text">{name}</div>
         </div>
     )
 }
 
-function EnterInfoSubPage({ setPhase, setParticipantName, participantName }) {
-
-    const [validationError, setValidationError] = useState("");
-
-    const onPressContinue = () => {
-
-        if (participantName.length() < 2) {
-            setValidationError("Please enter your name")
-            return;
-        }
-
-        // Move to the next phase, which will take this SubPage out of view and put the SurveysSubPage into view
-        setPhase("TakeSurveys");
-    }
-
-    return (
-        <motion.div className="enter-info-subpage" exit={selectSurveysPageExit} initial={selectSurveysPageInitial} animate={selectSurveysPageAnimate}>
-            <div className="enter-info-container">
-                <h3 className="enter-info-heading">Enter Participant Information</h3>
-                <div>ddd</div>
-                <div>ddd</div>
-                <div>ddd</div>
-                <div>ddd</div>
-                <div>ddd</div>
-                {validationError && <motion.div initial={zeroHeightInvisible} animate={selectSurveysError} className="enter-info-error">{validationError}</motion.div>}
-                <button className="enter-info-button button blue hover-dim" onClick={onPressContinue}>
-                    <span>Continue</span>
-                </button>
-            </div>
-        </motion.div>
-    )
-}
-
 // Will contain a bunch of sub components, based on which socials are set to true in props
-function SurveysSubpage({ scrollToTop, participantName, setParticipantName, surveys, submitted, setSubmitted, setShowingDetailedInfoFor }) {
+function SurveysSubpage({ scrollToTop, participantFirstName, participantLastName, surveys, submitted, setSubmitted, setShowingDetailedInfoFor }) {
 
     const onClickSubmit = async () => {
 
@@ -494,7 +495,7 @@ function SurveysSubpage({ scrollToTop, participantName, setParticipantName, surv
         setSubmitted(true)
         scrollToTop(50)
 
-        submitReportToServer("Garnet", surveys)
+        submitReportToServer(`${participantFirstName} ${participantLastName}`, surveys)
     }
 
     return (
@@ -550,9 +551,9 @@ function SpecificQuestionDetails({ setShowingDetailedInfoFor, surveyInfo, questi
     )
 }
 
-function IndividualSurvey({ flipped, surveyIndex, surveyInfo, surveys, setShowingDetailedInfoFor }) {
+function IndividualSurvey({ flipped, surveyIndex, surveyInfo, setShowingDetailedInfoFor }) {
 
-    const { name, questions, answers, guesses, setGuesses, quotes } = surveyInfo;
+    const { name, questions, answers, guesses } = surveyInfo;
 
     const accuracyPerc = calculateAccuracy(guesses, answers);
 
@@ -641,7 +642,7 @@ const calculateAccuracy = (guesses, answers) => {
     return accuracyPerc;
 }
 
-const submitReportToServer = async (participantName, surveys) => {
+const submitReportToServer = async (participantFullName, surveys) => {
     // Send report to server
     try {
         const request = {};
@@ -656,7 +657,7 @@ const submitReportToServer = async (participantName, surveys) => {
             request[name] = accuracyPerc;
         }
 
-        request.participantName = participantName; // TODO this needs to be a react state that is set at the beginning of the survey
+        request.participantFullName = participantFullName; // TODO this needs to be a react state that is set at the beginning of the survey
 
         console.log("Sending the following request to the REST API: ", request)
 
@@ -670,7 +671,7 @@ const submitReportToServer = async (participantName, surveys) => {
             console.log("Error communicating/connecting to the server")
         }
 
-        const { response: { data: { userError, serverError } = {}, status, statusText } = {} } = error;
+        const { response: { data: { userError, serverError } = {} } = {} } = error;
 
         if (userError) { // This joke is basically saying there should never be user error
             console.log("You need to learn how to code: ", userError)
