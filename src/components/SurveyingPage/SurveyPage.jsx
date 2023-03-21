@@ -7,6 +7,8 @@ import { individualSurveyAnimate, individualSurveyInitial, infoOverlayAnimate, i
 import { useEffect } from 'react';
 import useScrollLock from '../../hooks/useScrollLock';
 import usePrevious from '../../hooks/usePrevious';
+import axios from 'axios';
+import { SERVER_URL } from '../..';
 
 // Made this a function to return the object so we dont make the mistake of shallow cloning and having our states be mysteriously connected
 const defaultGuessesState = (length) => Array(length).fill(false);
@@ -346,15 +348,10 @@ function SurveyingPage({ scrollToTop }) {
         setGuesses: setPinterestGuesses
     });
 
-    const onSubmit = () => {
-        // Do some REST stuff, based on the keys present in the 'surveys' array (keys present in surveys array is how we know they took said survey)
-        // Could also use the flags to check, idk which will be easier and tbh idek how im gonna set up the database yet
-    }
-
     // Best way to stop scrolling is to modify the body itself. Cannot access body from JSX so we use an effect
     useEffect(() => {
         showingDetailedInfoFor ? lockScroll() : unlockScroll();
-    }, [showingDetailedInfoFor]);
+    }, [showingDetailedInfoFor, lockScroll, unlockScroll]);
 
     // ------------------------------------------------------------------------------------------------
     return (
@@ -463,11 +460,33 @@ function SelectSurveyCheckbox({ name, state, setState }) {
 // Will contain a bunch of sub components, based on which socials are set to true in props
 function Surveys({ scrollToTop, surveys, submitted, setSubmitted, showingDetailedInfoFor, setShowingDetailedInfoFor }) {
 
-    const onClickSubmit = () => {
+    const onClickSubmit = async () => {
         setTimeout(() => {
             setSubmitted(true)
             scrollToTop(50);
         }, 150)
+
+        try {
+            const res = await axios.post(`${SERVER_URL}/surveying/submitsurvey`, { participantName: "Garnet", facebook: 97});
+            console.log("RES", res);
+        } 
+        catch (error) {
+
+            const { response: { data: { userError, serverError }, status, statusText } } = error;
+
+            if (userError) { // This joke is basically saying there should never be user error
+                console.log("You need to learn how to code:", userError)
+            }
+
+            if (serverError) {
+                console.log("INTER", serverError)
+            }
+
+
+        }
+
+        // Do some REST stuff, based on the keys present in the 'surveys' array (keys present in surveys array is how we know they took said survey)
+        // Could also use the flags to check, idk which will be easier and tbh idek how im gonna set up the database yet
     }
 
     return (
@@ -480,7 +499,7 @@ function Surveys({ scrollToTop, surveys, submitted, setSubmitted, showingDetaile
                 <div className="individual-surveys-container">
                     {surveys.map((surveyInfo, surveyIndex) => <IndividualSurvey key={surveyInfo.name} flipped={submitted} surveyIndex={surveyIndex} surveyInfo={surveyInfo} surveys={surveys} setShowingDetailedInfoFor={setShowingDetailedInfoFor} />)}
                     <AnimatePresence>
-                        {!submitted && <motion.div className="w-100" initial={submitSurveyInitial} animate={submitSurveyAnimate(surveys.length)} exit={submitSurveyExit}>
+                        {!false && <motion.div className="w-100" initial={submitSurveyInitial} animate={submitSurveyAnimate(surveys.length)} exit={submitSurveyExit}>
                             <button className="submit-surveys-button button blue hover-dim w-100" onClick={onClickSubmit}>
                                 <span>SUBMIT SURVEY{(surveys.length > 1 ? "S" : "")}</span>
                             </button>
