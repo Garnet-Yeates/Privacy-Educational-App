@@ -5,10 +5,9 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { individualSurveyAnimate, individualSurveyInitial, infoOverlayAnimate, infoOverlayInitial, letsSeeAnimation, questionDetailsAnimate, questionDetailsInitial, selectSurveysError, selectSurveysPageAnimate, selectSurveysPageExit, selectSurveysPageInitial, submitSurveyAnimate, submitSurveyExit, submitSurveyInitial, surveysPageAnimate, surveysPageInitial, zeroHeightInvisible } from '../../animations/SurveyPageAnimations'
 import { useEffect } from 'react';
-import useScrollLock from '../../hooks/useScrollLock';
-import usePrevious from '../../hooks/usePrevious';
 import axios from 'axios';
 import { SERVER_URL } from '../..';
+import { lockScroll, unlockScroll } from '../App';
 
 // Made this a function to return the object so we dont make the mistake of shallow cloning and having our states be mysteriously connected
 const defaultGuessesState = (length) => Array(length).fill(false);
@@ -245,8 +244,6 @@ const pinterestQuotes = [
 
 function SurveyingPage({ scrollToTop }) {
 
-    const { lockScroll, unlockScroll } = useScrollLock()
-
     const [submitted, setSubmitted] = useState(false);
 
     const [selectingSurveys, setSelectingSurveys] = useState(true);
@@ -348,13 +345,19 @@ function SurveyingPage({ scrollToTop }) {
         setGuesses: setPinterestGuesses
     });
 
-    // Best way to stop scrolling is to modify the body itself. Cannot access body from JSX so we use an effect
+    // Lock scrolling when the "survey question details" modal is open
     useEffect(() => {
         showingDetailedInfoFor ? lockScroll() : unlockScroll();
-    }, [showingDetailedInfoFor, lockScroll, unlockScroll]);
+    }, [showingDetailedInfoFor]);
+
+
+    const [phase, setPhase] = useState("SelectSurveys")
+    // Pass setPhase down to child components. Up here, conditionally render these child components based on 'phase' state
+    // It is up to the child components to change this state and initiate the next phase :)
 
     // ------------------------------------------------------------------------------------------------
     return (
+        // TODO this will be <SelectSurveysSubPage> or <EnterInfoSubPage> or <SurveySubPage>, determined by string state "subpage/phase"
         <div className="surveying-page">
             {showingDetailedInfoFor && <SpecificQuestionDetails setShowingDetailedInfoFor={setShowingDetailedInfoFor} {...showingDetailedInfoFor} />}
             <AnimatePresence mode="wait">
@@ -422,27 +425,25 @@ function SelectSurveys({
     }
 
     return (
-        <div className="select-surveys-subpage-container">
-            <motion.div className="select-surveys-subpage" exit={selectSurveysPageExit} initial={selectSurveysPageInitial} animate={selectSurveysPageAnimate}>
-                <div className="surveys-selection-container">
-                    <h3 className="select-surveys-heading">Please Select Any Social Media Platforms That You use</h3>
-                    <div className="select-surveys-checkbox-container">
-                        <SelectSurveyCheckbox name="Facebook" state={facebook} setState={setFacebook} />
-                        <SelectSurveyCheckbox name="Amazon" state={amazon} setState={setAmazon} />
-                        <SelectSurveyCheckbox name="TikTok" state={tikTok} setState={setTikTok} />
-                        <SelectSurveyCheckbox name="LinkedIn" state={linkedIn} setState={setLinkedIn} />
-                        <SelectSurveyCheckbox name="Snapchat" state={snapchat} setState={setSnapchat} />
-                        <SelectSurveyCheckbox name="Twitter" state={twitter} setState={setTwitter} />
-                        <SelectSurveyCheckbox name="Youtube" state={youtube} setState={setYoutube} />
-                        <SelectSurveyCheckbox name="Pinterest" state={pinterest} setState={setPinterest} />
-                    </div>
-                    {validationError && <motion.div initial={zeroHeightInvisible} animate={selectSurveysError} className="select-surveys-error">{validationError}</motion.div>}
-                    <button className="select-surveys-button button blue hover-dim" onClick={onPressContinue}>
-                        <span>Continue</span>
-                    </button>
+        <motion.div className="select-surveys-subpage" exit={selectSurveysPageExit} initial={selectSurveysPageInitial} animate={selectSurveysPageAnimate}>
+            <div className="surveys-selection-container">
+                <h3 className="select-surveys-heading">Please Select Any Social Media Platforms That You use</h3>
+                <div className="select-surveys-checkbox-container">
+                    <SelectSurveyCheckbox name="Facebook" state={facebook} setState={setFacebook} />
+                    <SelectSurveyCheckbox name="Amazon" state={amazon} setState={setAmazon} />
+                    <SelectSurveyCheckbox name="TikTok" state={tikTok} setState={setTikTok} />
+                    <SelectSurveyCheckbox name="LinkedIn" state={linkedIn} setState={setLinkedIn} />
+                    <SelectSurveyCheckbox name="Snapchat" state={snapchat} setState={setSnapchat} />
+                    <SelectSurveyCheckbox name="Twitter" state={twitter} setState={setTwitter} />
+                    <SelectSurveyCheckbox name="Youtube" state={youtube} setState={setYoutube} />
+                    <SelectSurveyCheckbox name="Pinterest" state={pinterest} setState={setPinterest} />
                 </div>
-            </motion.div>
-        </div>
+                {validationError && <motion.div initial={zeroHeightInvisible} animate={selectSurveysError} className="select-surveys-error">{validationError}</motion.div>}
+                <button className="select-surveys-button button blue hover-dim" onClick={onPressContinue}>
+                    <span>Continue</span>
+                </button>
+            </div>
+        </motion.div>
     )
 }
 
@@ -470,28 +471,26 @@ function Surveys({ scrollToTop, participantName, setParticipantName, surveys, su
         setSubmitted(true)
         scrollToTop(50)
 
-        submitReportToServer(participantName, surveys)
+        submitReportToServer("Garnet", surveys)
     }
 
     return (
-        <div className="surveys-subpage-container">
-            <motion.div className="surveys-subpage" initial={surveysPageInitial} animate={surveysPageAnimate}>
-                {submitted && <motion.div className="lets-see text-center mb-3" initial={zeroHeightInvisible} animate={letsSeeAnimation}>
-                    <h2 className="lets-see-heading">Let's See How You Did</h2>
-                    <h4>Underlined statements are ones that you got wrong. Click on incorrect statements to get a detailed explanation</h4>
-                </motion.div>}
-                <div className="individual-surveys-container">
-                    {surveys.map((surveyInfo, surveyIndex) => <IndividualSurvey key={surveyInfo.name} flipped={submitted} surveyIndex={surveyIndex} surveyInfo={surveyInfo} surveys={surveys} setShowingDetailedInfoFor={setShowingDetailedInfoFor} />)}
-                    <AnimatePresence>
-                        {!false && <motion.div className="w-100" initial={submitSurveyInitial} animate={submitSurveyAnimate(surveys.length)} exit={submitSurveyExit}>
-                            <button className="submit-surveys-button button blue hover-dim w-100" onClick={onClickSubmit}>
-                                <span>SUBMIT SURVEY{(surveys.length > 1 ? "S" : "")}</span>
-                            </button>
-                        </motion.div>}
-                    </AnimatePresence>
-                </div>
-            </motion.div>
-        </div>
+        <motion.div className="surveys-subpage" initial={surveysPageInitial} animate={surveysPageAnimate}>
+            {submitted && <motion.div className="lets-see text-center mb-3" initial={zeroHeightInvisible} animate={letsSeeAnimation}>
+                <h2 className="lets-see-heading">Let's See How You Did</h2>
+                <h4>Underlined statements are ones that you got wrong. Click on incorrect statements to get a detailed explanation</h4>
+            </motion.div>}
+            <div className="individual-surveys-container">
+                {surveys.map((surveyInfo, surveyIndex) => <IndividualSurvey key={surveyInfo.name} flipped={submitted} surveyIndex={surveyIndex} surveyInfo={surveyInfo} surveys={surveys} setShowingDetailedInfoFor={setShowingDetailedInfoFor} />)}
+                <AnimatePresence>
+                    {!false && <motion.div className="w-100" initial={submitSurveyInitial} animate={submitSurveyAnimate(surveys.length)} exit={submitSurveyExit}>
+                        <button className="submit-surveys-button button blue hover-dim w-100" onClick={onClickSubmit}>
+                            <span>SUBMIT SURVEY{(surveys.length > 1 ? "S" : "")}</span>
+                        </button>
+                    </motion.div>}
+                </AnimatePresence>
+            </div>
+        </motion.div>
     )
 }
 
@@ -634,7 +633,7 @@ const submitReportToServer = async (participantName, surveys) => {
             request[name] = accuracyPerc;
         }
 
-        request.participantName = "Garnet"; // TODO this needs to be a react state that is set at the beginning of the survey
+        request.participantName = participantName; // TODO this needs to be a react state that is set at the beginning of the survey
 
         console.log("Sending the following request to the REST API: ", request)
 

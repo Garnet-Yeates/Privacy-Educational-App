@@ -1,5 +1,6 @@
 @import "./App.scss";
 
+// Parent to all components below. Don't want to deal with the extra indent
 .surveying-page {
 
     min-height: 100vh;
@@ -89,226 +90,223 @@
     }
 }
 
-.select-surveys-subpage-container {
+.select-surveys-subpage {
+
+    flex-grow: 1;
 
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-    .select-surveys-subpage {
+    .surveys-selection-container {
 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        user-select: none;
+        max-width: 700px;
+        box-shadow: 0 0 0.5rem 0 rgb(0 0 0 / 30%);
+        border-radius: 1rem;
+        padding: 1.5rem 2rem;
 
-        .surveys-selection-container {
+        .select-surveys-heading {
+            text-align: center;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
 
-            user-select: none;
-            max-width: 700px;
-            box-shadow: 0 0 0.5rem 0 rgb(0 0 0 / 30%);
-            border-radius: 1rem;
-            padding: 1.5rem 2rem;
+        .select-surveys-button {
+            z-index: 200;
+            margin-top: 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 1.25rem;
+        }
 
-            .select-surveys-heading {
-                text-align: center;
-                font-weight: 800;
-                margin-bottom: 0.75rem;
-            }
+        .select-surveys-error {
+            margin-top: 0.25rem;
+            overflow: hidden;
+            color: rgb(184, 38, 38);
+            font-size: 1.25rem;
+            z-index: -200;
+        }
 
-            .select-surveys-button {
-                z-index: 200;
-                margin-top: 0.5rem;
-                border-radius: 0.5rem;
-                font-size: 1.25rem;
-            }
+        .selectsurvey-checkbox-with-righttext {
 
-            .select-surveys-error {
-                margin-top: 0.25rem;
-                overflow: hidden;
-                color: rgb(184, 38, 38);
-                font-size: 1.25rem;
-                z-index: -200;
-            }
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            font-weight: 400;
+            margin-top: 0.25rem;
+            font-size: 1.375rem;
 
-            .selectsurvey-checkbox-with-righttext {
-
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                font-weight: 400;
-                margin-top: 0.25rem;
-                font-size: 1.375rem;
-
-                .select-survey-checkbox {
-                    margin-right: 0.5rem;
-                    height: 1.375rem;
-                    width: 1.375rem;
-                }
+            .select-survey-checkbox {
+                margin-right: 0.5rem;
+                height: 1.375rem;
+                width: 1.375rem;
             }
         }
     }
 }
 
-.surveys-subpage-container {
+.surveys-subpage {
+
+    flex-grow: 1;
 
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-    .surveys-subpage {
-
-        width: 100%;
+    .lets-see {
+        max-width: 60%;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         align-items: center;
 
-        .lets-see {
-            max-width: 60%;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-            .lets-see-heading {
-                font-weight: 800;
-            }
+        .lets-see-heading {
+            font-weight: 800;
         }
+    }
 
-        .individual-surveys-container {
+    .individual-surveys-container {
 
-            // Perspective container for flip cards
-            .individual-survey-perspective-container {
+        // Perspective container for flip cards
+        .individual-survey-perspective-container {
 
-                margin-bottom: 2rem;
-                background-color: transparent;
-                perspective: 5000px;
-                padding: 0px;
+            margin-bottom: 2rem;
+            background-color: transparent;
+            perspective: 5000px;
+            padding: 0px;
 
-                .survey-flip-card {
+            .survey-flip-card {
 
-                    transition: transform 1s;
-                    transition-delay: var(--flip-delay);
-                    transform-style: preserve-3d;
+                transition: transform 1s;
+                transition-delay: var(--flip-delay);
+                transform-style: preserve-3d;
 
-                    &.flipped {
+                &.flipped {
 
-                        &.normal-flip {
-                            transform: rotateX(180deg);
-                        }
-
-                        &.opposite-flip {
-                            transform: rotateX(-180deg);
-                        }
-                    }
-
-                    background-color: white;
-                    position: relative;
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 0.5rem;
-                    box-shadow: 0 1px 15px -2px rgba(0, 0, 0, 0.3);
-
-                    .flip-card-front,
-                    .flip-card-back {
-                        background-color: rgb(255, 255, 255);
-                        padding: 1.5rem 2rem;
-                        position: absolute;
-                        top: 0px;
-                        left: 0px;
-                        bottom: 0px;
-                        right: 0px;
-                        -webkit-backface-visibility: hidden;
-                        /* Safari */
-                        backface-visibility: hidden;
-                    }
-
-                    .flip-card-size-controller {
-                        position: relative;
-                        width: auto;
-                        //     padding: 0px;
-                        height: auto;
-                    }
-
-                    .flip-card-back {
-                        background-color: rgb(255, 255, 255);
+                    &.normal-flip {
                         transform: rotateX(180deg);
                     }
 
+                    &.opposite-flip {
+                        transform: rotateX(-180deg);
+                    }
                 }
-            }
 
-            .survey-heading {
-                user-select: none;
-                font-weight: 700;
-                margin-bottom: 0.75rem;
-            }
-
-            .survey-subheading {
-                user-select: none;
-                font-weight: 700;
-                margin-bottom: 0.75rem;
-            }
-
-            .survey-checkbox-with-righttext {
-
-                user-select: none;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                font-weight: 400;
-                margin-top: 0.25rem;
-                font-size: 1.25rem;
-
-                .survey-checkbox {
-                    margin-right: 0.5rem;
-                    height: 1.25rem;
-                    width: 1.25rem;
-                }
-            }
-
-            .link-underline {
-                display: inline-block;
+                background-color: white;
                 position: relative;
-                text-decoration: none;
-                cursor: pointer;
+                width: 100%;
+                height: 100%;
+                border-radius: 0.5rem;
+                box-shadow: 0 1px 15px -2px rgba(0, 0, 0, 0.3);
+
+                .flip-card-front,
+                .flip-card-back {
+                    background-color: rgb(255, 255, 255);
+                    padding: 1.5rem 2rem;
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    bottom: 0px;
+                    right: 0px;
+                    -webkit-backface-visibility: hidden;
+                    /* Safari */
+                    backface-visibility: hidden;
+                }
+
+                .flip-card-size-controller {
+                    position: relative;
+                    width: auto;
+                    //     padding: 0px;
+                    height: auto;
+                }
+
+                .flip-card-back {
+                    background-color: rgb(255, 255, 255);
+                    transform: rotateX(180deg);
+                }
+
+            }
+        }
+
+        .survey-heading {
+            user-select: none;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .survey-subheading {
+            user-select: none;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .survey-checkbox-with-righttext {
+
+            user-select: none;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            font-weight: 400;
+            margin-top: 0.25rem;
+            font-size: 1.25rem;
+
+            .survey-checkbox {
+                margin-right: 0.5rem;
+                height: 1.25rem;
+                width: 1.25rem;
+            }
+        }
+
+        .link-underline {
+            display: inline-block;
+            position: relative;
+            text-decoration: none;
+            cursor: pointer;
+
+            &::after {
+                bottom: 2px;
+                content: "";
+                display: block;
+                height: 0.625rem;
+                left: 0;
+                position: absolute;
+                transition: .3s;
+                width: 100%;
+                z-index: -1;
+
+            }
+
+            &.red-underline {
 
                 &::after {
-                    bottom: 2px;
-                    content: "";
-                    display: block;
-                    height: 0.625rem;
-                    left: 0;
-                    position: absolute;
-                    transition: .3s;
-                    width: 100%;
-                    z-index: -1;
-
+                    background: rgba(226, 58, 58, 0.5);
                 }
 
-                &.red-underline {
+                &:hover::after {
+                    background: rgba(230, 85, 85, 0.85);
 
-                    &::after {
-                        background: rgba(226, 58, 58, 0.5);
-                    }
-
-                    &:hover::after {
-                        background: rgba(230, 85, 85, 0.85);
-
-                    }
-                }
-
-                &.green-underline {
-
-                    &::after {
-                        background: rgba(58, 226, 94, 0.5);
-                    }
-
-                    &:hover::after {
-                        background: rgba(58, 226, 94, 0.85);
-
-                    }
                 }
             }
 
-            .submit-surveys-button {
-                width: 100%;
+            &.green-underline {
+
+                &::after {
+                    background: rgba(58, 226, 94, 0.5);
+                }
+
+                &:hover::after {
+                    background: rgba(58, 226, 94, 0.85);
+
+                }
             }
+        }
+
+        .submit-surveys-button {
+            width: 100%;
         }
     }
 }
