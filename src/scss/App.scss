@@ -224,34 +224,3 @@ ul {
         color: #FFFFFF
     }
 }
-
-@include media-breakpoint-up(sm) {
-    section {
-        padding: 3rem 0rem;
-    }
-}
-
-@include media-breakpoint-up(md) {
-    section {
-        padding: 3rem 0rem;
-    }
-}
-
-@include media-breakpoint-up(lg) {
-    section {
-        padding: 4rem 0rem;
-    }
-
-    .heading-with-underline {
-        --underline-height: 0.625rem;
-        --y-offset: 0.5rem;
-    }
-}
-
-@include media-breakpoint-up(xl) {
-    section {
-        padding: 5rem 0rem;
-    }
-}
-
-@include media-breakpoint-up(xxl) {}
