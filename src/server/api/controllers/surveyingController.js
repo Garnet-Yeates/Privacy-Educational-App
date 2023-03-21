@@ -5,9 +5,9 @@ const SurveySubmission = model('SurveySubmission');
 // POST to /surveying/submitsurvey
 export async function submitSurvey(req, res) {
 
-    const { participantName } = req.body;
+    const { participantFullName } = req.body;
 
-    if (typeof participantName !== 'string' || participantName.length < 2) {
+    if (typeof participantFullName !== 'string' || participantFullName.length < 2) {
         return res.status(400).json({ userError: 'Participant name must be defined' })
     }
 

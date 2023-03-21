@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 const SurveySubmissionSchema = new Schema({
-    participantName: {
+    participantFullName: {
         type: String,
         required: true,
         trim: true,
