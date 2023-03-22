@@ -1,5 +1,13 @@
+import '../../scss/PhishingPage.scss';
+
+
 function PhishingPage() {
-    return (<></>)
+
+
+    return (
+        <div className="phishing-page">
+
+        </div>)
 }
 
 export default PhishingPage;
