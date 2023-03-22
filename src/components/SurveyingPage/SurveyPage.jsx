@@ -414,7 +414,7 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
             setSurveySelectionError("Please enter your last name")
             return;
         }
-        
+
         if (!anySelected([facebook, amazon, tikTok, linkedIn, snapchat, twitter, youtube, pinterest])) {
             setSurveySelectionError("Please select at least 1 technology to take a survey on")
             return;
@@ -423,6 +423,10 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
         // Move to the next phase, which will take this SubPage out of view and put the EnterInfoSubPage into view
         setSubPage("TakeSurveys");
     }
+
+    //    <input className="input-text" placeholder="First Name" type="text" value={participantFirstName} onChange={({ target: { value } }) => setParticipantFirstName(value)} />
+
+    //   <input className="input-text" placeholder="Last Name" type="text" value={participantLastName} onChange={({ target: { value } }) => setParticipantLastName(value)} />
 
     return (
         <motion.div className="select-surveys-subpage" exit={selectSurveysPageExit} initial={selectSurveysPageInitial} animate={selectSurveysPageAnimate}>
@@ -433,10 +437,10 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
                 <div className="select-surveys-form">
                     <div className="row gy-4 mb-4">
                         <div className="col-lg-6">
-                            <input className="input-text" placeholder="First Name" type="text" value={participantFirstName} onChange={({target: {value}}) => setParticipantFirstName(value)}/>
+                            <MaterialInput label="First Name" state={participantFirstName} setState={setParticipantFirstName} />
                         </div>
                         <div className="col-lg-6">
-                            <input className="input-text" placeholder="Last Name" type="text" value={participantLastName} onChange={({target: {value}}) => setParticipantLastName(value)}/>
+                            <MaterialInput label="Last Name" state={participantLastName} setState={setParticipantLastName} />
                         </div>
                     </div>
                     <h4 className="select-socials-heading text-center mb-3">Select Technologies That You Use</h4>
@@ -603,6 +607,18 @@ function SurveyQACheckbox({ questionIndex, surveyInfo }) {
             <div>
                 {questions[questionIndex]}
             </div>
+        </div>
+    )
+}
+
+function MaterialInput({ state, setState, label }) {
+
+    const [focused, setFocused] = useState(false);
+
+    return (
+        // Material input container will be position relative with the input inside it. The ::before makes the border bottom, and the ::after makes the animated border
+        <div className={"material-input-container" + (focused ? " active" : "")}>
+            <input className="material-input" onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} placeholder={label} value={state} onChange={({ target: { value } }) => setState(value)} />
         </div>
     )
 }
