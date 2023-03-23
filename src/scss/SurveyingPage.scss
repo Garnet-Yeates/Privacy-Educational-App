@@ -10,8 +10,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    padding: 2rem 0rem;
 }
 
 .material-input-container {
@@ -138,6 +136,7 @@
 
     flex-grow: 1;
 
+    @include rfs(24px, padding);
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -199,20 +198,16 @@
                 @include rfs(1.625rem, font-size);
             }
 
-            .select-survey-checkbox-with-righttext {
-
-                display: flex;
-                flex-direction: row;
-                align-items: center;
+            .select-survey-checkbox-label {
+                @include rfs(20px, font-size);
                 font-weight: 400;
-                margin-top: 0.25rem;
-                font-size: 1.25rem;
+            }
 
-                .select-survey-checkbox {
-                    margin-right: 0.5rem;
-                    height: 1.25rem;
-                    width: 1.25rem;
-                }
+            .select-survey-checkbox {
+                @include rfs(24px, width);
+                @include rfs(24px, height);
+                --checkbox-color: rgba(0, 0, 0, 0.8);
+                --checked-color: rgb(0, 140, 255);
             }
 
             .select-surveys-button {
@@ -264,7 +259,7 @@
                 text-align: center;
                 margin-top: 0.25rem;
                 overflow: hidden;
-                color: rgb(184, 38, 38);
+                color: rgb(155, 38, 184);
                 font-size: 1.25rem;
                 z-index: -200;
             }
@@ -277,6 +272,7 @@
     flex-grow: 1;
 
     width: 100%;
+    @include rfs(24px, padding);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -342,6 +338,10 @@
                     backface-visibility: hidden;
                 }
 
+                .flip-card-front {
+                    z-index: -1;
+                }
+
                 .flip-card-size-controller {
                     position: relative;
                     width: auto;
@@ -369,20 +369,32 @@
             margin-bottom: 0.75rem;
         }
 
-        .survey-checkbox-with-righttext {
-
+        .checkbox-with-label.survey {
             user-select: none;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            font-weight: 400;
-            margin-top: 0.25rem;
-            font-size: 1.25rem;
+            margin-top: 4px;
+            font-size: 20px;
+        }
 
-            .survey-checkbox {
-                margin-right: 0.5rem;
-                height: 1.25rem;
-                width: 1.25rem;
+        .survey-checkbox-label {
+            @include rfs(20px, font-size);
+            font-weight: 400;
+        }
+
+        .survey-checkbox {
+            margin-left: -6px;
+            @include rfs(24px, width);
+            @include rfs(24px, height);
+            --checkbox-color: rgba(0, 0, 0, 0.8);
+            --checked-color: rgb(0, 140, 255);
+
+            &.invalid {
+                --checkbox-color: rgb(255, 0, 64);
+                --checked-color: rgb(255, 0, 64);
+            }
+
+            &.valid {
+                --checkbox-color: rgb(0, 197, 89);
+                --checked-color: rgb(0, 197, 89);
             }
         }
 
@@ -396,11 +408,12 @@
                 bottom: 2px;
                 content: "";
                 display: block;
-                height: 0.625rem;
-                left: 0;
+                height: 8px;
+                left: 1px;
+                right: 1px;
                 position: absolute;
                 transition: .3s;
-                width: 100%;
+               // width: 100%;
                 z-index: -1;
 
             }
@@ -408,11 +421,11 @@
             &.red-underline {
 
                 &::after {
-                    background: rgba(226, 58, 58, 0.5);
+                    background: rgb(255, 0, 64, 0.25);
                 }
 
                 &:hover::after {
-                    background: rgba(230, 85, 85, 0.85);
+                    background: rgb(255, 0, 64, 0.5);
 
                 }
             }

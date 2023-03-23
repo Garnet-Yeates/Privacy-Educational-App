@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/App';
+import App from './Pages/App';
 import reportWebVitals from './reportWebVitals';
 
 export const SERVER_URL = 'http://localhost:4000'

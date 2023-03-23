@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import '../../scss/SurveyingPage.scss';
 
 import { useState } from 'react';
@@ -8,6 +8,8 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { SERVER_URL } from '../..';
 import { lockScroll, unlockScroll } from '../App';
+import MaterialCheckbox from '../../components/MaterialCheckbox';
+import MaterialInput from '../../components/MaterialInput';
 
 // Made this a function to return the object so we dont make the mistake of shallow cloning and having our states be mysteriously connected
 const defaultGuessesState = (length) => Array(length).fill(false);
@@ -424,10 +426,6 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
         setSubPage("TakeSurveys");
     }
 
-    //    <input className="input-text" placeholder="First Name" type="text" value={participantFirstName} onChange={({ target: { value } }) => setParticipantFirstName(value)} />
-
-    //   <input className="input-text" placeholder="Last Name" type="text" value={participantLastName} onChange={({ target: { value } }) => setParticipantLastName(value)} />
-
     return (
         <motion.div className="select-surveys-subpage" exit={selectSurveysPageExit} initial={selectSurveysPageInitial} animate={selectSurveysPageAnimate}>
             <div className="select-surveys-container">
@@ -479,9 +477,9 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
 
 function SelectSurveyCheckbox({ name, state, setState }) {
     return (
-        <div className="select-survey-checkbox-with-righttext">
-            <input className="select-survey-checkbox" type="checkbox" checked={state} onChange={() => setState(!state)} />
-            <div className="select-survey-checkbox-text">{name}</div>
+        <div className="checkbox-with-label">
+            <MaterialCheckbox className="select-survey-checkbox" state={state} setState={setState} />
+            <div className="select-survey-checkbox-label">{name}</div>
         </div>
     )
 }
@@ -573,17 +571,17 @@ function IndividualSurvey({ flipped, surveyIndex, surveyInfo, setShowingDetailed
                 <div className="flip-card-front flip-card-size-controller">
                     <h4 className="survey-heading">{name}</h4>
                     <h5 className="survey-subheading">Please check all that you believe apply</h5>
-                    <div className="survey-checkbox-container">
+                    <div className={"survey-checkbox-container" + (flipped ? " no-tab" : "")}>
                         {questions.map((question, questionIndex) => ( // Element itself is the key (i.e, the keys are the question themselves)
-                            <SurveyQACheckbox key={question} questionIndex={questionIndex} surveyInfo={surveyInfo} />))}
+                            <SurveyQACheckbox key={question} noTab={flipped} questionIndex={questionIndex} surveyInfo={surveyInfo} />))}
                     </div>
                 </div>
                 <div className="flip-card-back">
                     <h4 className="survey-heading">{name}</h4>
                     <h5 className="survey-subheading">Accuracy: {accuracyPerc}%{additionalText}</h5>
-                    <div className="survey-checkbox-container">
+                    <div className={"survey-checkbox-container" + (flipped ? "" : " no-tab")}>
                         {questions.map((question, questionIndex) => ( // Element itself is the key (i.e, the keys are the question themselves)
-                            <SurveyAnswerDisplay key={question} questionIndex={questionIndex} surveyInfo={surveyInfo} setShowingDetailedInfoFor={setShowingDetailedInfoFor} />))}
+                            <SurveyAnswerDisplay key={question} noTab={!flipped} questionIndex={questionIndex} surveyInfo={surveyInfo} setShowingDetailedInfoFor={setShowingDetailedInfoFor} />))}
                     </div>
                     {/* The back will have some comparison between guesses and answers to show red or green if they got it right, and you can click to pull up the quote*/}
                 </div>
@@ -592,43 +590,36 @@ function IndividualSurvey({ flipped, surveyIndex, surveyInfo, setShowingDetailed
     )
 }
 
-function SurveyQACheckbox({ questionIndex, surveyInfo }) {
+function SurveyQACheckbox({ questionIndex, surveyInfo, noTab }) {
 
     const { questions, guesses, setGuesses } = surveyInfo;
 
+    let additionalProps = noTab ? { tabIndex: -1 } : {}
+
     return (
-        <div className="survey-checkbox-with-righttext">
-            <input className="survey-checkbox" type="checkbox"
+        <div className="checkbox-with-label survey">
+            <MaterialCheckbox className="survey-checkbox"
                 checked={guesses[questionIndex]}
-                onChange={() => {
+                onChange={useCallback(() => {
                     guesses[questionIndex] = !guesses[questionIndex]
                     setGuesses([...guesses]) // ... might not be required but I am being overcautious for now
-                }} />
-            <div>
-                {questions[questionIndex]}
+                }, [guesses])}
+                {...additionalProps} />
+            <div className="label-container">
+                <span className="survey-checkbox-label">
+                    {questions[questionIndex]}
+                </span>
             </div>
         </div>
     )
 }
 
-function MaterialInput({ state, setState, label }) {
-
-    const [focused, setFocused] = useState(false);
-
-    return (
-        // Material input container will be position relative with the input inside it. The ::before makes the border bottom, and the ::after makes the animated border
-        <div className={"material-input-container" + (focused ? " active" : "")}>
-            <input className="material-input" onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} placeholder={label} value={state} onChange={({ target: { value } }) => setState(value)} />
-        </div>
-    )
-}
-
-function SurveyAnswerDisplay({ surveyInfo, questionIndex, setShowingDetailedInfoFor }) {
+function SurveyAnswerDisplay({ surveyInfo, questionIndex, setShowingDetailedInfoFor, noTab }) {
 
     const { questions, answers, guesses } = surveyInfo;
 
     const wrongGuess = guesses[questionIndex] !== answers[questionIndex];
-    const underlineClasses = wrongGuess ? "link-underline red-underline" : ""
+    const underlineClasses = wrongGuess ? " link-underline red-underline" : ""
 
     const onUnderlineClick = () => {
         if (wrongGuess) {
@@ -636,12 +627,17 @@ function SurveyAnswerDisplay({ surveyInfo, questionIndex, setShowingDetailedInfo
         }
     }
 
+    let additionalProps = noTab ? { tabIndex: -1 } : {}
+
     return (
-        <div className="survey-checkbox-with-righttext">
-            <input className="survey-checkbox" type="checkbox" checked={guesses[questionIndex]} readOnly />
-            <span className={underlineClasses} onClick={onUnderlineClick}>
-                {questions[questionIndex]}
-            </span>
+        <div className="checkbox-with-label survey">
+            <MaterialCheckbox className={"survey-checkbox " + (wrongGuess ? "invalid" : "valid")} readOnly checked={guesses[questionIndex]} {...additionalProps} />
+            <div className="label-container">
+                <span className={"survey-checkbox-label" + underlineClasses} onClick={onUnderlineClick}>
+                    {questions[questionIndex]}
+                </span>
+            </div>
+
         </div>
     )
 }

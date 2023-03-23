@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import '../scss/App.scss';
+import '../scss/App.scss'
 
 import SurveyingPage from './SurveyingPage/SurveyPage';
-import NotFound from './NotFound';
+import NotFound from './NotFound/NotFound';
 import { useRef } from 'react';
 import PhishingPage from './PhishingPage/PhishingPage';
 
