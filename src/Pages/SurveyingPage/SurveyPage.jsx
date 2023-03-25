@@ -450,15 +450,17 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
                     <h3 className="select-surveys-heading">Enter Participant Information</h3>
                 </div>
                 <div className="select-surveys-form">
-                    <div className="row gy-4 mb-4">
-                        <div className="col-lg-6">
-                            <MaterialInput label="First Name" state={participantFirstName} setState={setParticipantFirstName} />
-                        </div>
-                        <div className="col-lg-6">
-                            <MaterialInput label="Last Name" state={participantLastName} setState={setParticipantLastName} />
+                    <div class="container-fluid px-0 select-surveys-inputs-container">
+                        <div className="row gy-4 mb-4">
+                            <div className="col-lg-6 d-flex justify-content-center justify-content-lg-end">
+                                <MaterialInput size={14} label="First Name" state={participantFirstName} setState={setParticipantFirstName} />
+                            </div>
+                            <div className="col-lg-6 d-flex justify-content-center justify-content-lg-start">
+                                <MaterialInput size={14} label="Last Name" state={participantLastName} setState={setParticipantLastName} />
+                            </div>
                         </div>
                     </div>
-                    <h4 className="select-socials-heading text-center mb-3">Select Technologies That You Use</h4>
+                    <h4 className="select-socials-heading text-center mb-3">Select Services That You Use</h4>
                     <div className="row mb-3">
                         <div className="col-lg-6 d-flex justify-content-center justify-content-lg-end">
                             <div>
@@ -478,7 +480,7 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
                         </div>
                     </div>
                     {surveySelectionError && <motion.div initial={zeroHeightInvisible} animate={selectSurveysError} className="select-surveys-error">{surveySelectionError}</motion.div>}
-                    <div className="d-flex justify-content-center">
+                    <div className="d-flex justify-content-center w-100">
                         <button className="select-surveys-button" onClick={onPressContinue}>
                             <span>Continue</span>
                         </button>
@@ -628,11 +630,9 @@ function SurveyQACheckbox({ questionIndex, surveyInfo, noTab }) {
                     setGuesses([...guesses]) // ... might not be required but I am being overcautious for now
                 }}
                 {...additionalProps} />
-            <div className="label-container">
                 <span className="survey-checkbox-label">
                     {questions[questionIndex]}
                 </span>
-            </div>
         </div>
     )
 }
@@ -655,11 +655,9 @@ function SurveyAnswerDisplay({ surveyInfo, questionIndex, setShowingDetailedInfo
     return (
         <div className="checkbox-with-label survey">
             <MaterialCheckbox className={"survey-checkbox " + (wrongGuess ? "invalid" : "valid")} readOnly checked={guesses[questionIndex]} {...additionalProps} />
-            <div className="label-container">
-                <span className={"survey-checkbox-label" + underlineClasses} onClick={onUnderlineClick}>
-                    {questions[questionIndex]}
-                </span>
-            </div>
+            <span className={"survey-checkbox-label" + underlineClasses} onClick={onUnderlineClick}>
+                {questions[questionIndex]}
+            </span>
 
         </div>
     )
