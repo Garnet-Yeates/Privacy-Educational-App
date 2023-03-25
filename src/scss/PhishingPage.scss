@@ -2,11 +2,54 @@
 
 .phishing-page {
 
+    background-image: url("https://cas.wit.edu/cas/themes/default/images/wit-background.jpg");
+    background-size: cover;
     min-height: 100vh;
     overflow: hidden;
 
     display: flex;
     flex-direction: column;
+    align-items: start;
     justify-content: start;
-    align-items: center;
+
+    @include rfs(112px 224px 32px 224px, padding);
+
+    .opacity-overlay {
+        @include rfs(20px, padding);
+
+        background-color: rgba(0, 0, 0, 0.25);
+
+        .card {
+            color: #212529;
+            font-family: 'Verdana', 'sans-serif';
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 4px;
+            min-width: 0px;
+            width: 500px;
+            height: 700px;
+
+            .card-header {
+                @include rfs(12px 20px, padding);
+                height: 80px;
+                margin-bottom: 0;
+                background-color: rgba(0, 0, 0, 0.03);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+            }
+
+            .card-body {
+                @include rfs(20px, padding);
+            }
+
+            .card-heading {
+                font-size: 28px;
+                font-weight: 500;
+                margin-bottom: 8px;
+
+            }
+        }
+    }
 }
