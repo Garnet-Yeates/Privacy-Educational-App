@@ -57,25 +57,24 @@ function MaterialCheckbox({ checked, onChange, state, setState, className, ...ot
     )
 }
 
-// Any re-render of a 'Ripple' component will use a new key for the inner HTML element, which means effectively a new separate ripple effect starts
-// With this in mind it is good practice to place Ripples inside memoized components (e.g MaterialCheckbox) so the ripple only happens when state/props change
-// Instead of when parents re-render the children. This is more of a personal note because these checkboxes are probs the only place I'll ever use ripples
-// (and the ripples only show while 'rippling' is set to true which is rare in itself anyways so this memoization/re-ripple 'glitch' isn't really an issue)
-// NOTE: this is also why I use useCallback inside of QACheckbox on the SurveyPage
-// This means multiple can exist at a time (since AnimatePresence + exit animation makes them not disappear instantly)
 let currRippleKey = 0;
 
 let rippleVariants = {
     exit: {
         opacity: 0,
-        transition: { duration: 0.3 },
-    }
+        transition: { duration: 0.35 },
+    }           
 }
 
-function Ripple({ active, checked }) {
+// Any re-render of a 'Ripple' component will use a new key for the inner HTML element, which means effectively a new separate ripple effect starts
+// This means multiple can exist at a time (since AnimatePresence + exit animation makes them not disappear instantly)
+// <RippleComponent> is memoized into <Ripple> so parent re-renders don't cause a new ripple effect to appear (i.e, 'active' or 'checked' must change)
+// For a new ripple to appear
+function RippleComponent({ active }) {
+
     return (
-        <AnimatePresence custom={checked}>
-            {active && <motion.div key={++currRippleKey} className={"ripple-root"} style={{ opacity: 1 }} variants={rippleVariants} exit="exit">
+        <AnimatePresence>
+            {active && <motion.div key={++currRippleKey} className="ripple-root" style={{ opacity: 1 }} variants={rippleVariants} exit="exit">
                 <span className="ripple" >
                     <span className="ripple-child"/>
                 </span>
@@ -84,4 +83,10 @@ function Ripple({ active, checked }) {
     )
 }
 
-export default React.memo(MaterialCheckbox);
+// Every time a <RippleComponent> renders, it will unmount remove the old ripple and mount a new one (notice how currRippleKey changes every render)
+// We only want <RippleComponent> to re-render when 'active' or 'checked' (its props) change. This will prevent a weird issue where when a ripple is
+// active (i.e showing), and its parent component re-renders, it unmounts and creates a new ripple. We want to avoid this behavoir so we memoize it
+// Memoize ripple so that a new ripple
+const Ripple = React.memo(RippleComponent);
+
+export default MaterialCheckbox;
