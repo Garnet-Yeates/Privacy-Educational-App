@@ -225,105 +225,46 @@ ul {
     }
 }
 
-.material-checkbox-root {
+.material-input-container {
 
-    --checkbox-color: #1976d2;
-    --checked-color: var(--checkbox-color);
-    flex-shrink: 0;
-    box-sizing: content-box;
-    cursor: pointer;
-    color: var(--checkbox-color);
-    width: 24px;
-    height: 24px;
     position: relative;
-    padding: 6px;
-    user-select: none;
-    background-color: rgba(255, 255, 255, 0.01);
+    @include rfs(1.25rem, font-size);
 
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-
-    // Abs, should be exact size as root
-    .absolute-input {
-        cursor: inherit;
-        user-select: all;
+    &::before {
+        content: "";
+        border-bottom: 1px solid rgba(0, 0, 0, 0.42);
         position: absolute;
-        z-index: 1;
-        opacity: 0;
-        width: 100%;
-        height: 100%;
-        inset: 0px;
-        margin: 0;
-        padding: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        pointer-events: none;
     }
 
-    // Normal element
-    svg {
-        width: 100%;
-        height: 100%;
-        fill: var(--checkbox-color);
-
-        &.checked {
-            fill: var(--checked-color);
-        }
-    }
-
-    // Abs, exact size as root
-    div.ripple-root {
+    &::after {
+        content: "";
+        border-bottom: 2px solid rgba(0, 0, 0, 0.42);
         position: absolute;
-        inset: 0px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+        transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
 
-        // Con
-        span.ripple {
-
-            animation: ripple 0.35s;
-
-            // Positioned based on checkbox-root (closest relative container)
-            position: absolute;
-            inset: 0px;
-            opacity: 0.35;
-
-            // This thing changes scale/opacity based on 'ripple' animation (anime applies to this)
-
-            span.ripple-child {
-                // This is the thing that visually ripples
-                position: static;
-                opacity: 0.7;
-                display: block;
-                width: 100%;
-                height: 100%;
-                border-radius: 50%;
-                background-color: var(--checkbox-color);
-                transition: background-color 0.35s opacity 0.15s;
-            }
-        }
+        transform: scaleX(0);
     }
 
-    &.checked span.ripple-child {
-        opacity: 1 !important;
-        background-color: var(--checked-color) !important;
+    &.active::after {
+        transform: scaleX(1) translateX(0)
+    }
+
+    .material-input {
+        text-align: center;
+        padding: 0.25rem 0rem;
+        display: block;
+        background: none;
+        border: 0;
+        outline: 0;
+        color: currentColor;
     }
 }
 
-.checkbox-with-label {
-    display: flex;
-    flex-direction: row;
-
-    .label-container {
-        display: flex;
-        align-items: center;
-    }
-}
-
-@keyframes ripple {
-    0% {
-        transform: scale(0);
-        opacity: 0.1;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 0.35;
-    }
-}

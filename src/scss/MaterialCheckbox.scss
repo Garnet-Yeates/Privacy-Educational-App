@@ -1,0 +1,99 @@
+@import "./App.scss";
+
+.checkbox-with-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.material-checkbox-root {
+
+    --checkbox-color: #1976d2;
+    --checked-color: var(--checkbox-color);
+    flex-shrink: 0;
+    box-sizing: content-box;
+    cursor: pointer;
+    color: var(--checkbox-color);
+    width: 24px;
+    height: 24px;
+    position: relative;
+    padding: 6px;
+    user-select: none;
+    background-color: rgba(255, 255, 255, 0.01);
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    // Positioned absolutely to checkbox-root. Inset 0px so it's the exact same size
+    .absolute-input {
+        cursor: inherit;
+        user-select: all;
+        position: absolute;
+        z-index: 1;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        inset: 0px;
+        margin: 0;
+        padding: 0;
+    }
+
+    // The one normal element (static) child of checkbox-root is this svg. Everything else is absolute position
+    svg {
+        width: 100%;
+        height: 100%;
+        fill: var(--checkbox-color);
+
+        &.checked {
+            fill: var(--checked-color);
+        }
+    }
+
+    // Positioned absolutely to checkbox-root. Inset 0px so it's the exact same size
+    div.ripple-root {
+        position: absolute;
+        inset: 0px;
+
+        // Positioned absolutely to checkbox-root. Inset 0px so it's the exact same size
+        // This thing changes scale/opacity based on 'ripple' animation (anime applies to this)
+        span.ripple {
+
+            animation: ripple 0.35s;
+
+            position: absolute;
+            inset: 0px;
+            opacity: 0.35;
+
+            span.ripple-child {
+                // This is the thing that visually ripples. Its parent container (span.ripple) controls its size and opacity
+                position: static;
+                opacity: 0.7;
+                display: block;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background-color: var(--checkbox-color);
+                transition: background-color 0.35s opacity 0.15s;
+            }
+        }
+    }
+
+    // Ripple child (the thing that visually ripples) changes color based on whether checkbox-root has 'checked' class
+    &.checked span.ripple-child {
+        opacity: 1 !important;
+        background-color: var(--checked-color) !important;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 0.1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.35;
+    }
+}
