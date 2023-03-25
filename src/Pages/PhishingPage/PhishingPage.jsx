@@ -9,9 +9,7 @@ function PhishingPage() {
         <div className="phishing-page">
             <div className="opacity-overlay">
                 <div className="card">
-                    <div className="card-header">
-
-                    </div>
+                    <div className="card-header"/>
                     <div className="card-body">
                         <h5 className="card-heading">
                             Enter your Username and Password
