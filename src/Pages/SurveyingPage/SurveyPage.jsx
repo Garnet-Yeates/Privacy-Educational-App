@@ -587,9 +587,7 @@ function IndividualSurvey({ flipped, surveyIndex, surveyInfo, setShowingDetailed
             <div style={flipStyle} className={flipClass}>
                 <div className="flip-card-front flip-card-size-controller">
                     <div className="survey-header">
-                        <img src={logo} className="survey-logo">
-
-                        </img>
+                        <img src={logo} className="survey-logo" />
                         <h4 className="survey-heading">{name}</h4>
                     </div>
                     <h5 className="survey-subheading">Please check all that you believe apply</h5>
@@ -599,7 +597,10 @@ function IndividualSurvey({ flipped, surveyIndex, surveyInfo, setShowingDetailed
                     </div>
                 </div>
                 <div className="flip-card-back">
-                    <h4 className="survey-heading">{name}</h4>
+                    <div className="survey-header">
+                        <img src={logo} className="survey-logo" />
+                        <h4 className="survey-heading">{name}</h4>
+                    </div>
                     <h5 className="survey-subheading">Accuracy: {accuracyPerc}%{additionalText}</h5>
                     <div className={"survey-checkbox-container" + (flipped ? "" : " no-tab")}>
                         {questions.map((question, questionIndex) => ( // Element itself is the key (i.e, the keys are the question themselves)
