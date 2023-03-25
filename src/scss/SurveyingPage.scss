@@ -357,16 +357,32 @@
             }
         }
 
-        .survey-heading {
-            user-select: none;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
+        .survey-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+
+            img.survey-logo {
+                user-select: none;
+                object-fit: contain;
+                @include rfs(48px, width);
+                @include rfs(48px, height);
+            }
+
+            .survey-heading {
+                user-select: none;
+                font-weight: 700;
+                @include rfs(36px, font-size);
+                margin-left: 8px;
+                margin-bottom: 0;
+            }
         }
 
         .survey-subheading {
             user-select: none;
             font-weight: 700;
             margin-bottom: 0.75rem;
+            @include rfs(24px, font-size);
         }
 
         .checkbox-with-label.survey {

@@ -11,6 +11,15 @@ import { lockScroll, unlockScroll } from '../App';
 import MaterialCheckbox from '../../components/MaterialCheckbox';
 import MaterialInput from '../../components/MaterialInput';
 
+import FacebookLogo from '../../Images/Facebook_Logo.png'
+import AmazonLogo from '../../Images/Amazon_Logo.png'
+import LinkedInLogo from '../../Images/LinkedIn_Logo.png'
+import TikTokLogo from '../../Images/TikTok_Logo.png'
+import SnapchatLogo from '../../Images/Snapchat_Logo.png'
+import TwitterLogo from '../../Images/Twitter_Logo.png'
+import YoutubeLogo from '../../Images/Youtube_Logo.png'
+import PinterestLogo from '../../Images/Pinterest_Logo.png'
+
 // Made this a function to return the object so we dont make the mistake of shallow cloning and having our states be mysteriously connected
 const defaultGuessesState = (length) => Array(length).fill(false);
 
@@ -277,6 +286,7 @@ function SurveyingPage({ scrollToTop }) {
     const surveys = [];
 
     facebook && surveys.push({
+        logo: FacebookLogo,
         name: "Facebook",
         quotes: facebookQuotes,
         questions: facebookQuestions,
@@ -286,6 +296,7 @@ function SurveyingPage({ scrollToTop }) {
     });
 
     amazon && surveys.push({
+        logo: AmazonLogo,
         name: "Amazon",
         quotes: amazonQuotes,
         questions: amazonQuestions,
@@ -295,6 +306,7 @@ function SurveyingPage({ scrollToTop }) {
     });
 
     tikTok && surveys.push({
+        logo: TikTokLogo,
         name: "TikTok",
         quotes: tikTokQuotes,
         questions: tikTokQuestions,
@@ -304,6 +316,7 @@ function SurveyingPage({ scrollToTop }) {
     });
 
     linkedIn && surveys.push({
+        logo: LinkedInLogo,
         name: "LinkedIn",
         quotes: linkedInQuotes,
         questions: linkedInQuestions,
@@ -313,6 +326,7 @@ function SurveyingPage({ scrollToTop }) {
     });
 
     snapchat && surveys.push({
+        logo: SnapchatLogo,
         name: "Snapchat",
         quotes: snapchatQuotes,
         questions: snapchatQuestions,
@@ -322,6 +336,7 @@ function SurveyingPage({ scrollToTop }) {
     });
 
     twitter && surveys.push({
+        logo: TwitterLogo,
         name: "Twitter",
         quotes: twitterQuotes,
         questions: twitterQuestions,
@@ -331,6 +346,7 @@ function SurveyingPage({ scrollToTop }) {
     });
 
     youtube && surveys.push({
+        logo: YoutubeLogo,
         name: "Youtube",
         quotes: youtubeQuotes,
         questions: youtubeQuestions,
@@ -340,6 +356,7 @@ function SurveyingPage({ scrollToTop }) {
     });
 
     pinterest && surveys.push({
+        logo: PinterestLogo,
         name: "Pinterest",
         quotes: pinterestQuotes,
         questions: pinterestQuestions,
@@ -555,7 +572,7 @@ function SpecificQuestionDetails({ setShowingDetailedInfoFor, surveyInfo, questi
 
 function IndividualSurvey({ flipped, surveyIndex, surveyInfo, setShowingDetailedInfoFor }) {
 
-    const { name, questions, answers, guesses } = surveyInfo;
+    const { name, questions, answers, guesses, logo } = surveyInfo;
 
     const accuracyPerc = calculateAccuracy(guesses, answers);
 
@@ -569,7 +586,12 @@ function IndividualSurvey({ flipped, surveyIndex, surveyInfo, setShowingDetailed
         <motion.div className="individual-survey-perspective-container" initial={individualSurveyInitial} animate={individualSurveyAnimate(surveyIndex)}>
             <div style={flipStyle} className={flipClass}>
                 <div className="flip-card-front flip-card-size-controller">
-                    <h4 className="survey-heading">{name}</h4>
+                    <div className="survey-header">
+                        <img src={logo} className="survey-logo">
+
+                        </img>
+                        <h4 className="survey-heading">{name}</h4>
+                    </div>
                     <h5 className="survey-subheading">Please check all that you believe apply</h5>
                     <div className={"survey-checkbox-container" + (flipped ? " no-tab" : "")}>
                         {questions.map((question, questionIndex) => ( // Element itself is the key (i.e, the keys are the question themselves)
@@ -600,10 +622,10 @@ function SurveyQACheckbox({ questionIndex, surveyInfo, noTab }) {
         <div className="checkbox-with-label survey">
             <MaterialCheckbox className="survey-checkbox"
                 checked={guesses[questionIndex]}
-                onChange={useCallback(() => {
+                onChange={() => {
                     guesses[questionIndex] = !guesses[questionIndex]
                     setGuesses([...guesses]) // ... might not be required but I am being overcautious for now
-                }, [guesses])}
+                }}
                 {...additionalProps} />
             <div className="label-container">
                 <span className="survey-checkbox-label">
