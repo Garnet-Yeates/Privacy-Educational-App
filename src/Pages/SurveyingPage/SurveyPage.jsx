@@ -682,6 +682,7 @@ const calculateAccuracy = (guesses, answers) => {
 
 const submitReportToServer = async (participantFullName, surveys) => {
     // Send report to server
+
     try {
         const request = {};
 
@@ -718,6 +719,15 @@ const submitReportToServer = async (participantFullName, surveys) => {
         if (serverError) { // Possible DB pushing exception
             console.log("Internal error querying the database: ", serverError)
         }
+    }
+
+    try {
+        const res = await axios.get(`${SERVER_URL}/surveying/generateReport`)
+        console.log("GET /surveying/generateReport returns: ", res)
+
+    }
+    catch (err) {
+        console.log("Error generating report: ", err)
     }
 }
 
