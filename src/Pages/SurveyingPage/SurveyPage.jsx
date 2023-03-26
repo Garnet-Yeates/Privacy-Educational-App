@@ -452,11 +452,15 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
                 <div className="select-surveys-form">
                     <div class="container-fluid px-0 select-surveys-inputs-container">
                         <div className="row gy-4 mb-4">
-                            <div className="col-lg-6 d-flex justify-content-center justify-content-lg-end">
-                                <MaterialInput size={14} label="First Name" state={participantFirstName} setState={setParticipantFirstName} />
+                            <div className="col-lg-6">
+                                <div className="d-flex justify-content-center justify-content-lg-end">
+                                    <MaterialInput size={14} label="First Name" state={participantFirstName} setState={setParticipantFirstName} />
+                                </div>
                             </div>
-                            <div className="col-lg-6 d-flex justify-content-center justify-content-lg-start">
-                                <MaterialInput size={14} label="Last Name" state={participantLastName} setState={setParticipantLastName} />
+                            <div className="col-lg-6">
+                                <div className="d-flex justify-content-center justify-content-lg-start">
+                                    <MaterialInput size={14} label="Last Name" state={participantLastName} setState={setParticipantLastName} />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -630,9 +634,9 @@ function SurveyQACheckbox({ questionIndex, surveyInfo, noTab }) {
                     setGuesses([...guesses]) // ... might not be required but I am being overcautious for now
                 }}
                 {...additionalProps} />
-                <span className="survey-checkbox-label">
-                    {questions[questionIndex]}
-                </span>
+            <span className="survey-checkbox-label">
+                {questions[questionIndex]}
+            </span>
         </div>
     )
 }
