@@ -450,7 +450,7 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
                     <h3 className="select-surveys-heading">Enter Participant Information</h3>
                 </div>
                 <div className="select-surveys-form">
-                    <div class="container-fluid px-0 select-surveys-inputs-container">
+                    <div className="container-fluid px-0 select-surveys-inputs-container">
                         <div className="row gy-4 mb-4">
                             <div className="col-lg-6">
                                 <div className="d-flex justify-content-center justify-content-lg-end">

@@ -14,9 +14,16 @@ export async function submitSurvey(req, res) {
     const surveys = ['facebook', 'amazon', 'tikTok', 'linkedIn', 'snapchat', 'twitter', 'youtube', 'pinterest'];
 
     // Request body must have at LEAST one survey result inside of it (i.e participant must complete at least 1 survey)
+    
+    let atleastOne = false;
     for (let survey of surveys) {
-        if (survey in req.body)
+        if (survey in req.body) {
+            atleastOne = true;
             break;
+        }
+    }
+
+    if (!atleastOne) {
         return res.status(400).json({ userError: 'At least one survey must be completed' })
     }
 
