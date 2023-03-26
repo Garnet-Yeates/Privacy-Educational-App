@@ -155,6 +155,7 @@
             .select-survey-checkbox {
                 @include rfs(24px, width);
                 @include rfs(24px, height);
+                margin-right: 2px;
                 --checkbox-color: rgba(0, 0, 0, 0.8);
                 --checked-color: rgb(0, 140, 255);
             }

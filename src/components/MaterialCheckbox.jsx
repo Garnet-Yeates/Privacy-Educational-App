@@ -3,10 +3,10 @@ import '../scss/MaterialCheckbox.scss';
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 
-
 function MaterialCheckbox({ checked, onChange, state, setState, className, ...otherProps }) {
 
     const [rippling, setRippling] = useState(false)
+    const [spaceHeld, setSpaceHeld] = useState(false)
 
     if (checked !== undefined) {
         if (state !== undefined || setState !== undefined) {
@@ -37,9 +37,10 @@ function MaterialCheckbox({ checked, onChange, state, setState, className, ...ot
     }
     
     return (
-        <div className={"material-checkbox-root" + (className ? ` ${className}` : "") + ((checked || state) ? " checked" : "")}>
+        <div className={"material-checkbox-root" + (className ? ` ${className}` : "") + ((checked || state) ? " checked" : "") + (spaceHeld ? " spacebar" : "")}>
             <input type="checkbox" className="absolute-input"
-                onKeyDown={(e) => { e.key === " " && setRippling(true) }}
+                onKeyDown={(e) => { if (e.key === " ") { setRippling(true); setSpaceHeld(true); } }}
+                onKeyUp={(e) => { e.key === " " && setSpaceHeld(false) }}
                 onMouseDown={() => setRippling(true)} onMouseUp={() => setRippling(false)}
                 onMouseLeave={() => setRippling(false)}
                 onFocus={() => setRippling(true)}

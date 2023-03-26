@@ -59,8 +59,8 @@
         // This thing changes scale/opacity based on 'ripple' animation (anime applies to this)
         span.ripple {
 
+            transition: opacity 0.5s, transform 0.25s;
             animation: ripple 0.35s;
-
             position: absolute;
             inset: 0px;
             opacity: 0.35;
@@ -77,6 +77,12 @@
                 transition: background-color 0.35s opacity 0.15s;
             }
         }
+    }
+
+    &.spacebar span.ripple {
+        opacity: 0.55 !important;
+        transition: opacity 0.5s, transform 0.25s;
+        transform: scale(1.05);
     }
 
     // Ripple child (the thing that visually ripples) changes color based on whether checkbox-root has 'checked' class
