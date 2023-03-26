@@ -1,6 +1,8 @@
+import '../scss/MaterialCheckbox.scss';
+
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
-import '../scss/MaterialCheckbox.scss';
+
 
 function MaterialCheckbox({ checked, onChange, state, setState, className, ...otherProps }) {
 

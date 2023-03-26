@@ -1,4 +1,7 @@
+import '../scss/MaterialInput.scss';
+
 import { useState } from "react";
+
 
 function MaterialInput({ state, setState, label, size }) {
 

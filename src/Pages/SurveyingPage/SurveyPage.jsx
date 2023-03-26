@@ -465,21 +465,25 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
                         </div>
                     </div>
                     <h4 className="select-socials-heading text-center mb-3">Select Services That You Use</h4>
-                    <div className="row mb-3">
-                        <div className="col-lg-6 d-flex justify-content-center justify-content-lg-end">
-                            <div>
-                                <SelectSurveyCheckbox name="Facebook" state={facebook} setState={setFacebook} />
-                                <SelectSurveyCheckbox name="Amazon" state={amazon} setState={setAmazon} />
-                                <SelectSurveyCheckbox name="TikTok" state={tikTok} setState={setTikTok} />
-                                <SelectSurveyCheckbox name="LinkedIn" state={linkedIn} setState={setLinkedIn} />
+                    <div className="row">
+                        <div className="col-lg-6">
+                            <div className="d-flex justify-content-center justify-content-lg-end">
+                                <div>
+                                    <SelectSurveyCheckbox name="Facebook" state={facebook} setState={setFacebook} />
+                                    <SelectSurveyCheckbox name="Amazon" state={amazon} setState={setAmazon} />
+                                    <SelectSurveyCheckbox name="TikTok" state={tikTok} setState={setTikTok} />
+                                    <SelectSurveyCheckbox name="LinkedIn" state={linkedIn} setState={setLinkedIn} />
+                                </div>
                             </div>
                         </div>
-                        <div className="col-lg-6 d-flex justify-content-center justify-content-lg-start">
-                            <div>
-                                <SelectSurveyCheckbox name="Snapchat" state={snapchat} setState={setSnapchat} />
-                                <SelectSurveyCheckbox name="Twitter" state={twitter} setState={setTwitter} />
-                                <SelectSurveyCheckbox name="Youtube" state={youtube} setState={setYoutube} />
-                                <SelectSurveyCheckbox name="Pinterest" state={pinterest} setState={setPinterest} />
+                        <div className="col-lg-6">
+                            <div className="d-flex justify-content-center justify-content-lg-start">
+                                <div>
+                                    <SelectSurveyCheckbox name="Snapchat" state={snapchat} setState={setSnapchat} />
+                                    <SelectSurveyCheckbox name="Twitter" state={twitter} setState={setTwitter} />
+                                    <SelectSurveyCheckbox name="Youtube" state={youtube} setState={setYoutube} />
+                                    <SelectSurveyCheckbox name="Pinterest" state={pinterest} setState={setPinterest} />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -489,10 +493,7 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
                             <span>Continue</span>
                         </button>
                     </div>
-
                 </div>
-
-
             </div>
         </motion.div>
     )

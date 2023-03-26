@@ -32,46 +32,41 @@
         background-color: white;
         max-width: 700px;
         min-width: 700px;
-        box-shadow: 0 0 0.5rem 0 rgb(0 0 0 / 30%);
-        border-radius: 1rem;
-        padding: 1.5rem 2rem;
+        box-shadow: 0 0 8px 0 rgb(0 0 0 / 30%);
+        border-radius: 16px;
+        padding: 24px 32px;
 
         .question-details-heading {
             text-align: center;
-            margin-bottom: 1.125rem;
+            margin-bottom: 18px;
         }
 
         .question-details-question {
             text-align: center;
-            margin-bottom: 1.125rem;
+            margin-bottom: 18px;
         }
 
         .question-details-comparison {
 
             font-size: 1.125rem;
-            margin-bottom: 1.125rem;
+            margin-bottom: 18px;
             text-align: center;
 
             .red-text {
                 color: rgb(146, 56, 56);
             }
 
-
             .green-text {
                 color: rgb(35, 129, 55);
             }
-
         }
 
         .question-details-quote {
 
             font-size: 1.125rem;
-            margin-bottom: 1.125rem;
+            margin-bottom: 18px;
             text-align: center;
         }
-
-        .question-details-quote-summary {}
-
 
         .exit-details-container {
 
@@ -81,8 +76,8 @@
 
             .exit-details-button {
                 width: 75%;
-                border-radius: 0.375rem;
-                font-size: 1.25rem,
+                border-radius: 6px;
+                font-size: 1.25rem;
             }
         }
     }
@@ -101,19 +96,20 @@
 
     .select-surveys-container {
 
-        --border-radius: 0.375rem;
+        --border-radius: 6px;
         user-select: none;
         max-width: 700px;
-        box-shadow: 0 0 0.5rem 0 rgb(0 0 0 / 30%);
+        box-shadow: 0 0 8px 0 rgb(0 0 0 / 30%);
 
         border-radius: var(--border-radius);
 
         .select-surveys-header {
+             
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 10rem;
+            min-height: 160px;
             @include rfs(0px 18px, padding);
             border-top-left-radius: var(--border-radius);
             border-top-right-radius: var(--border-radius);
@@ -132,7 +128,7 @@
                 text-align: center;
                 color: white;
                 font-weight: 600;
-                margin-bottom: 0.75rem;
+                margin: 0px;
             }
         }
 
@@ -142,30 +138,17 @@
             align-items: center;
             @include rfs(28px 18px, padding);
 
-            .input-text {
-                text-align: center;
-                font-size: 1.25rem;
-                width: 100%;
-                padding: 0.25rem 0.125rem;
-                outline: 0px transparent;
-                border: 0px transparent;
-                border-bottom: 1px solid rgb(144, 143, 143);
-                border-radius: 0px;
-            }
-
             .select-surveys-inputs-container {
                 display: flex;
-                width: min-content;
                 justify-content: center;
             }
-
 
             .select-socials-heading {
                 @include rfs(1.625rem, font-size);
             }
 
             .select-survey-checkbox-label {
-                @include rfs(20px, font-size);
+                @include rfs(1.25rem, font-size);
                 font-weight: 400;
             }
 
@@ -177,10 +160,11 @@
             }
 
             .select-surveys-button {
+                padding: 12px 20px;
+                position: relative;
                 z-index: 200;
-                margin-top: 0.5rem;
-                font-size: 1.25rem;
-                padding: 0.75rem 1.25rem;
+                margin-top: 8px;
+                font-size: 20px;
                 @include rfs(1.5rem, font-size);
                 width: 75%;
 
@@ -190,7 +174,7 @@
                 display: inline-block;
                 text-decoration: none;
                 font-weight: 600;
-                border-radius: 0.125rem;
+                border-radius: 3px;
 
                 color: white;
 
@@ -203,9 +187,21 @@
                         hsl(253deg 94% 57%) 83%,
                         hsl(261deg 93% 57%) 100%);
 
-                // active state is while you have left mouse held down on the button
-                &:active {
-                    // Maybe so some ::after stuff
+
+                // Active state is while you have left mouse held down on the button (or spacebar held)
+                &:active::after {
+                    background-color: rgba(0, 0, 0, 0.25);
+                }
+
+                &::after {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    width: 100%;
+                    left: 0;
+                    background-color: rgba(0, 0, 0, 0);
+                    transition: background-color 0.5s;
+                    content: "";
                 }
 
                 &>span {
@@ -214,19 +210,16 @@
                     transform: translateY(0px)
                 }
 
-                &:hover>span {
-                    transform: translateY(-0.25rem);
+                &:hover span {
+                    transform: translateY(-4px);
                 }
-
-
             }
 
             .select-surveys-error {
                 text-align: center;
-                margin-top: 0.25rem;
                 overflow: hidden;
-                color: rgb(155, 38, 184);
-                font-size: 1.25rem;
+                color: rgb(184, 38, 104);
+                font-size: 1.125rem;
                 z-index: -200;
             }
         }
@@ -261,7 +254,7 @@
         // Perspective container for flip cards
         .individual-survey-perspective-container {
 
-            margin-bottom: 2rem;
+            margin-bottom: 32px;
             background-color: transparent;
             perspective: 5000px;
             padding: 0px;
@@ -287,20 +280,19 @@
                 position: relative;
                 width: 100%;
                 height: 100%;
-                border-radius: 0.5rem;
+                border-radius: 8px;
                 box-shadow: 0 1px 15px -2px rgba(0, 0, 0, 0.3);
 
                 .flip-card-front,
                 .flip-card-back {
                     background-color: rgb(255, 255, 255);
-                    padding: 1.5rem 2rem;
+                    padding: 24px 32px;
                     position: absolute;
                     top: 0px;
                     left: 0px;
                     bottom: 0px;
                     right: 0px;
                     -webkit-backface-visibility: hidden;
-                    /* Safari */
                     backface-visibility: hidden;
                 }
 
@@ -311,7 +303,6 @@
                 .flip-card-size-controller {
                     position: relative;
                     width: auto;
-                    //     padding: 0px;
                     height: auto;
                 }
 
@@ -338,7 +329,7 @@
             .survey-heading {
                 user-select: none;
                 font-weight: 700;
-                @include rfs(36px, font-size);
+                @include rfs(2.25rem, font-size);
                 margin-left: 8px;
                 margin-bottom: 0;
             }
@@ -347,7 +338,7 @@
         .survey-subheading {
             user-select: none;
             font-weight: 700;
-            margin-bottom: 0.75rem;
+            margin-bottom: 12px;
             @include rfs(24px, font-size);
         }
 
@@ -358,9 +349,9 @@
         }
 
         .survey-checkbox-label {
-            @include rfs(20px, font-size);
+            @include rfs(1.25rem, font-size);
             font-weight: 400;
-        
+
         }
 
         .survey-checkbox {
@@ -396,7 +387,7 @@
                 right: 1px;
                 position: absolute;
                 transition: .3s;
-               // width: 100%;
+                // width: 100%;
                 z-index: -1;
 
             }

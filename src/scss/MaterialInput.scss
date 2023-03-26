@@ -1,0 +1,43 @@
+@import "./App.scss";
+
+.material-input-container {
+
+    position: relative;
+    @include rfs(1.25rem, font-size);
+
+    &::before {
+        content: "";
+        border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+    }
+
+    &::after {
+        content: "";
+        border-bottom: 2px solid rgba(0, 0, 0, 0.42);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        pointer-events: none;
+        transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+        transform: scaleX(0);
+    }
+
+    &.active::after {
+        transform: scaleX(1) translateX(0)
+    }
+
+    .material-input {
+        text-align: center;
+        padding: 4px 0px;
+        display: block;
+        background: none;
+        border: 0;
+        outline: 0;
+        color: currentColor;
+    }
+}
