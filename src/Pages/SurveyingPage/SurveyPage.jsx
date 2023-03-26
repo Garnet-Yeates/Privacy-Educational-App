@@ -518,8 +518,8 @@ function SurveysSubpage({ scrollToTop, participantFirstName, participantLastName
         }
 
         // No server-side validation for determining survey accuracy (i.e the accuracy is determined on the client as the client has all the needed info)
-        setSubmitted(true)
-        scrollToTop(50)
+        scrollToTop(100)
+        setTimeout(() => setSubmitted(true), 1200);
 
         submitReportToServer(`${participantFirstName} ${participantLastName}`, surveys)
     }
@@ -584,8 +584,8 @@ function IndividualSurvey({ flipped, surveyIndex, surveyInfo, setShowingDetailed
     const accuracyPerc = calculateAccuracy(guesses, answers);
 
     const additionalText = accuracyPerc < 100 ? " (click on invalid answers for more info)" : "";
-    const flipStagger = 0.4; // The delay between each survey flipping 
-    const flipStyle = { "--flip-delay": `${1.5 + surveyIndex * flipStagger}s` }
+    const flipStagger = 0.3 // The delay between each survey flipping 
+    const flipStyle = { "--flip-delay": `${1 + surveyIndex * flipStagger}s` }
 
     const flipClass = "survey-flip-card " + (surveyIndex % 2 === 0 ? "opposite-flip" : "normal-flip") + (flipped ? " flipped" : "")
 

@@ -13,8 +13,7 @@ export async function submitSurvey(req, res) {
 
     const surveys = ['facebook', 'amazon', 'tikTok', 'linkedIn', 'snapchat', 'twitter', 'youtube', 'pinterest'];
 
-    // Request body must have at LEAST one survey result inside of it (i.e participant must complete at least 1 survey)
-    
+    // Request body must have at least one survey result inside of it (i.e participant must complete at least 1 survey)
     let atleastOne = false;
     for (let survey of surveys) {
         if (survey in req.body) {
@@ -53,12 +52,13 @@ export async function generateReport(req, res) {
     // ALL participants' submissions that exist
     // Return these submissions, along with some extra data: the average score that the participant got, across all surveys they took
     let allSubmissions = (await SurveySubmission.find().exec()).map((submission) => {
+
         let prunedSubmission = { };
+
         prunedSubmission["participantFullName"] = submission["participantFullName"]
 
         let sum = 0;
         let totalSurveysDone = 0;
-
         for (let field of surveyNames) {
             if (submission[field] !== undefined) {
                 prunedSubmission[field] = submission[field];
@@ -66,13 +66,10 @@ export async function generateReport(req, res) {
                 sum += submission[field];
             }
         }
-
         prunedSubmission["average"] = sum / totalSurveysDone;
 
         return prunedSubmission;
     });
-
-    console.log("allSubmissions", allSubmissions)
 
     // For each survey type (Facebook, TikTok, etc) find all Submissions to this survey type and get the average score
     async function getAverageScore(surveyName) {

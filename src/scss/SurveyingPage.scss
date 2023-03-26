@@ -357,6 +357,7 @@
 
         .survey-checkbox {
             margin-left: -6px;
+            margin-right: 2px;
             @include rfs(24px, width);
             @include rfs(24px, height);
             --checkbox-color: rgba(0, 0, 0, 0.8);

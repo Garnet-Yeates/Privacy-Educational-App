@@ -63,12 +63,12 @@
             animation: ripple 0.35s;
             position: absolute;
             inset: 0px;
-            opacity: 0.35;
+            opacity: 0.3;
 
             span.ripple-child {
                 // This is the thing that visually ripples. Its parent container (span.ripple) controls its size and opacity
                 position: static;
-                opacity: 0.7;
+                opacity: 0.85;
                 display: block;
                 width: 100%;
                 height: 100%;
@@ -80,7 +80,7 @@
     }
 
     &.spacebar span.ripple {
-        opacity: 0.55 !important;
+        opacity: 0.4 !important;
         transition: opacity 0.5s, transform 0.25s;
         transform: scale(1.05);
     }
