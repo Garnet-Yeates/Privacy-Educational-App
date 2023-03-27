@@ -61,14 +61,6 @@ body {
     background-color: white;
 }
 
-section {
-    padding: 32px 0px;
-
-    &.alternate {
-        background-color: #f2f2f2;
-    }
-}
-
 h1 {
     font-weight: 800 !important;
 }
@@ -91,11 +83,6 @@ h5 {
 
 h6 {
     font-weight: 600;
-}
-
-p {
-    @include font-size(1.5rem);
-    margin: 0px;
 }
 
 li {

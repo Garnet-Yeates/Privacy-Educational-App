@@ -6,13 +6,14 @@
     background-size: cover;
     min-height: 100vh;
     overflow: hidden;
+    overflow-x: auto;
 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
 
-    @include rfs(112px 224px 32px 224px, padding);
+    @include rfs(128px 352px 32px 352px, padding);
 
     .opacity-overlay {
         
@@ -29,9 +30,8 @@
             background-color: white;
             border: 1px solid rgba(0, 0, 0, 0.125);
             border-radius: 4px;
-            min-width: 0px;
-            width: 500px;
-            height: 700px;
+            min-width: 500px;
+            max-width: 500px;
 
             .card-header {
                 @include rfs(12px 20px, padding);
@@ -39,6 +39,43 @@
                 margin-bottom: 0;
                 background-color: rgba(0, 0, 0, 0.03);
                 border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+            }
+
+            section.form-section {
+                margin-bottom: 16px;
+            }
+
+            label {
+                font-size: 14px;
+                margin-bottom: 8px;
+                display: block;
+            }
+
+            input.form-input {
+                display: block;
+                width: 100%;
+                padding: 6px 12px;
+                font-size: 16px;
+                line-height: 1.5;
+                color: #495057;
+                background-color: #fff;
+                background-clip: padding-box;
+                border: 1px solid #ced4da;
+                border-radius: 4px;
+            }
+
+            input.submit-button {
+                width: 100%;
+                border-radius: 4px;
+                display: block;
+                border: 0;
+                padding: 10px 25px;
+                font-weight: normal;
+                font-size: 28px;
+                background-color: #d10003;
+                color: #fff;
+                background-color: #d10003;
+                border-color: rgba(0, 0, 0, 0.2);
             }
 
             .card-body {
@@ -50,6 +87,30 @@
                 font-weight: 500;
                 margin-bottom: 8px;
             }
+
+            .forgot-password-container {
+                margin-top: 2px;
+                display: flex;
+                align-items: center;
+            }
+
+            .question-circle {
+                margin-right: 4px;
+                line-height: 1;
+                width: 14px;
+                height: 14px;
+                
+                &::after {
+                    content: "\f059";
+                }
+            }
+
+            p {
+                margin: 20px 0px;
+                font-size: 14px;
+            }
         }
     }
+
+
 }
