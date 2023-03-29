@@ -1,7 +1,5 @@
 export const zeroHeightInvisible = { opacity: 0, height: "0px" }
 
-
-
 // ----------------For select-surveys-subpage, which contains the 'surveys-selection-container'---------------------------------
 // This is where the user selects which surveys they want to take. After they choose them, this page animates out and surveys-subpage animates in
 export const selectSurveysPageInitial = {
@@ -80,7 +78,6 @@ export const individualSurveyAnimate = (index) => ({
     },
 })
 
-
 // For the submit survey button
 export const submitSurveyInitial = {
     opacity: 0,
@@ -117,7 +114,6 @@ export const infoOverlayAnimate = {
         duration: 0.25,
     },
 }
-
 
 export const questionDetailsInitial = {
     opacity: 0,

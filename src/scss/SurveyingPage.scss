@@ -1,6 +1,5 @@
 @import "./App.scss";
 
-// Parent to all components below. Don't want to deal with the extra indent
 .surveying-page {
 
     min-height: 100vh;
@@ -8,419 +7,402 @@
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
 
-.fixed-info-overlay {
+    .fixed-info-overlay {
 
-    top: 0;
-    left: 0;
-    z-index: 100;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    background-color: rgba(35, 35, 35, 0.7);
-
-    .specific-question-details-container {
-
-        user-select: none;
-        background-color: white;
-        max-width: 700px;
-        min-width: 700px;
-        box-shadow: 0 0 8px 0 rgb(0 0 0 / 30%);
-        border-radius: 16px;
-        padding: 24px 32px;
-
-        .question-details-heading {
-            text-align: center;
-            margin-bottom: 18px;
-        }
-
-        .question-details-question {
-            text-align: center;
-            margin-bottom: 18px;
-        }
-
-        .question-details-comparison {
-
-            font-size: 1.125rem;
-            margin-bottom: 18px;
-            text-align: center;
-
-            .red-text {
-                color: rgb(146, 56, 56);
-            }
-
-            .green-text {
-                color: rgb(35, 129, 55);
-            }
-        }
-
-        .question-details-quote {
-
-            font-size: 1.125rem;
-            margin-bottom: 18px;
-            text-align: center;
-        }
-
-        .exit-details-container {
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            .exit-details-button {
-                width: 75%;
-                border-radius: 6px;
-                font-size: 1.25rem;
-            }
-        }
-    }
-}
-
-.select-surveys-subpage {
-
-    flex-grow: 1;
-
-    @include rfs(24px, padding);
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    .select-surveys-container {
-
-        --border-radius: 6px;
-        user-select: none;
-        max-width: 700px;
-        box-shadow: 0 0 8px 0 rgb(0 0 0 / 30%);
-
-        border-radius: var(--border-radius);
-
-        .select-surveys-header {
-             
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 160px;
-            @include rfs(0px 18px, padding);
-            border-top-left-radius: var(--border-radius);
-            border-top-right-radius: var(--border-radius);
-
-            background-image: linear-gradient(240deg,
-                    hsl(240deg 100% 58%) 0%,
-                    hsl(230deg 100% 55%) 17%,
-                    hsl(221deg 99% 53%) 33%,
-                    hsl(212deg 98% 51%) 50%,
-                    hsl(203deg 98% 49%) 67%,
-                    hsl(193deg 97% 47%) 83%,
-                    hsl(184deg 97% 45%) 100%);
-
-            .select-surveys-heading {
-                @include rfs(2.125rem, font-size);
-                text-align: center;
-                color: white;
-                font-weight: 600;
-                margin: 0px;
-            }
-        }
-
-        .select-surveys-form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            @include rfs(28px 18px, padding);
-
-            .select-surveys-inputs-container {
-                display: flex;
-                justify-content: center;
-            }
-
-            .select-socials-heading {
-                @include rfs(1.625rem, font-size);
-            }
-
-            .select-survey-checkbox-label {
-                @include rfs(1.25rem, font-size);
-                font-weight: 400;
-            }
-
-            .select-survey-checkbox {
-                @include rfs(24px, width);
-                @include rfs(24px, height);
-                margin-right: 2px;
-                --checkbox-color: rgba(0, 0, 0, 0.8);
-                --checked-color: rgb(0, 140, 255);
-            }
-
-            .select-surveys-button {
-                padding: 12px 20px;
-                position: relative;
-                z-index: 200;
-                margin-top: 8px;
-                font-size: 20px;
-                @include rfs(1.5rem, font-size);
-                width: 75%;
-
-                border: 0px;
-                transition: background-color 0.15s ease-in-out, box-shadow 0.25s ease-in-out, transform 0.25s ease-in-out, background-image 0.15s linear;
-                cursor: pointer;
-                display: inline-block;
-                text-decoration: none;
-                font-weight: 600;
-                border-radius: 3px;
-
-                color: white;
-
-                background-image: linear-gradient(230deg,
-                        hsl(210deg 100% 58%) 0%,
-                        hsl(219deg 99% 58%) 17%,
-                        hsl(227deg 97% 57%) 33%,
-                        hsl(235deg 96% 57%) 50%,
-                        hsl(244deg 95% 57%) 67%,
-                        hsl(253deg 94% 57%) 83%,
-                        hsl(261deg 93% 57%) 100%);
-
-
-                // Active state is while you have left mouse held down on the button (or spacebar held)
-                &:active::after {
-                    background-color: rgba(0, 0, 0, 0.25);
-                }
-
-                &::after {
-                    position: absolute;
-                    top: 0;
-                    bottom: 0;
-                    width: 100%;
-                    left: 0;
-                    background-color: rgba(0, 0, 0, 0);
-                    transition: background-color 0.5s;
-                    content: "";
-                }
-
-                &>span {
-                    display: inline-block;
-                    transition: transform 0.3s;
-                    transform: translateY(0px)
-                }
-
-                &:hover span {
-                    transform: translateY(-4px);
-                }
-            }
-
-            .select-surveys-error {
-                text-align: center;
-                overflow: hidden;
-                color: rgb(184, 38, 104);
-                font-size: 1.125rem;
-                z-index: -200;
-            }
-        }
-    }
-}
-
-.surveys-subpage {
-
-    flex-grow: 1;
-
-    width: 100%;
-    @include rfs(24px, padding);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    .lets-see {
-        max-width: 60%;
-        overflow: hidden;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        width: 100vw;
+        height: 100vh;
         display: flex;
         flex-direction: column;
+        justify-content: center;
         align-items: center;
-
-        .lets-see-heading {
-            font-weight: 800;
+        position: fixed;
+        background-color: rgba(35, 35, 35, 0.7);
+    
+        .specific-question-details-container {
+    
+            user-select: none;
+            background-color: white;
+            max-width: 700px;
+            min-width: 700px;
+            box-shadow: 0 0 8px 0 rgb(0 0 0 / 30%);
+            border-radius: 16px;
+            padding: 24px 32px;
+    
+            .question-details-heading {
+                text-align: center;
+                margin-bottom: 18px;
+            }
+    
+            .question-details-question {
+                text-align: center;
+                margin-bottom: 18px;
+            }
+    
+            .question-details-comparison {
+    
+                font-size: 1.125rem;
+                margin-bottom: 18px;
+                text-align: center;
+    
+                .red-text {
+                    color: rgb(146, 56, 56);
+                }
+    
+                .green-text {
+                    color: rgb(35, 129, 55);
+                }
+            }
+    
+            .question-details-quote {
+    
+                font-size: 1.125rem;
+                margin-bottom: 18px;
+                text-align: center;
+            }
+    
+            .exit-details-container {
+    
+                display: flex;
+                justify-content: center;
+                align-items: center;
+    
+                .exit-details-button {
+                    width: 75%;
+                    border-radius: 6px;
+                    font-size: 1.25rem;
+                }
+            }
         }
     }
-
-    .individual-surveys-container {
-
-        // Perspective container for flip cards
-        .individual-survey-perspective-container {
-
-            margin-bottom: 32px;
-            background-color: transparent;
-            perspective: 5000px;
-            padding: 0px;
-
-            .survey-flip-card {
-
-                transition: transform 1s;
-                transition-delay: var(--flip-delay);
-                transform-style: preserve-3d;
-
-                &.flipped {
-
-                    &.normal-flip {
+    
+    .select-surveys-subpage {
+    
+        flex-grow: 1;
+    
+        @include rfs(24px, padding);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    
+        .select-surveys-container {
+    
+            --border-radius: 6px;
+            user-select: none;
+            max-width: 700px;
+            box-shadow: 0 0 8px 0 rgb(0 0 0 / 30%);
+    
+            border-radius: var(--border-radius);
+    
+            .select-surveys-header {
+                 
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 160px;
+                @include rfs(0px 18px, padding);
+                border-top-left-radius: var(--border-radius);
+                border-top-right-radius: var(--border-radius);
+    
+                background-image: linear-gradient(240deg,
+                        hsl(240deg 100% 58%) 0%,
+                        hsl(230deg 100% 55%) 17%,
+                        hsl(221deg 99% 53%) 33%,
+                        hsl(212deg 98% 51%) 50%,
+                        hsl(203deg 98% 49%) 67%,
+                        hsl(193deg 97% 47%) 83%,
+                        hsl(184deg 97% 45%) 100%);
+    
+                .select-surveys-heading {
+                    @include rfs(2.125rem, font-size);
+                    text-align: center;
+                    color: white;
+                    font-weight: 600;
+                    margin: 0px;
+                }
+            }
+    
+            .select-surveys-form {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                @include rfs(28px 18px, padding);
+    
+                .select-surveys-inputs-container {
+                    display: flex;
+                    justify-content: center;
+                }
+    
+                .select-socials-heading {
+                    @include rfs(1.625rem, font-size);
+                }
+    
+                .select-survey-checkbox-label {
+                    @include rfs(1.25rem, font-size);
+                    font-weight: 400;
+                }
+    
+                .select-survey-checkbox {
+                    @include rfs(24px, width);
+                    @include rfs(24px, height);
+                    margin-right: 2px;
+                    --checkbox-color: rgba(0, 0, 0, 0.8);
+                    --checked-color: rgb(0, 140, 255);
+                }
+    
+                .select-surveys-button {
+                    padding: 12px 20px;
+                    position: relative;
+                    z-index: 200;
+                    margin-top: 8px;
+                    font-size: 20px;
+                    @include rfs(1.5rem, font-size);
+                    width: 75%;
+    
+                    border: 0px;
+                    transition: background-color 0.15s ease-in-out, box-shadow 0.25s ease-in-out, transform 0.25s ease-in-out, background-image 0.15s linear;
+                    cursor: pointer;
+                    display: inline-block;
+                    text-decoration: none;
+                    font-weight: 600;
+                    border-radius: 3px;
+    
+                    color: white;
+    
+                    background-image: linear-gradient(230deg,
+                            hsl(210deg 100% 58%) 0%,
+                            hsl(219deg 99% 58%) 17%,
+                            hsl(227deg 97% 57%) 33%,
+                            hsl(235deg 96% 57%) 50%,
+                            hsl(244deg 95% 57%) 67%,
+                            hsl(253deg 94% 57%) 83%,
+                            hsl(261deg 93% 57%) 100%);
+    
+    
+                    // Active state is while you have left mouse held down on the button (or spacebar held)
+                    &:active::after {
+                        background-color: rgba(0, 0, 0, 0.25);
+                    }
+    
+                    &::after {
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        width: 100%;
+                        left: 0;
+                        background-color: rgba(0, 0, 0, 0);
+                        transition: background-color 0.5s;
+                        content: "";
+                    }
+    
+                    &>span {
+                        display: inline-block;
+                        transition: transform 0.3s;
+                        transform: translateY(0px)
+                    }
+    
+                    &:hover span {
+                        transform: translateY(-4px);
+                    }
+                }
+    
+                .select-surveys-error {
+                    text-align: center;
+                    overflow: hidden;
+                    color: rgb(184, 38, 104);
+                    font-size: 1.125rem;
+                    z-index: -200;
+                }
+            }
+        }
+    }
+    
+    .surveys-subpage {
+    
+        flex-grow: 1;
+    
+        width: 100%;
+        @include rfs(24px, padding);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    
+        .lets-see {
+            max-width: 60%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    
+            .lets-see-heading {
+                font-weight: 800;
+            }
+        }
+    
+        .individual-surveys-container {
+    
+            // Perspective container for flip cards
+            .individual-survey-perspective-container {
+    
+                margin-bottom: 32px;
+                background-color: transparent;
+                perspective: 5000px;
+                padding: 0px;
+    
+                .survey-flip-card {
+    
+                    transition: transform 1s;
+                    transition-delay: var(--flip-delay);
+                    transform-style: preserve-3d;
+    
+                    &.flipped {
+    
+                        &.normal-flip {
+                            transform: rotateX(180deg);
+                        }
+    
+                        &.opposite-flip {
+                            transform: rotateX(-180deg);
+                        }
+                    }
+    
+                    background-color: white;
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 8px;
+                    box-shadow: 0 1px 15px -2px rgba(0, 0, 0, 0.3);
+    
+                    .flip-card-front,
+                    .flip-card-back {
+                        background-color: rgb(255, 255, 255);
+                        padding: 24px 32px;
+                        position: absolute;
+                        top: 0px;
+                        left: 0px;
+                        bottom: 0px;
+                        right: 0px;
+                        -webkit-backface-visibility: hidden;
+                        backface-visibility: hidden;
+                    }
+    
+                    .flip-card-front {
+                        z-index: -1;
+                    }
+    
+                    .flip-card-size-controller {
+                        position: relative;
+                        width: auto;
+                        height: auto;
+                    }
+    
+                    .flip-card-back {
+                        background-color: rgb(255, 255, 255);
                         transform: rotateX(180deg);
                     }
-
-                    &.opposite-flip {
-                        transform: rotateX(-180deg);
-                    }
+    
                 }
-
-                background-color: white;
-                position: relative;
-                width: 100%;
-                height: 100%;
-                border-radius: 8px;
-                box-shadow: 0 1px 15px -2px rgba(0, 0, 0, 0.3);
-
-                .flip-card-front,
-                .flip-card-back {
-                    background-color: rgb(255, 255, 255);
-                    padding: 24px 32px;
-                    position: absolute;
-                    top: 0px;
-                    left: 0px;
-                    bottom: 0px;
-                    right: 0px;
-                    -webkit-backface-visibility: hidden;
-                    backface-visibility: hidden;
-                }
-
-                .flip-card-front {
-                    z-index: -1;
-                }
-
-                .flip-card-size-controller {
-                    position: relative;
-                    width: auto;
-                    height: auto;
-                }
-
-                .flip-card-back {
-                    background-color: rgb(255, 255, 255);
-                    transform: rotateX(180deg);
-                }
-
             }
-        }
-
-        .survey-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-
-            img.survey-logo {
-                user-select: none;
-                object-fit: contain;
-                @include rfs(48px, width);
-                @include rfs(48px, height);
+    
+            .survey-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 8px;
+    
+                img.survey-logo {
+                    user-select: none;
+                    object-fit: contain;
+                    @include rfs(48px, width);
+                    @include rfs(48px, height);
+                }
+    
+                .survey-heading {
+                    user-select: none;
+                    font-weight: 700;
+                    @include rfs(2.25rem, font-size);
+                    margin-left: 8px;
+                    margin-bottom: 0;
+                }
             }
-
-            .survey-heading {
+    
+            .survey-subheading {
                 user-select: none;
                 font-weight: 700;
-                @include rfs(2.25rem, font-size);
-                margin-left: 8px;
-                margin-bottom: 0;
+                margin-bottom: 12px;
+                @include rfs(24px, font-size);
             }
-        }
-
-        .survey-subheading {
-            user-select: none;
-            font-weight: 700;
-            margin-bottom: 12px;
-            @include rfs(24px, font-size);
-        }
-
-        .checkbox-with-label.survey {
-            user-select: none;
-            margin-top: 4px;
-            font-size: 20px;
-        }
-
-        .survey-checkbox-label {
-            @include rfs(1.25rem, font-size);
-            font-weight: 400;
-
-        }
-
-        .survey-checkbox {
-            margin-left: -6px;
-            margin-right: 2px;
-            @include rfs(24px, width);
-            @include rfs(24px, height);
-            --checkbox-color: rgba(0, 0, 0, 0.8);
-            --checked-color: rgb(0, 140, 255);
-
-            &.invalid {
-                --checkbox-color: rgb(255, 0, 64);
-                --checked-color: rgb(255, 0, 64);
+    
+            .checkbox-with-label.survey {
+                user-select: none;
+                margin-top: 4px;
+                font-size: 20px;
             }
-
-            &.valid {
-                --checkbox-color: rgb(0, 197, 89);
-                --checked-color: rgb(0, 197, 89);
+    
+            .survey-checkbox-label {
+                @include rfs(1.25rem, font-size);
+                font-weight: 400;
+    
             }
-        }
-
-        .link-underline {
-            display: inline-block;
-            position: relative;
-            text-decoration: none;
-            cursor: pointer;
-
-            &::after {
-                bottom: 2px;
-                content: "";
-                display: block;
-                height: 8px;
-                left: 1px;
-                right: 1px;
-                position: absolute;
-                transition: .3s;
-                // width: 100%;
-                z-index: -1;
-
+    
+            .survey-checkbox {
+                margin-left: -6px;
+                margin-right: 2px;
+                @include rfs(24px, width);
+                @include rfs(24px, height);
+                --checkbox-color: rgba(0, 0, 0, 0.8);
+                --checked-color: rgb(0, 140, 255);
+    
+                &.invalid {
+                    --checkbox-color: rgb(255, 0, 64);
+                    --checked-color: rgb(255, 0, 64);
+                }
+    
+                &.valid {
+                    --checkbox-color: rgb(0, 197, 89);
+                    --checked-color: rgb(0, 197, 89);
+                }
             }
-
-            &.red-underline {
-
+    
+            .link-underline {
+                display: inline-block;
+                position: relative;
+                text-decoration: none;
+                cursor: pointer;
+    
                 &::after {
-                    background: rgb(255, 0, 64, 0.25);
+                    bottom: 2px;
+                    content: "";
+                    display: block;
+                    height: 8px;
+                    left: 1px;
+                    right: 1px;
+                    position: absolute;
+                    transition: .3s;
+                    z-index: -1;
                 }
-
-                &:hover::after {
-                    background: rgb(255, 0, 64, 0.5);
-
+    
+                &.red-underline {
+    
+                    &::after {
+                        background: rgb(255, 0, 64, 0.25);
+                    }
+    
+                    &:hover::after {
+                        background: rgb(255, 0, 64, 0.5);
+                    }
                 }
             }
-
-            &.green-underline {
-
-                &::after {
-                    background: rgba(58, 226, 94, 0.5);
-                }
-
-                &:hover::after {
-                    background: rgba(58, 226, 94, 0.85);
-
-                }
+    
+            .submit-surveys-button {
+                width: 100%;
             }
-        }
-
-        .submit-surveys-button {
-            width: 100%;
         }
     }
 }

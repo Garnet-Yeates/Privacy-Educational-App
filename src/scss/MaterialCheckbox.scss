@@ -8,12 +8,16 @@
 
 .material-checkbox-root {
 
+    // Default checkbox-color is blue
     --checkbox-color: #1976d2;
+
+    // Checked color defaults to checkbox-color if not supplied
     --checked-color: var(--checkbox-color);
+
+    color: var(--checkbox-color);
     flex-shrink: 0;
     box-sizing: content-box;
     cursor: pointer;
-    color: var(--checkbox-color);
     width: 24px;
     height: 24px;
     position: relative;
@@ -85,7 +89,7 @@
         transform: scale(1.05);
     }
 
-    // Ripple child (the thing that visually ripples) changes color based on whether checkbox-root has 'checked' class
+    // Ripple child (the visual div whose bg causes the 'ripple') changes color based on whether checkbox-root has 'checked' class
     &.checked span.ripple-child {
         opacity: 1 !important;
         background-color: var(--checked-color) !important;
