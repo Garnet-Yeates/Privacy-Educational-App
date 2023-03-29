@@ -36,7 +36,7 @@ function App() {
         <Routes>
           <Route path='/' element={<PhishingPage scrollToBottom={scrollToBottom} scrollToTop={scrollToTop} />} />
           <Route path='/survey' element={<SurveyingPage scrollToTop={scrollToTop} />} />
-          <Route path='/survey' element={<ReportingPage scrollToTop={scrollToTop} />} />
+          <Route path='/report' element={<ReportingPage scrollToTop={scrollToTop} />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Router>
