@@ -22,17 +22,17 @@ function PhishingPage() {
                         </section>
                         <section className="form-section">
                             <label>Password:</label>
-                            <input className="form-input" />
+                            <input type="password" className="form-input" />
                         </section>
                         <input type="button" className="submit-button" value="LOGIN"></input>
                         <div className="forgot-password-container">
-                            <img src={QuestionMarkCircle} className="question-circle">
-
-                            </img>
-                            <span>Forgot your password?</span>
+                            <img src={QuestionMarkCircle} className="question-circle" />
+                            <span><a href="https://wit.edu/about/technology-services/help-docs/usernames">Forgot your password?</a></span>
                         </div>
                         <p>
-                            For security reasons, please log out and exit your web browser when you are done accessing services that require authentication!                        </p>
+                            For security reasons, please <a href="https://www.ftc.gov/news-events/topics/identity-theft/phishing-scams">log out</a> and exit your web browser when 
+                            you are done accessing services that require authentication!
+                        </p>
                     </div>
                 </div>
             </div>
