@@ -6,6 +6,7 @@ import SurveyingPage from './SurveyingPage/SurveyPage';
 import NotFound from './NotFound/NotFound';
 import { useRef } from 'react';
 import PhishingPage from './PhishingPage/PhishingPage';
+import ReportingPage from './ReportingPage/ReportingPage';
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
         <Routes>
           <Route path='/' element={<PhishingPage scrollToBottom={scrollToBottom} scrollToTop={scrollToTop} />} />
           <Route path='/survey' element={<SurveyingPage scrollToTop={scrollToTop} />} />
+          <Route path='/survey' element={<ReportingPage scrollToTop={scrollToTop} />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Router>

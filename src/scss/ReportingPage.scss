@@ -1,0 +1,22 @@
+@import "./App.scss";
+
+.reporting-page-container {
+
+    min-height: 100vh;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    .reporting-page {
+
+        flex-grow: 1;
+
+        @include rfs(24px, padding);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
