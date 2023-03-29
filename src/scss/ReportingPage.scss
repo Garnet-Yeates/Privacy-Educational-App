@@ -18,5 +18,26 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+
+        .tables-container {
+
+            .reporting-table {
+
+                td, th {
+                    padding: 8px;
+                    text-align: left;
+                    border: 1px solid #DDDDDD;
+                }
+
+                th {
+                    font-weight: bold;
+                }
+
+                tr:nth-child(even) {
+                    background-color: #eeeeee;
+                  }
+            }
+        }
+
     }
 }
