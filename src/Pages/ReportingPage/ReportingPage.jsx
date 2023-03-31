@@ -1,93 +1,112 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useCountUp } from 'use-count-up';
 import { SERVER_URL } from '../..';
 import '../../scss/ReportingPage.scss';
 
 function ReportingPage({ scrollToTop }) {
 
+    const [reportData, setReportData] = useState(null);
+
+    const { allSubmissions = [], surveyAverages = {} } = reportData ?? {};
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            setReportData(await getReportData());
+        }
+
+        fetchData()
+
+    }, [])
+
+    // If report data is null (i.e default state value, currently fetching data)
+    if (reportData === null) {
+        return <h1>Loading Report Data...</h1>
+    }
+
+    // If report data is undefined (i.e fetchData failed)
+    if (reportData === undefined) {
+        return <h1>Failed to load report data (try refreshing)</h1>
+    }
+
+    if (allSubmissions.length === 0) {
+        return <h1>No Data Yet</h1>
+    }
+
     return (
         <div className="reporting-page-container">
             <div className="reporting-page">
-                <Report />
+                <GlobalAverage surveyAverages={surveyAverages} />
+                <div className="tables-container">
+                    <ParticipantReportTable allSubmissions={allSubmissions} surveyAverages={surveyAverages} />
+                </div>
             </div>
         </div>
     )
 }
 
-// Contains 2 tables
-function Report() {
+function GlobalAverage({ surveyAverages }) {
 
-    const [reportData, setReportData] = useState({});
+    const { globalAverage = "N/A" } = surveyAverages;
 
-    const { allSubmissions = [], surveyAverages = {} } = reportData;
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setReportData(await getReportData());
-        }
-
-        fetchData();
-    }, [])
+    if (globalAverage === "N/A")
+        return <>/</>
 
     return (
-        <div className="tables-container">
-            <ParticipantReportTable allSubmissions={allSubmissions} />
-            <SurveyReportTable />
+        <div className="global-average-container">
+            <ColoredScoreCounter end={globalAverage} />
+            <div className="global-average-subheading">
+                Global Survey Average
+            </div>
         </div>
     )
+
 }
 
 // For each participant, display score for each survey, as well as average 
 // (col headers are: [ParticipantName, Facebook, Amazon, ..., Avg])
-function ParticipantReportTable({ allSubmissions }) {
+function ParticipantReportTable({ allSubmissions, surveyAverages }) {
 
-    console.log("all sub", allSubmissions)
+    // Build surveyAveragesRow, which is the row of the report that shows the average score of each survey ('average' for this 'participant' represents globalAverage)
+    surveyAverages.participantFullName = "Average Participant"
+    const { participantFullName, facebook = "N/A", amazon = "N/A", tikTok = "N/A", linkedIn = "N/A", snapchat = "N/A", twitter = "N/A", youtube = "N/A", pinterest = "N/A", globalAverage = "N/A" } = surveyAverages;
+    let surveyAveragesRow = [participantFullName, facebook, amazon, tikTok, linkedIn, snapchat, twitter, youtube, pinterest, globalAverage]
+    surveyAveragesRow = surveyAveragesRow.map((element) => typeof element === 'number' && +(element).toFixed(2) || element);
+
     return (
         <table className="reporting-table">
-            <tr>
-                <th>Participant Name</th>
-                <th>Facebook</th>
-                <th>Amazon</th>
-                <th>TikTok</th>
-                <th>LinkedIn</th>
-                <th>Snapchat</th>
-                <th>Twitter</th>
-                <th>Youtube</th>
-                <th>Pinterest</th>
-                <th>Average</th>
-            </tr>
-            {allSubmissions.map((submission) => {
+            <thead>
+                <tr>
+                    <th>Participant Name</th>
+                    <th>Facebook</th>
+                    <th>Amazon</th>
+                    <th>TikTok</th>
+                    <th>LinkedIn</th>
+                    <th>Snapchat</th>
+                    <th>Twitter</th>
+                    <th>Youtube</th>
+                    <th>Pinterest</th>
+                    <th>Average</th>
+                </tr>
+            </thead>
+            <tbody>
+                {<tr>{surveyAveragesRow.map((element, index) => <td key={index}>{element}</td>)}</tr>}
+                {allSubmissions.map((submission, index) => {
 
-                // Destructure Assignment, default evertything to "N/A"
-                const {
-                    participantFullName,
-                    facebook = "N/A",
-                    amazon = "N/A",
-                    tikTok = "N/A",
-                    linkedIn = "N/A",
-                    snapchat = "N/A",
-                    twitter = "N/A",
-                    youtube = "N/A",
-                    pinterest = "N/A",
-                    average } = submission;
+                    // Destructure Assignment, default evertything to "N/A"
+                    const { participantFullName, facebook = "N/A", amazon = "N/A", tikTok = "N/A", linkedIn = "N/A", snapchat = "N/A", twitter = "N/A", youtube = "N/A", pinterest = "N/A", average } = submission;
 
-                const arr = [participantFullName, facebook, amazon, tikTok, linkedIn, snapchat, twitter, youtube, pinterest, average]
+                    const row = [participantFullName, facebook, amazon, tikTok, linkedIn, snapchat, twitter, youtube, pinterest, fixNumber(average)]
 
-                return (
-                    <tr>
-                        {arr.map((element) => <td>{element}</td>)}
-                    </tr>
-                )
-            })}
+                    return (
+                        <tr key={index}>
+                            {row.map((element, index) => <td key={index}>{element}</td>)}
+                        </tr>
+                    )
+                })}
+            </tbody>
         </table>
-    )
-}
-
-// For each survey, display the average
-// (col headers are: [Survey, AvgScore])
-function SurveyReportTable(surveyAverages) {
-    return (
-        <></>
     )
 }
 
@@ -100,7 +119,23 @@ const getReportData = async () => {
     }
     catch (err) {
         console.log("Error generating report: ", err)
+        return undefined;
     }
+}
+
+function ColoredScoreCounter({ end }) {
+
+    const { value } = useCountUp({ isCounting: true, end, duration: 5, decimalPlaces: 0 })
+
+    return (
+        <div className="colored-score-counter" style={{ "--underline-color": `hsla(${Math.floor(value * 1.15)}, 90%, 50%, 0.5)` }}>
+            {value}%
+        </div>
+    )
+}
+
+const fixNumber = (value) => {
+    return +(value).toFixed(2);
 }
 
 export default ReportingPage
