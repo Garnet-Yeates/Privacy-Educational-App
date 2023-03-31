@@ -95,6 +95,14 @@ ul {
     margin: 0px;
 }
 
+.not-found-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .button {
     @include padding(12px 20px);
     @include font-size(1.5rem);
