@@ -43,7 +43,7 @@ export async function submitSurvey(req, res) {
     }
 }
 
-const surveyNames = ["facebook", "amazon", "tiktok", "linkedIn", "snapchat", "twitter", "youtube", "pinterest"]
+const surveyNames = ["facebook", "amazon", "tikTok", "linkedIn", "snapchat", "twitter", "youtube", "pinterest"]
 
 // GET to /surveying/generateReport
 export async function generateReport(req, res) {
@@ -78,6 +78,11 @@ export async function generateReport(req, res) {
                 .select(surveyName)
                 .exec())
                 .map((element) => element[surveyName])
+
+            if (submissions.length === 0) {
+                return undefined;
+            }
+
             let sum = submissions.reduce((prev, curr) => prev + curr, 0);
             return sum / submissions.length;
         }
@@ -88,11 +93,24 @@ export async function generateReport(req, res) {
 
     let surveyAverages = {};
     try {
+        let sum = 0;
+        let numEvaluated = 0;
         for (let surveyName of surveyNames) {
-            surveyAverages[surveyName] = await getAverageScore(surveyName);
+            const average = await getAverageScore(surveyName);
+            
+            if (average !== undefined) {
+                sum += average || 0;
+                numEvaluated++;
+                surveyAverages[surveyName] = average;
+            }
+        }
+
+        if (numEvaluated > 0) {
+            surveyAverages["globalAverage"] = sum / numEvaluated;
         }
     }
     catch (err) {
+        console.log(err)
         return res.status(500).json({ serverError: "Error getting average score for all surveys" })
     }
     
