@@ -27,7 +27,6 @@ function MaterialCheckbox({ checked, onChange, state, setState, className, ...ot
 
         if (state === undefined || setState === undefined) {
             throw new Error("If 'checked' prop is not supplied, you must supply 'state' and 'setState' props")
-
         }
     }
 
