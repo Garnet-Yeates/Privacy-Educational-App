@@ -584,7 +584,7 @@ function IndividualSurvey({ flipped, surveyIndex, surveyInfo, setShowingDetailed
     const accuracyPerc = calculateAccuracy(guesses, answers);
 
     const additionalText = accuracyPerc < 100 ? " (click on invalid answers for more info)" : "";
-    const flipStagger = 0.3 // The delay between each survey flipping 
+    const flipStagger = 0.25 // The delay between each survey flipping 
     const flipStyle = { "--flip-delay": `${1 + surveyIndex * flipStagger}s` }
 
     const flipClass = "survey-flip-card " + (surveyIndex % 2 === 0 ? "opposite-flip" : "normal-flip") + (flipped ? " flipped" : "")

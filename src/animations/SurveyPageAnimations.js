@@ -68,7 +68,7 @@ export const individualSurveyInitial = {
     opacity: 0,
 }
 
-const individulSurveyStagger = 0.4;
+const individulSurveyStagger = 0.3;
 
 export const individualSurveyAnimate = (index) => ({
     opacity: 1,
@@ -125,10 +125,9 @@ export const questionDetailsAnimate = {
     y: "0px",
     transition: {
         type: "spring",
-        damping: 10,
-        mass: 0.75,
-        stiffness: 200,
-        
+        damping: 8,
+        mass: 0.5,
+        stiffness: 150,
         delay: 0.3,
         duration: 0.5,
     },
