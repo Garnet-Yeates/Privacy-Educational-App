@@ -1,10 +1,23 @@
 import axios from 'axios';
+import { color } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useCountUp } from 'use-count-up';
 import { SERVER_URL } from '../..';
 import '../../scss/ReportingPage.scss';
 
 function ReportingPage({ scrollToTop }) {
+
+    return (
+        <div className="reporting-page-container">
+            <div className="reporting-page">
+                <Report />
+            </div>
+        </div>
+    )
+}
+
+// Contains 2 tables
+function Report() {
 
     const [reportData, setReportData] = useState(null);
 
@@ -35,14 +48,14 @@ function ReportingPage({ scrollToTop }) {
     }
 
     return (
-        <div className="reporting-page-container">
-            <div className="reporting-page">
-                <GlobalAverage surveyAverages={surveyAverages} />
-                <div className="tables-container">
-                    <ParticipantReportTable allSubmissions={allSubmissions} surveyAverages={surveyAverages} />
-                </div>
+        <>
+            <GlobalAverage surveyAverages={surveyAverages}/>
+            <div className="tables-container">
+                <ParticipantReportTable allSubmissions={allSubmissions} surveyAverages={surveyAverages} />
             </div>
-        </div>
+            
+        </>
+
     )
 }
 
@@ -55,7 +68,7 @@ function GlobalAverage({ surveyAverages }) {
 
     return (
         <div className="global-average-container">
-            <ColoredScoreCounter end={globalAverage} />
+            <ColoredScoreCounter end={globalAverage}/>
             <div className="global-average-subheading">
                 Global Survey Average
             </div>
@@ -109,6 +122,7 @@ function ParticipantReportTable({ allSubmissions, surveyAverages }) {
         </table>
     )
 }
+
 
 const getReportData = async () => {
 
