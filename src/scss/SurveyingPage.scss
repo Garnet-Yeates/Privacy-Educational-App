@@ -391,11 +391,11 @@
                 &.red-underline {
     
                     &::after {
-                        background: rgb(255, 0, 64, 0.25);
+                        background: rgba(255, 0, 64, 0.25);
                     }
     
                     &:hover::after {
-                        background: rgb(255, 0, 64, 0.5);
+                        background: rgba(255, 0, 64, 0.5);
                     }
                 }
             }
