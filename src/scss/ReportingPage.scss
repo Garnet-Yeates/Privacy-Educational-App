@@ -22,30 +22,6 @@
     }
 }
 
-.global-average-container {
-
-    user-select: none;
-
-    @include rfs(4.25rem, font-size);
-    font-weight: 800;
-
-    @include rfs(24px, margin-bottom);
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .global-average-subheading {
-        @include rfs(2rem, font-size);
-        font-weight: 400;
-        text-align: center;
-    }
-
-    .colored-score-counter {
-        margin-bottom: 8px;
-    }
-}
-
 .reporting-page-container {
 
     min-height: 100vh;
@@ -65,18 +41,79 @@
         justify-content: center;
         align-items: center;
 
-        .tables-container {
+        .reporting-page-heading {
+            text-align: center;
+            @include rfs(4.125rem, font-size);
+            font-weight: 800;
+            @include rfs(48px, margin-bottom);
+        }
+
+        .global-average-container {
+
+            user-select: none;
+        
+            @include rfs(4rem, font-size);
+            font-weight: 800;
+        
+            @include rfs(24px, margin-bottom);
+        
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        
+            .global-average-subheading {
+                @include rfs(2rem, font-size);
+                font-weight: 400;
+                text-align: center;
+            }
+        
+            .colored-score-counter {
+                margin-bottom: 8px;
+            }
+        }
+        
+        .survey-averages-container {
+        
+            width: 100%;
+            @include rfs(24px, margin-bottom);
+        
+            .individual-average-container {
+        
+                user-select: none;
+            
+                @include rfs(3rem, font-size);
+                font-weight: 800;
+            
+                @include rfs(18px, margin-bottom);
+            
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            
+                .individual-average-subheading {
+                    @include rfs(1.5rem, font-size);
+                    font-weight: 400;
+                    text-align: center;
+                }
+            
+                .colored-score-counter {
+                    margin-bottom: 8px;
+                }
+            }
+        }
+
+        .participant-report-table-container {
 
             @include rfs(1.375rem, font-size);
-            max-height: 400px;
+            max-height: 380px;
             overflow: auto;
-            max-width: 95%;
             border: 1px solid #DDDDDD;
 
             .reporting-table {
 
                 border-collapse: separate;
                 border-spacing: 0;
+                width: 100%;
 
                 thead>tr {
                     position: sticky;
