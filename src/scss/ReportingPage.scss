@@ -26,7 +26,7 @@
 
     user-select: none;
 
-    @include rfs(3.5rem, font-size);
+    @include rfs(4.25rem, font-size);
     font-weight: 800;
 
     @include rfs(24px, margin-bottom);
@@ -36,7 +36,7 @@
     align-items: center;
 
     .global-average-subheading {
-        @include rfs(1.5rem, font-size);
+        @include rfs(2rem, font-size);
         font-weight: 400;
         text-align: center;
     }
