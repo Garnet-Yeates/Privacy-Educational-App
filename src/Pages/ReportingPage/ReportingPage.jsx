@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { color } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { useCountUp } from 'use-count-up';
 import { SERVER_URL } from '../..';
+import { reportVariants } from '../../animations/ReportPageAnimations';
+import ColoredScoreCounter from '../../components/ColoredScoreCounter';
 import '../../scss/ReportingPage.scss';
 
-function ReportingPage({ scrollToTop }) {
+function ReportingPage() {
 
     return (
         <div className="reporting-page-container">
@@ -24,38 +25,32 @@ function Report() {
     const { allSubmissions = [], surveyAverages = {} } = reportData ?? {};
 
     useEffect(() => {
-
         const fetchData = async () => {
-            setReportData(await getReportData());
+            let reportData = await getReportData();
+            setTimeout(() => setReportData(reportData), 1000);
         }
-
         fetchData()
 
     }, [])
 
-    // If report data is null (i.e default state value, currently fetching data)
-    if (reportData === null) {
-        return <h1>Loading Report Data...</h1>
-    }
-
-    // If report data is undefined (i.e fetchData failed)
-    if (reportData === undefined) {
-        return <h1>Failed to load report data (try refreshing)</h1>
-    }
-
-    if (allSubmissions.length === 0) {
-        return <h1>No Data Yet</h1>
-    }
+    let phase;
+    if (reportData === null) phase = "Loading" // Default state value, currently fetching
+    else if (reportData === undefined) phase = "Failed" // Data fetching failed
+    else if (allSubmissions.length === 0) phase = "No Data" // No data yet
+    else phase = "Loaded"
 
     return (
-        <>
-            <h1 className="reporting-page-heading">
-                Surveys Report
-            </h1>
-            <GlobalAverage surveyAverages={surveyAverages} />
-            <SurveyAverages surveyAverages={surveyAverages} />
-            <ParticipantReportTable allSubmissions={allSubmissions} surveyAverages={surveyAverages} />
-        </>
+        <AnimatePresence mode="wait">
+            {phase === "Loading" && <motion.h1 key="Loading" variants={reportVariants} initial="int" animate="ani" exit="exi">Loading Report Data...</motion.h1>}
+            {phase === "Failed" && <motion.h1 key="Failed" variants={reportVariants} initial="int" animate="ani" exit="exi">Failed to load report data (try refreshing)</motion.h1>}
+            {phase === "No Data" && <motion.h1 key="No Data" variants={reportVariants} initial="int" animate="ani" exit="exi">No Data Yet</motion.h1>}
+            {phase === "Loaded" && <motion.div class="reporting-page-data" key="Loaded" variants={reportVariants} initial="int" animate="ani" exit="exi">
+                <h1 className="reporting-page-heading">Surveys Report</h1>
+                <GlobalAverage surveyAverages={surveyAverages} />
+                <SurveyAverages surveyAverages={surveyAverages} />
+                <ParticipantReportTable allSubmissions={allSubmissions} surveyAverages={surveyAverages} />
+            </motion.div>}
+        </AnimatePresence>
     )
 }
 
@@ -68,7 +63,7 @@ function GlobalAverage({ surveyAverages }) {
 
     return (
         <div className="global-average-container">
-            <ColoredScoreCounter score={globalAverage} />
+            <ColoredScoreCounter score={globalAverage} delay={0.35} />
             <div className="global-average-subheading">
                 Global Survey Average
             </div>
@@ -100,23 +95,21 @@ function SurveyAverage({ surveyAverages, surveyName }) {
 
     const score = surveyAverages[surveyName];
 
+    const capitalizeFirst = (string) => string.substring(0, 1).toUpperCase() + string.substring(1, string.length);
+
     if (score === undefined)
         return <></>
 
     return (
         <div className="col-6 col-md-4 col-lg-3">
             <div className="individual-average-container">
-                <ColoredScoreCounter score={score} />
+                <ColoredScoreCounter score={score} delay={0.35} />
                 <div className="individual-average-subheading">
                     {capitalizeFirst(surveyName)} Average
                 </div>
             </div>
         </div>
     )
-}
-
-function capitalizeFirst(string) {
-    return string.substring(0, 1).toUpperCase() + string.substring(1, string.length);
 }
 
 // For each participant, display score for each survey, as well as average 
@@ -167,7 +160,6 @@ function ParticipantReportTable({ allSubmissions, surveyAverages }) {
     )
 }
 
-
 const getReportData = async () => {
 
     try {
@@ -179,17 +171,6 @@ const getReportData = async () => {
         console.log("Error generating report: ", err)
         return undefined;
     }
-}
-
-function ColoredScoreCounter({ score }) {
-
-    const { value } = useCountUp({ isCounting: true, end: score, duration: 5, decimalPlaces: 0 })
-
-    return (
-        <div className="colored-score-counter" style={{ "--underline-color": `hsla(${Math.floor(value * 1.15)}, 90%, 50%, 0.5)` }}>
-            {value}%
-        </div>
-    )
 }
 
 const fixNumber = (value) => {
