@@ -19,6 +19,7 @@ import SnapchatLogo from '../../Images/Snapchat_Logo.png'
 import TwitterLogo from '../../Images/Twitter_Logo.png'
 import YoutubeLogo from '../../Images/Youtube_Logo.png'
 import PinterestLogo from '../../Images/Pinterest_Logo.png'
+import ColoredScoreCounter from '../../components/ColoredScoreCounter';
 
 // Made this a function to return the object so we dont make the mistake of shallow cloning and having our states be mysteriously connected
 const defaultGuessesState = (length) => Array(length).fill(false);
@@ -26,14 +27,16 @@ const defaultGuessesState = (length) => Array(length).fill(false);
 // Survey page will contain both the initial box to choose which surveys they will take
 // And will also contain the survey itself. Only one will be shown at a time
 
-const facebookAnswers = [true, true, false, false, true]
+const facebookAnswers = [true, true, false, false, true, true, true]
 
 const facebookQuestions = [
     "Facebook stores your data whether you have an account or not.",
     "Your identity is used in ads that are shown to others.",
     "When you delete content on Facebook, it is gone forever.",
-    "Facebook does not infringe upon/analyze your private messages.",
-    "Facebook can view your browser history."
+    "Facebook does not analyze your private messages.",
+    "Facebook will not allow third parties to access your personal information without a legal basis.",
+    "Facebook can view your browser history.",
+    "Facebook does not sell your personal data.",
 ]
 
 const facebookQuotes = [
@@ -47,19 +50,26 @@ const facebookQuotes = [
 
     `Our systems automatically process content and communications you and others provide to analyze context and what's in them for the purposes described below [...].`,
 
+    `We require each of these partners to have lawful rights to collect, use and share your data before providing any data to us.`,
+
     `You can review your Off-Facebook activity, which is a summary of activity that businesses and organizations share with us about your interactions with them, 
     such as visiting their apps or websites. They use our Business Tools, like Facebook Pixel, to share this information with us. This helps us do things like give 
     you a more personalized experience on Facebook.`,
+
+    `We don't sell your personal data to advertisers, and we don't share information that directly identifies you (such as your name, email address or other contact information) with 
+    advertisers unless you give us specific permission.`,
 ]
 
-const amazonAnswers = [true, true, false, false, false]
+const amazonAnswers = [true, true, false, false, false, true, false]
 
 const amazonQuestions = [
     "Amazon services with a microphone/camera can collect and process voice/video data.",
     "Amazon uses your personal data and behavioral data for advertisement.",
     "Amazon can not sell your data.",
-    "Amazon does not copyright license (claim as their own) your data.",
-    "Amazon can not track you on other websites."
+    "Amazon does not claim ownership of your data.",
+    "Amazon can not track you on other websites.",
+    "Amazon users may opt out of promotional communications.",
+    "Amazon is responsible for maintaining the security of its user accounts.",
 ]
 
 const amazonQuotes = [
@@ -80,16 +90,23 @@ const amazonQuotes = [
 
     `Like many websites, we use "cookies" and other unique identifiers, and we obtain certain types of information when your web browser or device accesses 
     Amazon Services and other content served by or on behalf of Amazon on other websites.`,
+
+    `If you do not want to receive email or other communications from us, please adjust your Customer Communication Preferences.`,
+
+    `You are responsible for maintaining the confidentiality of your account and password and for restricting access to your account, and you agree to 
+    accept responsibility for all activities that occur under your account or password.`,
 ]
 
-const tikTokAnswers = [false, true, true, true, true]
+const tikTokAnswers = [false, false, true, true, true, true, true]
 
 const tikTokQuestions = [
-    "Private messages can not be read by the service.",
-    "Your content can be deleted at any time without prior notice for any reason.",
-    "Information such as age, username/password, email, phone number can be collected by TikTok.",
+    "TikTok cannot analyze or read your private messages.",
+    "TikTok can delete your content at any time without prior notice, but they must have a reason.",
+    "TikTok collects user information such as age, username/password, email, phone number.",
     "Data on your content is collected at the time of creation, regardless of if you choose to upload or save it.",
-    "Some browsers transmit “do-not-track” signals to websites. TikTok ignores these."
+    "Some browsers transmit “do-not-track” signals to websites. TikTok ignores these.",
+    "TikTok does not sell your personal data.",
+    "TikTok does not claim ownership your data.",
 ]
 
 const tikTokQuotes = [
@@ -109,16 +126,22 @@ const tikTokQuotes = [
 
     `Some browsers transmit “do-not-track” signals to websites. Because of differences in how browsers incorporate and activate this feature, 
     we currently do not take action in response to these signals.`,
+
+    `TikTok does not sell personal information to third parties.`,
+
+    `You or the owner of your User Content still own the copyright in User Content sent to us`,
 ]
 
-const linkedInAnswers = [true, true, false, false, true]
+const linkedInAnswers = [true, true, false, false, true, true, true]
 
 const linkedInQuestions = [
     "LinkedIn stores data on you even if you did not interact with the service.",
     "The LinkedIn mobile app can scan both your contacts and your calendar.",
     "Your identity can not be used in ads that are shown to other users.",
     "Your private messages cannot be scanned or read by the service.",
-    "Specific content can be removed without reason or notice."
+    "Specific content can be removed without reason or notice.",
+    "You maintain ownership of your content on LinkedIn.",
+    "You may request the deletion of your data and it will be fully removed from LinkedIn.",
 ]
 
 const linkedInQuotes = [
@@ -137,16 +160,22 @@ const linkedInQuotes = [
     responses to messages and to manage or block content that violates our User Agreement or Professional Community Policies from our Services.`,
 
     `We are not obligated to publish any information or content on our service and can remove it with or without notice.`,
+
+    `You own all of the content, feedback and personal information you provide to us.`,
+
+    `You can ask us to erase or delete all or some of your personal data (e.g., if it is no longer necessary to provide Services to you).`
 ]
 
-const snapchatAnswers = [true, false, false, true, false]
+const snapchatAnswers = [true, false, false, false, false, true, false]
 
 const snapchatQuestions = [
     "Snapchat can edit and distribute your content through any media known now or that may exist in the future.",
     "Snapchat does not hold onto content that you have deleted.",
     "Your personal data is not given to third parties that work for Snapchat.",
-    "Snapchat may not only collect your location data, but they can also use it and share it.",
-    "Snapchat can not share your personal data with third parties that are not involved in its operation."
+    "Snapchat may collect your location data, but they can not use it or share it.",
+    "Snapchat can not share your personal data with third parties that are not involved in its operation.",
+    "You can opt out of targeted advertising.",
+    "Snapchat does not inform users about the risk of publishing personal info online."
 ]
 
 const snapchatQuotes = [
@@ -165,16 +194,23 @@ const snapchatQuotes = [
 
     `We may let other companies use cookies on our services. These companies may collect information about how you use our services over time and 
     combine it with similar information from other services and companies.`,
+
+    `Visit our Advertising Preferences page to learn more about Snapchat advertising and how you can control the information used to select the ads you see.`,
+
+    `Keep in mind that the users who view your Snaps, Chats, and any other content can always save that content or copy it outside the app. So, the same common 
+    sense that applies to the internet at large applies to Snapchat as well: Don't send messages or share content that you wouldn't want someone to save or share.`
 ]
 
-const twitterAnswers = [true, true, true, true, false]
+const twitterAnswers = [true, true, true, true, false, false, false]
 
 const twitterQuestions = [
     "Users own the content they submit, post or display on Twitter.",
     "Twitter is licensed to use your Content without restrictions.",
     "Twitter collects information outside of the app on your devices.",
     "Twitter collects information on non-user activity within the products and services.",
-    "Information collected by Twitter will be removed from the web after deleting an account."
+    "Information collected by Twitter will be removed from the web after deleting an account.",
+    "You do not have a choice over who sees your content on Twitter.",
+    "You may not download information off Twitter.",
 ]
 
 const twitterQuotes = [
@@ -197,15 +233,21 @@ const twitterQuotes = [
 
     `Remember public content can exist elsewhere even after you remove it from Twitter. For example, search engines and other third parties may 
     retain copies of your Tweets longer, based upon their own privacy policies, even after they are deleted or expire on Twitter.`,
+
+    `Your profile information is displayed under your photo and username on your profile page. Friends want to tag you in a photo? Lucky you. If you're not into that sort of thing, you can always change your settings.`,
+
+    `You can also download information you have shared on Twitter.`,
 ]
 
-const youtubeAnswers = [true, true, true, true]
+const youtubeAnswers = [true, true, true, true, false, false]
 
 const youtubeQuestions = [
     "Youtube may retain your content after you remove it.",
     "Youtube is able to use and modify your content to their discretion. ",
     "Google services may obtain and store location information from the device you're using.",
-    "The service can relocate your data to outside of your country."
+    "The service can relocate your data to outside of your country.",
+    "Youtube cannot view your browser history.",
+    "Youtube won't disclose your personal information without notifying you",
 ]
 
 const youtubeQuotes = [
@@ -223,16 +265,25 @@ const youtubeQuotes = [
 
     `We maintain servers around the world and your information may be processed on servers located outside of the country where you live. Data 
     protection laws vary among countries, with some providing more protection than others.`,
+
+    `The activity information we collect may include: Terms you search for, Videos you watch, Views and interactions 
+    with content and ads [...] Activity on third-party sites and apps that use our services. Chrome browsing history 
+    you've synced with your Google Account.`,
+
+    `Google also uses information to satisfy applicable laws or regulations, and discloses information in response to 
+    legal process or enforceable government requests, including to law enforcement.`,
 ]
 
-const pinterestAnswers = [false, false, false, true, false]
+const pinterestAnswers = [false, false, false, true, false, false, false]
 
 const pinterestQuestions = [
     "Pinterest does not retain Content that has been removed.",
     "Pinterest does not track your location when you choose not to share your precise location.",
     "Pinterest does not transfer or store data outside of your country.",
     "Content you post is available to the public.",
-    "Pinterest does not receive your information from outside of Pinterest."
+    "Pinterest does not receive your information from outside of Pinterest.",
+    "Pinterest claims ownership of content that you post.",
+    "Some browsers transmit “do-not-track” signals to websites. Pinterest ignores these.",
 ]
 
 const pinterestQuotes = [
@@ -251,6 +302,10 @@ const pinterestQuotes = [
 
     `We also get information about you and your activity outside Pinterest from our affiliates, advertisers, partners and other third parties we work 
     with.`,
+
+    `You retain all rights in, and are solely responsible for, the User Content you post to Pinterest.`,
+
+    `We also support settings such as Limit Ad Tracking in iOS, Ads Personalization in Android devices as well as Do Not Track in browsers.`,
 ]
 
 function SurveyingPage({ scrollToTop }) {
@@ -269,14 +324,14 @@ function SurveyingPage({ scrollToTop }) {
     const [participantFirstName, setParticipantFirstName] = useState("");
     const [participantLastName, setParticipantLastName] = useState("");
 
-    const [facebookGuesses, setFacebookGuesses] = useState(defaultGuessesState(5));
-    const [amazonGuesses, setAmazonGuesses] = useState(defaultGuessesState(5));
-    const [tikTokGuesses, setTikTokGuesses] = useState(defaultGuessesState(5));
-    const [linkedInGuesses, setLinkedInGuesses] = useState(defaultGuessesState(5));
-    const [snapchatGuesses, setSnapchatGuesses] = useState(defaultGuessesState(5));
-    const [twitterGuesses, setTwitterGuesses] = useState(defaultGuessesState(5));
-    const [youtubeGuesses, setYoutubeGuesses] = useState(defaultGuessesState(4));
-    const [pinterestGuesses, setPinterestGuesses] = useState(defaultGuessesState(5));
+    const [facebookGuesses, setFacebookGuesses] = useState(defaultGuessesState(facebookAnswers.length));
+    const [amazonGuesses, setAmazonGuesses] = useState(defaultGuessesState(amazonAnswers.length));
+    const [tikTokGuesses, setTikTokGuesses] = useState(defaultGuessesState(tikTokAnswers.length));
+    const [linkedInGuesses, setLinkedInGuesses] = useState(defaultGuessesState(linkedInAnswers.length));
+    const [snapchatGuesses, setSnapchatGuesses] = useState(defaultGuessesState(snapchatAnswers.length));
+    const [twitterGuesses, setTwitterGuesses] = useState(defaultGuessesState(twitterAnswers.length));
+    const [youtubeGuesses, setYoutubeGuesses] = useState(defaultGuessesState(youtubeAnswers.length));
+    const [pinterestGuesses, setPinterestGuesses] = useState(defaultGuessesState(pinterestAnswers.length));
 
     // Can be set to the surveyInfo of any survey with a supplied questionIndex and it will show detailed information about that
     // question from the Q&A. This will disable page scrolling and add a gray overlay
@@ -608,7 +663,9 @@ function IndividualSurvey({ flipped, surveyIndex, surveyInfo, setShowingDetailed
                         <img src={logo} className="survey-logo" />
                         <h4 className="survey-heading">{name}</h4>
                     </div>
-                    <h5 className="survey-subheading">Accuracy: {accuracyPerc}%{additionalText}</h5>
+                    <h5 className="survey-subheading">
+                        Accuracy: <ColoredScoreCounter enabled={flipped} score={accuracyPerc} delay={1.5 + flipStagger*surveyIndex}/>{additionalText}
+                    </h5>
                     <div className={"survey-checkbox-container" + (flipped ? "" : " no-tab")}>
                         {questions.map((question, questionIndex) => ( // Element itself is the key (i.e, the keys are the question themselves)
                             <SurveyAnswerDisplay key={question} noTab={!flipped} questionIndex={questionIndex} surveyInfo={surveyInfo} setShowingDetailedInfoFor={setShowingDetailedInfoFor} />))}

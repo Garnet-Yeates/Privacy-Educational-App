@@ -319,14 +319,14 @@
                 img.survey-logo {
                     user-select: none;
                     object-fit: contain;
-                    @include rfs(48px, width);
-                    @include rfs(48px, height);
+                    @include rfs(46px, width);
+                    @include rfs(46px, height);
                 }
     
                 .survey-heading {
                     user-select: none;
                     font-weight: 700;
-                    @include rfs(2.25rem, font-size);
+                    @include rfs(2rem, font-size);
                     margin-left: 8px;
                     margin-bottom: 0;
                 }
@@ -336,26 +336,25 @@
                 user-select: none;
                 font-weight: 700;
                 margin-bottom: 12px;
-                @include rfs(24px, font-size);
+                @include rfs(22px, font-size);
             }
     
             .checkbox-with-label.survey {
                 user-select: none;
                 margin-top: 4px;
-                font-size: 20px;
+                font-size: 18px;
             }
     
             .survey-checkbox-label {
-                @include rfs(1.25rem, font-size);
+                @include rfs(1.125rem, font-size);
                 font-weight: 400;
     
             }
     
             .survey-checkbox {
                 margin-left: -6px;
-                margin-right: 2px;
-                @include rfs(24px, width);
-                @include rfs(24px, height);
+                @include rfs(22px, width);
+                @include rfs(22px, height);
                 --checkbox-color: rgba(0, 0, 0, 0.8);
                 --checked-color: rgb(0, 140, 255);
     
