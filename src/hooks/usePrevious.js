@@ -2,8 +2,7 @@ import { useEffect, useRef } from "react";
 
 export default function usePrevious(someState) {
 
-  // usePrevious will be called in our components every render, but useRef() memoizes a value so it remembers
-  // it between renders.
+  // usePrevious called every render, but useRef() remembers values between renders
   const ref = useRef();
 
   // This effect updates the ref whenever someState changes.
