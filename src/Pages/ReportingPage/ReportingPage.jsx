@@ -20,7 +20,7 @@ function ReportingPage() {
 // Contains 2 tables
 function Report() {
 
-    const [reportData, setReportData] = useState(null);
+    const [reportData, setReportData] = useState("Loading");
 
     const { allSubmissions = [], surveyAverages = {} } = reportData ?? {};
 
@@ -34,15 +34,17 @@ function Report() {
     }, [])
 
     let phase;
-    if (reportData === null) phase = "Loading" // Default state value, currently fetching
-    else if (reportData === undefined) phase = "Failed" // Data fetching failed
+    if (reportData === "Loading") phase = "Loading" // Default state value, currently fetching
+    else if (reportData === "Internal Error") phase = "Internal Error" // Data fetching failed
+    else if (reportData === "No Connection") phase = "No Connection" // Data fetching failed
     else if (allSubmissions.length === 0) phase = "No Data" // No data yet
     else phase = "Loaded"
 
     return (
         <AnimatePresence mode="wait">
             {phase === "Loading" && <motion.h1 key="Loading" variants={reportVariants} initial="int" animate="ani" exit="exi">Loading Report Data...</motion.h1>}
-            {phase === "Failed" && <motion.h1 key="Failed" variants={reportVariants} initial="int" animate="ani" exit="exi">Failed to load report data (try refreshing)</motion.h1>}
+            {phase === "No Connection" && <motion.h1 key="No Connection" variants={reportVariants} initial="int" animate="ani" exit="exi">Failed to connect to server</motion.h1>}
+            {phase === "Internal Error" && <motion.h1 key="Internal Error" variants={reportVariants} initial="int" animate="ani" exit="exi">Internal server error</motion.h1>}
             {phase === "No Data" && <motion.h1 key="No Data" variants={reportVariants} initial="int" animate="ani" exit="exi">No Data Yet</motion.h1>}
             {phase === "Loaded" && <motion.div class="reporting-page-data" key="Loaded" variants={reportVariants} initial="int" animate="ani" exit="exi">
                 <h1 className="reporting-page-heading">Surveys Report</h1>
@@ -168,8 +170,14 @@ const getReportData = async () => {
         return res.data;
     }
     catch (err) {
-        console.log("Error generating report: ", err)
-        return undefined;
+
+        console.log("Error generating report, err = ", err)
+
+        if (err.response?.status === 500) {
+            return "Internal Error"
+        }
+
+        return "No Connection";
     }
 }
 
