@@ -1,27 +1,5 @@
 @import "./App.scss";
 
-
-.colored-score-counter {
-    font-weight: inherit;
-    font-size: inherit;
-    position: relative;
-    line-height: 1;
-    z-index: 1;
-
-    &::after {
-        bottom: -20%;
-        content: "";
-        display: block;
-        height: 20%;
-        left: 2px;
-        right: 2px;
-        position: absolute;
-        transition: .3s;
-        z-index: -1;
-        background-color: var(--underline-color);
-    }
-}
-
 .reporting-page-container {
 
     min-height: 100vh;
