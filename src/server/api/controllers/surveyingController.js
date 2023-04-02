@@ -2,7 +2,6 @@ import { model } from 'mongoose';
 
 const SurveySubmission = model('SurveySubmission');
 
-
 export async function deleteDevEntries() {
     await SurveySubmission.deleteMany({ participantFullName: "DELETE LATER" });
 }
@@ -53,47 +52,34 @@ const surveyNames = ["facebook", "amazon", "tikTok", "linkedIn", "snapchat", "tw
 // GET to /surveying/generateReport
 export async function generateReport(req, res) {
 
-    // Query all submissions that exist (no 'where' clause), selecting all fields (no 'select' clause). Essentially grabs
-    // ALL participants' submissions that exist
-    // Return these submissions, along with some extra data: the average score that the participant got, across all surveys they took
-    let allSubmissions = (await SurveySubmission.find().exec()).map((submission) => {
+    let allSubmissions = [];
+    try {
+        // Query all submissions that exist (no 'where' clause), selecting all fields (no 'select' clause). Essentially grabs
+        // ALL participants' submissions that exist
+        // Return these submissions, along with some extra data: the average score that the participant got, across all surveys they took
+        allSubmissions = (await SurveySubmission.find()).map((submission) => {
 
-        let prunedSubmission = { };
+            let prunedSubmission = {};
 
-        prunedSubmission["participantFullName"] = submission["participantFullName"]
+            prunedSubmission["participantFullName"] = submission["participantFullName"]
 
-        let sum = 0;
-        let totalSurveysDone = 0;
-        for (let field of surveyNames) {
-            if (submission[field] !== undefined) {
-                prunedSubmission[field] = submission[field];
-                totalSurveysDone++;
-                sum += submission[field];
+            let sum = 0;
+            let totalSurveysDone = 0;
+            for (let field of surveyNames) {
+                if (submission[field] !== undefined) {
+                    prunedSubmission[field] = submission[field];
+                    totalSurveysDone++;
+                    sum += submission[field];
+                }
             }
-        }
-        prunedSubmission["average"] = sum / totalSurveysDone;
+            prunedSubmission["average"] = sum / totalSurveysDone;
 
-        return prunedSubmission;
-    });
-
-    // For each survey type (Facebook, TikTok, etc) find all Submissions to this survey type and get the average score
-    async function getAverageScore(surveyName) {
-        try {
-            let submissions = (await SurveySubmission.find({ [surveyName]: { $exists: true } })
-                .select(surveyName)
-                .exec())
-                .map((element) => element[surveyName])
-
-            if (submissions.length === 0) {
-                return undefined;
-            }
-
-            let sum = submissions.reduce((prev, curr) => prev + curr, 0);
-            return sum / submissions.length;
-        }
-        catch (err) {
-            throw err;
-        }
+            return prunedSubmission;
+        });
+    }
+    catch (err) {
+        console.log(err)
+        return res.status(500).json({ serverError: "Error getting all submissions from the database" })
     }
 
     let surveyAverages = {};
@@ -102,7 +88,7 @@ export async function generateReport(req, res) {
         let numEvaluated = 0;
         for (let surveyName of surveyNames) {
             const average = await getAverageScore(surveyName);
-            
+
             if (average !== undefined) {
                 sum += average || 0;
                 numEvaluated++;
@@ -118,9 +104,28 @@ export async function generateReport(req, res) {
         console.log(err)
         return res.status(500).json({ serverError: "Error getting average score for all surveys" })
     }
-    
+
     return res.json({
         allSubmissions,
         surveyAverages,
     })
+}
+
+// Helper function
+async function getAverageScore(surveyName) {
+    try {
+        let submissions = (await SurveySubmission.find({ [surveyName]: { $exists: true } })
+            .select(surveyName))
+            .map((element) => element[surveyName])
+
+        if (submissions.length === 0) {
+            return undefined;
+        }
+
+        let sum = submissions.reduce((prev, curr) => prev + curr, 0);
+        return sum / submissions.length;
+    }
+    catch (err) {
+        throw err; // Err here will be caught by try catch that defines 'surveyAverages' in GET /generateReport
+    }
 }
