@@ -8,6 +8,7 @@ import './api/models/SurveySubmissionModel.js'
 
 // Load routes
 import surveyingRoute from './api/routes/surveyingRoute.js'
+import { deleteDevEntries } from './api/controllers/surveyingController.js';
 
 dotenv.config();
 
@@ -22,6 +23,8 @@ app.use(urlencoded({ extended: false }))
 
 // Configure imported routes
 surveyingRoute(app)
+
+deleteDevEntries();
 
 // Connect database
 mongoose.connect(process.env.DATABASE_ACCESS, {

@@ -2,6 +2,11 @@ import { model } from 'mongoose';
 
 const SurveySubmission = model('SurveySubmission');
 
+
+export async function deleteDevEntries() {
+    await SurveySubmission.deleteMany({ participantFullName: "DELETE LATER" });
+}
+
 // POST to /surveying/submitsurvey
 export async function submitSurvey(req, res) {
 
