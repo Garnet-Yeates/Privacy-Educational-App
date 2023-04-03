@@ -79,6 +79,51 @@
         }
     }
     
+    .scam-warning-subpage {
+    
+        flex-grow: 1;
+    
+        @include rfs(24px, padding);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .scam-warning-container {
+            @include rfs(24px, padding);
+            border-radius: 4px;
+            user-select: none;
+            max-width: 700px;
+            box-shadow: 0 0 8px 0 rgb(0 0 0 / 30%);
+            @include rfs(1.25rem, font-size);
+
+            .scam-warning-heading {
+                text-align: center;
+                margin-bottom: 16px;
+            }
+
+            a {
+                text-decoration: none;
+                color: #257bb2;
+                
+                &:visited {
+                    color:#6e25b2
+                }
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            p {
+                text-align: center;
+                margin-bottom: 16px;
+            }
+
+        }
+    }
+
     .select-surveys-subpage {
     
         flex-grow: 1;

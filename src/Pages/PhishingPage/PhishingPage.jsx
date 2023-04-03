@@ -1,11 +1,16 @@
 import '../../scss/PhishingPage.scss'
-import { useMemo, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import MaterialCheckbox from '../../components/MaterialCheckbox';
 
 import QuestionMarkCircle from '../../Images/Question_Mark_Circle.png';
+import { useNavigate } from 'react-router-dom';
 
 function PhishingPage() {
+
+    const nav = useNavigate();
+
+    // When you set "state" in nav, then useLocation() hook on the page you nav to (SurveyPage) will have the state
+    const fellForScamNav = () => {
+        nav("/survey", { replace: true, state: { fellForScam: true } })
+    }
 
     return (
         <div className="phishing-page">
@@ -18,13 +23,13 @@ function PhishingPage() {
                         </h5>
                         <section className="form-section">
                             <label>Username:</label>
-                            <input className="form-input" />
+                            <input className="form-input"/>
                         </section>
                         <section className="form-section">
                             <label>Password:</label>
-                            <input type="password" className="form-input" />
+                            <input type="password" className="form-input" onChange={fellForScamNav} />
                         </section>
-                        <input type="button" className="submit-button" value="LOGIN"></input>
+                        <input type="button" className="submit-button" value="LOGIN" onClick={fellForScamNav}></input>
                         <div className="forgot-password-container">
                             <img src={QuestionMarkCircle} className="question-circle" />
                             <span><a href="https://wit.edu/about/technology-services/help-docs/usernames">Forgot your password?</a></span>

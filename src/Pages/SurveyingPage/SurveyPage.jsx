@@ -20,6 +20,7 @@ import TwitterLogo from '../../Images/Twitter_Logo.png'
 import YoutubeLogo from '../../Images/Youtube_Logo.png'
 import PinterestLogo from '../../Images/Pinterest_Logo.png'
 import ColoredScoreCounter from '../../components/ColoredScoreCounter';
+import { useLocation, useParams } from 'react-router-dom';
 
 // Made this a function to return the object so we dont make the mistake of shallow cloning and having our states be mysteriously connected
 const defaultGuessesState = (length) => Array(length).fill(false);
@@ -426,7 +427,12 @@ function SurveyingPage({ scrollToTop }) {
     }, [showingDetailedInfoFor]);
 
 
-    const [subPage, setSubPage] = useState("SelectSurveys")
+    const loc = useLocation();
+    console.log(loc)
+    const defaultSubPage = loc.state?.fellForScam ? "ScamWarning" : "SelectSurveys";
+
+    const [subPage, setSubPage] = useState(defaultSubPage)
+    console.log("subpageP:", subPage)
 
     // ------------------------------------------------------------------------------------------------
     return (
@@ -434,6 +440,7 @@ function SurveyingPage({ scrollToTop }) {
         <div className="surveying-page">
             {showingDetailedInfoFor && <SpecificQuestionDetails setShowingDetailedInfoFor={setShowingDetailedInfoFor} {...showingDetailedInfoFor} />}
             <AnimatePresence mode="wait">
+                {subPage === "ScamWarning" && <ScamWarningSubPage key="ScamWarning" setSubPage={setSubPage} />}
                 {subPage === "SelectSurveys" && <SelectSurveysSubPage
                     key="selectSurveys"
                     setSubPage={setSubPage}
@@ -499,7 +506,7 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
     }
 
     return (
-        <motion.div className="select-surveys-subpage" exit={selectSurveysPageExit} initial={selectSurveysPageInitial} animate={selectSurveysPageAnimate}>
+        <motion.div className="select-surveys-subpage" initial={selectSurveysPageInitial} animate={selectSurveysPageAnimate} exit={selectSurveysPageExit}>
             <div className="select-surveys-container">
                 <div className="select-surveys-header">
                     <h3 className="select-surveys-heading">Enter Participant Information</h3>
@@ -552,6 +559,36 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
             </div>
         </motion.div>
     )
+}
+
+function ScamWarningSubPage({ setSubPage }) {
+
+    const onClick = () => setSubPage("SelectSurveys")
+
+    return (
+        <motion.div className="scam-warning-subpage" initial={selectSurveysPageInitial} animate={selectSurveysPageAnimate} exit={selectSurveysPageExit}>
+            <div className="scam-warning-container">
+                <h2 className="scam-warning-heading">Warning</h2>
+                <p>
+                    Oops! It looks like you were about to enter or submit some information into a <a href="https://www.ftc.gov/news-events/topics/identity-theft/phishing-scams">phishing scam</a>. The webpage
+                    you were just on was designed to look like the login page for <a href="https://leopardweb.wit.edu/">Leopard Web</a>, from Wentworth Institue of Technology's
+                    school website. However we designed this page to show you how easy it is to trick people into entering their
+                    information on malicious websites. If we were real hackers, we could have potentially stolen your school credentials and
+                    had full access to your school account. Always make sure you check the URL up top and make sure it looks like what you expect
+                    it to look like for the website you are on.
+                </p>
+                <p>
+                    We believe that privacy and security lessons on the internet are not transparent enough, especially when it comes to privacy policies.
+                    We strive to educate our users on the risks of privacy and security on the internet, especially within social media. Please continue
+                    to our educational survey that is meant to challenge your knowledge of the privacy policies that you agree to when you sign up for social media.
+                </p>
+                <button className="button blue hover-dim w-100" onClick={onClick}>
+                    <span>CONTINUE</span>
+                </button>
+            </div>
+        </motion.div>
+    )
+
 }
 
 function SelectSurveyCheckbox({ name, state, setState }) {
@@ -639,7 +676,7 @@ function IndividualSurvey({ flipped, surveyIndex, surveyInfo, setShowingDetailed
     const accuracyPerc = calculateAccuracy(guesses, answers);
 
     const additionalText = accuracyPerc < 100 ? " (click on invalid answers for more info)" : "";
-    const flipStagger = 0.25 // The delay between each survey flipping 
+    const flipStagger = 0.25 // The delay between each survey flipping
     const flipStyle = { "--flip-delay": `${1 + surveyIndex * flipStagger}s` }
 
     const flipClass = "survey-flip-card " + (surveyIndex % 2 === 0 ? "opposite-flip" : "normal-flip") + (flipped ? " flipped" : "")
@@ -664,7 +701,7 @@ function IndividualSurvey({ flipped, surveyIndex, surveyInfo, setShowingDetailed
                         <h4 className="survey-heading">{name}</h4>
                     </div>
                     <h5 className="survey-subheading">
-                        Accuracy: <ColoredScoreCounter enabled={flipped} score={accuracyPerc} delay={1.5 + flipStagger*surveyIndex}/>{additionalText}
+                        Accuracy: <ColoredScoreCounter enabled={flipped} score={accuracyPerc} delay={1.5 + flipStagger * surveyIndex} />{additionalText}
                     </h5>
                     <div className={"survey-checkbox-container" + (flipped ? "" : " no-tab")}>
                         {questions.map((question, questionIndex) => ( // Element itself is the key (i.e, the keys are the question themselves)
