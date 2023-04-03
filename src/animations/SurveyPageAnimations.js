@@ -12,7 +12,7 @@ export const selectSurveysPageAnimate = {
     y: "0px",
     transition: {
         duration: 1,
-        delay: 0.75,
+        delay: 0.25,
     },
 }
 
