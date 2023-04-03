@@ -46,7 +46,7 @@ function Report() {
             {phase === "No Connection" && <motion.h1 key="No Connection" variants={reportVariants} initial="int" animate="ani" exit="exi">Failed to connect to server</motion.h1>}
             {phase === "Internal Error" && <motion.h1 key="Internal Error" variants={reportVariants} initial="int" animate="ani" exit="exi">Internal server error</motion.h1>}
             {phase === "No Data" && <motion.h1 key="No Data" variants={reportVariants} initial="int" animate="ani" exit="exi">No Data Yet</motion.h1>}
-            {phase === "Loaded" && <motion.div class="reporting-page-data" key="Loaded" variants={reportVariants} initial="int" animate="ani" exit="exi">
+            {phase === "Loaded" && <motion.div className="reporting-page-data" key="Loaded" variants={reportVariants} initial="int" animate="ani" exit="exi">
                 <h1 className="reporting-page-heading">Surveys Report</h1>
                 <GlobalAverage surveyAverages={surveyAverages} />
                 <SurveyAverages surveyAverages={surveyAverages} />
