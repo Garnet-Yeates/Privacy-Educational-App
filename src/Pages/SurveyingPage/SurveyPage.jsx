@@ -278,8 +278,8 @@ const youtubeQuotes = [
 const pinterestAnswers = [false, false, false, true, false, false, false]
 
 const pinterestQuestions = [
-    "Pinterest does not retain Content that has been removed.",
-    "Pinterest does not track your location when you choose not to share your precise location.",
+    "When you delete content on pinterest, it is gone forever.",
+    "Pinterest will only track your location if you choose to share your location.",
     "Pinterest does not transfer or store data outside of your country.",
     "Content you post is available to the public.",
     "Pinterest does not receive your information from outside of Pinterest.",
@@ -514,13 +514,13 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
                 <div className="select-surveys-form">
                     <div className="container-fluid px-0 select-surveys-inputs-container">
                         <div className="row gy-4 mb-4">
-                            <div className="col-lg-6">
-                                <div className="d-flex justify-content-center justify-content-lg-end">
+                            <div className="col-sm-6">
+                                <div className="d-flex justify-content-center">
                                     <MaterialInput size={14} label="First Name" state={participantFirstName} setState={setParticipantFirstName} />
                                 </div>
                             </div>
-                            <div className="col-lg-6">
-                                <div className="d-flex justify-content-center justify-content-lg-start">
+                            <div className="col-sm-6">
+                                <div className="d-flex justify-content-center">
                                     <MaterialInput size={14} label="Last Name" state={participantLastName} setState={setParticipantLastName} />
                                 </div>
                             </div>
@@ -528,7 +528,7 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
                     </div>
                     <h4 className="select-socials-heading text-center mb-3">Select Services That You Use</h4>
                     <div className="row">
-                        <div className="col-lg-6">
+                        <div className="col-sm-6">
                             <div className="d-flex justify-content-center justify-content-lg-end">
                                 <div>
                                     <SelectSurveyCheckbox name="Facebook" state={facebook} setState={setFacebook} />
@@ -538,7 +538,7 @@ function SelectSurveysSubPage({ setSubPage, participantFirstName, setParticipant
                                 </div>
                             </div>
                         </div>
-                        <div className="col-lg-6">
+                        <div className="col-sm-6">
                             <div className="d-flex justify-content-center justify-content-lg-start">
                                 <div>
                                     <SelectSurveyCheckbox name="Snapchat" state={snapchat} setState={setSnapchat} />
@@ -603,11 +603,17 @@ function SelectSurveyCheckbox({ name, state, setState }) {
 // Will contain a bunch of sub components, based on which socials are set to true in props
 function SurveysSubpage({ scrollToTop, participantFirstName, participantLastName, surveys, submitted, setSubmitted, setShowingDetailedInfoFor }) {
 
+    // Same as 'submitted' but changes instantly when the submit button is pressed, instead of after a delay
+    // This prevents submitting from happening twice (since the button takes a bit to disappear so the scrollToTop doesn't glitch)
+    const [reportSent, setReportSent] = useState(false);
+
     const onClickSubmit = async () => {
 
-        if (submitted) {
-            //   return;
+        if (reportSent) {
+            return;
         }
+
+        setReportSent(true)
 
         // No server-side validation for determining survey accuracy (i.e the accuracy is determined on the client as the client has all the needed info)
         scrollToTop(100)
@@ -625,7 +631,7 @@ function SurveysSubpage({ scrollToTop, participantFirstName, participantLastName
             <div className="individual-surveys-container">
                 {surveys.map((surveyInfo, surveyIndex) => <IndividualSurvey key={surveyInfo.name} flipped={submitted} surveyIndex={surveyIndex} surveyInfo={surveyInfo} surveys={surveys} setShowingDetailedInfoFor={setShowingDetailedInfoFor} />)}
                 <AnimatePresence>
-                    {!false && <motion.div className="w-100" initial={submitSurveyInitial} animate={submitSurveyAnimate(surveys.length)} exit={submitSurveyExit}>
+                    {!submitted && <motion.div className="w-100" initial={submitSurveyInitial} animate={submitSurveyAnimate(surveys.length)} exit={submitSurveyExit}>
                         <button className="submit-surveys-button button blue hover-dim w-100" onClick={onClickSubmit}>
                             <span>SUBMIT SURVEY{(surveys.length > 1 ? "S" : "")}</span>
                         </button>

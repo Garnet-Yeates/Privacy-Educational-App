@@ -28,7 +28,7 @@
             text-align: center;
             @include rfs(4.125rem, font-size);
             font-weight: 800;
-            @include rfs(48px, margin-bottom);
+            @include rfs(40px, margin-bottom);
         }
 
         .global-average-container {
@@ -135,6 +135,5 @@
                 }
             }
         }
-
     }
 }
