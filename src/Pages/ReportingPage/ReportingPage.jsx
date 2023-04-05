@@ -22,7 +22,7 @@ function Report() {
 
     const [reportData, setReportData] = useState("Loading");
 
-    const { allSubmissions = [], surveyAverages = {} } = reportData ?? {};
+    const { allSubmissions = [], surveyAverages = {}, globalAverage } = reportData ?? {};
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,7 +30,6 @@ function Report() {
             setTimeout(() => setReportData(reportData), 1000);
         }
         fetchData()
-
     }, [])
 
     let phase;
@@ -48,7 +47,7 @@ function Report() {
             {phase === "No Data" && <motion.h1 key="No Data" variants={reportVariants} initial="int" animate="ani" exit="exi">No Data Yet</motion.h1>}
             {phase === "Loaded" && <motion.div className="reporting-page-data" key="Loaded" variants={reportVariants} initial="int" animate="ani" exit="exi">
                 <h1 className="reporting-page-heading">Surveys Report</h1>
-                <GlobalAverage surveyAverages={surveyAverages} />
+                <GlobalAverage globalAverage={globalAverage}/>
                 <SurveyAverages surveyAverages={surveyAverages} />
                 <ParticipantReportTable allSubmissions={allSubmissions} surveyAverages={surveyAverages} />
             </motion.div>}
@@ -56,11 +55,9 @@ function Report() {
     )
 }
 
-function GlobalAverage({ surveyAverages }) {
+function GlobalAverage({ globalAverage }) {
 
-    const { globalAverage = "N/A" } = surveyAverages;
-
-    if (globalAverage === "N/A")
+    if (globalAverage === undefined)
         return <>/</>
 
     return (
@@ -116,13 +113,7 @@ function SurveyAverage({ surveyAverages, surveyName }) {
 
 // For each participant, display score for each survey, as well as average 
 // (col headers are: [ParticipantName, Facebook, Amazon, ..., Avg])
-function ParticipantReportTable({ allSubmissions, surveyAverages }) {
-
-    // Build surveyAveragesRow, which is the row of the report that shows the average score of each survey ('average' for this 'participant' represents globalAverage)
-    surveyAverages.participantFullName = "Average Participant"
-    const { participantFullName, facebook = "N/A", amazon = "N/A", tikTok = "N/A", linkedIn = "N/A", snapchat = "N/A", twitter = "N/A", youtube = "N/A", pinterest = "N/A", globalAverage = "N/A" } = surveyAverages;
-    let surveyAveragesRow = [participantFullName, facebook, amazon, tikTok, linkedIn, snapchat, twitter, youtube, pinterest, globalAverage]
-    surveyAveragesRow = surveyAveragesRow.map((element) => typeof element === 'number' && +(element).toFixed(2) || element);
+function ParticipantReportTable({ allSubmissions }) {
 
     return (
         <div className="container participant-report-table-container px-0">
@@ -142,7 +133,6 @@ function ParticipantReportTable({ allSubmissions, surveyAverages }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {<tr>{surveyAveragesRow.map((element, index) => <td key={index}>{element}</td>)}</tr>}
                     {allSubmissions.map((submission, index) => {
 
                         // Destructure Assignment, default evertything to "N/A"

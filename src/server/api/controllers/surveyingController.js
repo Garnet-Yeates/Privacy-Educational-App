@@ -52,6 +52,9 @@ const surveyNames = ["facebook", "amazon", "tikTok", "linkedIn", "snapchat", "tw
 // GET to /surveying/generateReport
 export async function generateReport(req, res) {
 
+    let numScores = 0;
+    let scoreTotal = 0;
+
     let allSubmissions = [];
     try {
         // Query all submissions that exist (no 'where' clause), selecting all fields (no 'select' clause). Essentially grabs
@@ -65,11 +68,15 @@ export async function generateReport(req, res) {
 
             let sum = 0;
             let totalSurveysDone = 0;
-            for (let field of surveyNames) {
-                if (submission[field] !== undefined) {
-                    prunedSubmission[field] = submission[field];
+            for (let survey of surveyNames) {
+                if (submission[survey] !== undefined) {
+                    prunedSubmission[survey] = submission[survey];
                     totalSurveysDone++;
-                    sum += submission[field];
+                    sum += submission[survey];
+
+                    // For global average
+                    numScores++;
+                    scoreTotal += submission[survey];
                 }
             }
             prunedSubmission["average"] = sum / totalSurveysDone;
@@ -82,22 +89,21 @@ export async function generateReport(req, res) {
         return res.status(500).json({ serverError: "Error getting all submissions from the database" })
     }
 
+    let globalAverage;
+    numScores > 0 && (globalAverage = scoreTotal / numScores);
+
     let surveyAverages = {};
     try {
         let sum = 0;
         let numEvaluated = 0;
-        for (let surveyName of surveyNames) {
-            const average = await getAverageScore(surveyName);
+        for (let survey of surveyNames) {
+            const average = await getAverageScore(survey);
 
             if (average !== undefined) {
                 sum += average || 0;
                 numEvaluated++;
-                surveyAverages[surveyName] = average;
+                surveyAverages[survey] = average;
             }
-        }
-
-        if (numEvaluated > 0) {
-            surveyAverages["globalAverage"] = sum / numEvaluated;
         }
     }
     catch (err) {
@@ -106,6 +112,7 @@ export async function generateReport(req, res) {
     }
 
     return res.json({
+        globalAverage,
         allSubmissions,
         surveyAverages,
     })
